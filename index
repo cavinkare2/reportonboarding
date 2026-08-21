@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Party Onboarding Project Status Report - Direct Low Town Join</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    *{box-sizing:border-box}
+    :root{
+      --navy:#0f172a;--blue:#1d4ed8;--green:#16a34a;--orange:#ea580c;
+      --purple:#7c3aed;--red:#dc2626;--amber:#d97706;--gray:#64748b;
+      --line:#dbe4f0;--muted:#64748b;--soft:#f8fafc;
+    }
+    html{scroll-behavior:smooth;scroll-snap-type:y mandatory;background:#fff}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--navy);overflow-x:hidden}
+    .floating-loading{position:fixed;top:16px;right:16px;z-index:40;background:rgba(15,23,42,.94);color:#fff;padding:10px 14px;border-radius:999px;font-size:12px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.25)}
+    .deck{padding:0;display:flex;flex-direction:column;align-items:stretch;gap:0;width:100%}
+    .slide{position:relative;width:100%;height:100vh;min-height:720px;aspect-ratio:auto;background:#fff;border-radius:0;box-shadow:none;overflow:hidden;padding:34px 42px 28px;display:flex;flex-direction:column;scroll-snap-align:start;scroll-snap-stop:always}
+    .slide:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:linear-gradient(90deg,#1d4ed8,#7c3aed,#16a34a)}
+    .title-slide{color:#fff;background:radial-gradient(circle at 85% 18%,rgba(96,165,250,.35),transparent 30%),linear-gradient(135deg,#020617 0%,#0f172a 48%,#1e3a8a 100%);justify-content:center;border-radius:0}
+    .title-slide:before{display:none}
+    .title-content{max-width:1040px;margin:auto;text-align:center;position:relative;z-index:2}
+    .title-kicker{display:inline-block;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);padding:8px 16px;border-radius:999px;font-size:14px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+    .title-slide h1{font-size:60px;line-height:1.03;margin:24px 0 14px;letter-spacing:-1.8px}
+    .title-slide p{font-size:22px;margin:0;color:#cbd5e1}
+    .state-chip-row{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px}
+    .state-chip{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:800}
+    .title-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}
+    .title-info-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:16px 18px;text-align:left;backdrop-filter:blur(3px)}
+    .title-info-card h3{margin:0 0 8px;font-size:16px;color:#fff}
+    .title-info-card p{margin:0;font-size:13px;line-height:1.45;color:#dbeafe}
+    .title-decor{position:absolute;border-radius:50%;background:rgba(255,255,255,.06)}
+    .decor-one{width:290px;height:290px;right:-100px;bottom:-120px}.decor-two{width:180px;height:180px;left:-80px;top:-70px}
+    .slide-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:14px}
+    .eyebrow{font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+    .slide-header h2{font-size:32px;line-height:1.05;margin:0;letter-spacing:-.7px}
+    .header-badge,.header-status{border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-weight:900;padding:11px 15px;font-size:13px;text-align:right}
+    .header-status{display:flex;flex-direction:column;gap:2px}.header-status strong{font-size:12px;color:#475569}
+    .summary-banner{margin-bottom:14px;background:linear-gradient(90deg,#eff6ff 0%,#f8fafc 100%);border:1px solid #dbeafe;border-left:6px solid var(--blue);border-radius:14px;padding:12px 14px}
+    .summary-banner b{color:#0f172a}.summary-banner p{margin:0;font-size:13px;line-height:1.45;color:#334155;font-weight:700}
+    .overall-kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
+    .state-kpi-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-bottom:16px}
+    .data-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+    .kpi-card{min-width:0;background:#f8fafc;border:1px solid #e2e8f0;border-top:4px solid var(--blue);border-radius:12px;padding:12px 8px 10px;text-align:center}
+    .kpi-value{font-size:28px;line-height:1;font-weight:900;color:var(--blue);white-space:nowrap}
+    .kpi-label{font-size:10px;line-height:1.2;font-weight:900;color:#64748b;text-transform:uppercase;margin-top:7px}
+    .tone-blue{--tone:var(--blue)}.tone-green{--tone:var(--green)}.tone-orange{--tone:var(--orange)}.tone-purple{--tone:var(--purple)}.tone-red{--tone:var(--red)}.tone-amber{--tone:var(--amber)}.tone-gray{--tone:var(--gray)}
+    .kpi-card[class*="tone-"]{border-top-color:var(--tone)}.kpi-card[class*="tone-"] .kpi-value{color:var(--tone)}
+    .overall-body{display:grid;grid-template-columns:44% 56%;gap:14px;flex:1;min-height:0}
+    .overall-left,.state-left,.state-right{display:flex;flex-direction:column;gap:14px;min-height:0}
+    .state-body{display:grid;grid-template-columns:43% 57%;gap:14px;flex:1;min-height:0}
+    .data-body{display:grid;grid-template-columns:33% 67%;gap:14px;flex:1;min-height:0}
+    .data-left{display:flex;flex-direction:column;gap:14px}
+    .panel{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff;min-height:0}
+    .panel-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    .panel h3{font-size:16px;margin:0}.panel-caption,.chart-legend-note{font-size:10px;color:var(--muted);font-weight:800}
+    .compact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .compact-metric{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--tone);border-radius:10px;padding:9px 7px;text-align:center;min-width:0}
+    .compact-metric b{display:block;font-size:22px;line-height:1;color:var(--tone)}
+    .compact-metric span{display:block;margin-top:5px;font-size:9px;line-height:1.15;font-weight:900;text-transform:uppercase;color:#64748b}
+    .performance-table,.data-status-table{width:100%;border-collapse:collapse;text-align:center}
+    .performance-table{font-size:12px}
+    .performance-table th,.data-status-table th{background:#f1f5f9;color:#475569;font-size:9px;text-transform:uppercase;letter-spacing:.4px;padding:7px;border-bottom:1px solid #dbe4f0}
+    .performance-table td{padding:8px 7px;border-bottom:1px solid #edf2f7;font-weight:800}
+    .data-status-table td{padding:8px 7px;border-bottom:1px solid #edf2f7;font-weight:800;font-size:11px}
+    .performance-table tbody tr:last-child td,.data-status-table tbody tr:last-child td{border-bottom:0}
+    .performance-table tbody tr:nth-child(even),.data-status-table tbody tr:nth-child(even){background:#fbfdff}
+    .type-pill{display:inline-block;color:var(--tone);background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--tone);border-radius:7px;padding:5px 9px;min-width:50px}
+    .status-pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900;border:1px solid transparent;white-space:nowrap}
+    .receipt-received{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.receipt-pending{background:#fff7ed;color:#c2410c;border-color:#fed7aa}.receipt-not-received{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+    .exec-started{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.exec-not-started{background:#fff7ed;color:#c2410c;border-color:#fed7aa}.exec-data-not-received{background:#f8fafc;color:#475569;border-color:#cbd5e1}
+    .chart-panel{display:flex;flex-direction:column;flex:1;min-height:300px}
+    .chart-wrap{position:relative;height:100%;min-height:250px;flex:1}
+    .lowdist-panel{flex:none;padding-top:12px;padding-bottom:10px}
+    .lowdist-row{display:grid;grid-template-columns:190px 1fr;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #edf2f7}
+    .lowdist-row:first-of-type{border-top:0}.lowdist-title{font-size:10px;font-weight:900;color:#334155;line-height:1.25}
+    .lowdist-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+    .lowdist-metrics div{background:#f8fafc;border-radius:7px;padding:6px 4px;text-align:center;border:1px solid #e2e8f0}
+    .lowdist-metrics b{display:block;font-size:16px;line-height:1;color:#1d4ed8}.lowdist-metrics span{display:block;font-size:8px;line-height:1.1;color:#64748b;font-weight:900;text-transform:uppercase;margin-top:4px}
+    .not-applicable{height:82px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;color:#64748b;font-size:12px;font-weight:800;text-align:center;padding:12px}
+    .callout-list{display:grid;gap:10px}
+    .callout-item{background:#f8fafc;border:1px solid #e2e8f0;border-left:5px solid var(--blue);border-radius:12px;padding:12px 12px 12px 14px}
+    .callout-item h4{margin:0 0 6px;font-size:13px;color:#0f172a}
+    .callout-item p{margin:0;font-size:12px;line-height:1.45;color:#475569;font-weight:700}
+    .data-status-wrap{overflow:hidden;border-radius:12px;border:1px solid #e2e8f0}
+
+    .map-kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:12px}
+    .map-kpi-grid.bihar-only{grid-template-columns:minmax(180px,280px)}
+    .map-shell{position:relative;flex:1;min-height:0;border:1px solid #cbd5e1;border-radius:14px;overflow:hidden;background:#e2e8f0}
+    .state-map{width:100%;height:100%;min-height:430px}
+    .map-empty{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;background:#f8fafc;color:#475569;font-size:15px;font-weight:800;z-index:5}
+    .map-legend{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:10px;font-weight:800;color:#475569}
+    .legend-items{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+    .legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(15,23,42,.22)}
+    .legend-high-p1{background:#1d4ed8}.legend-high-p2{background:#60a5fa}.legend-low-p1{background:#dc2626}.legend-low-p2{background:#fca5a5}.legend-onboarded{background:#16a34a}
+    .map-note{font-size:9px;color:#64748b;font-weight:700;text-align:right;max-width:620px}
+    .pulse-marker{position:relative;width:30px;height:30px;overflow:visible}
+    .pulse-marker .pulse-ring{position:absolute;left:50%;top:50%;width:18px;height:18px;margin-left:-9px;margin-top:-9px;border-radius:50%;background:rgba(34,197,94,.34);border:3px solid rgba(22,163,74,.72);animation:pulseRing 1.35s ease-out infinite;transform-origin:center}
+    .pulse-marker .pulse-ring:nth-child(2){animation-delay:.45s}
+    .pulse-marker .pulse-ring:nth-child(3){animation-delay:.90s}
+    .pulse-marker .pulse-dot{position:absolute;left:50%;top:50%;width:16px;height:16px;margin-left:-8px;margin-top:-8px;border-radius:50%;background:#16a34a;border:4px solid #ffffff;box-shadow:0 0 0 2px rgba(22,163,74,.35),0 2px 7px rgba(15,23,42,.38);z-index:4}
+    .onboarded-coverage-pulse{animation:coveragePulse 2.2s ease-in-out infinite}
+    @keyframes pulseRing{0%{transform:scale(.55);opacity:.95}70%{transform:scale(2.45);opacity:.20}100%{transform:scale(2.8);opacity:0}}
+    @keyframes coveragePulse{0%,100%{fill-opacity:.10;stroke-opacity:.50;stroke-width:1.5}50%{fill-opacity:.24;stroke-opacity:.95;stroke-width:3}}
+    .leaflet-container{font-family:Arial,Helvetica,sans-serif;background:#e2e8f0}
+    .leaflet-popup-content{font-size:12px;line-height:1.45;margin:10px 12px}
+    .slide-footer{display:flex;justify-content:space-between;align-items:center;color:#64748b;font-size:9px;font-weight:800;border-top:1px solid #e2e8f0;padding-top:8px;margin-top:10px}
+    .title-slide .slide-footer{position:absolute;left:42px;right:42px;bottom:28px;border-top-color:rgba(255,255,255,.18);color:#cbd5e1}
+    /* Scroll-triggered presentation animation */
+    .scroll-progress{position:fixed;left:0;top:0;width:100%;height:5px;z-index:9999;pointer-events:none;background:rgba(226,232,240,.38)}
+    .scroll-progress-bar{height:100%;width:0;background:linear-gradient(90deg,#1d4ed8,#7c3aed,#16a34a);box-shadow:0 0 14px rgba(59,130,246,.45);transition:width .12s linear}
+    .slide{isolation:isolate}
+    .slide>.slide-header,.slide>.summary-banner,.slide>.overall-kpi-grid,.slide>.state-kpi-grid,.slide>.data-kpi-grid,.slide>.overall-body,.slide>.state-body,.slide>.panel,.slide>.map-kpi-grid,.slide>.map-shell,.slide>.map-legend,.slide>.slide-footer{will-change:transform,opacity}
+    .anim{opacity:0;transform:translateY(24px);filter:blur(3px)}
+    .anim-soft{opacity:0;transform:translateY(10px) scale(.965);filter:blur(2px)}
+    .slide.is-active .anim{animation:scrollFadeUp .72s cubic-bezier(.22,.8,.24,1) forwards;animation-delay:var(--delay,0s)}
+    .slide.is-active .anim-soft{animation:scrollFadeZoom .78s cubic-bezier(.22,.8,.24,1) forwards;animation-delay:var(--delay,0s)}
+    .slide.is-active .kpi-card.anim{animation-name:kpiPop}
+    .slide.is-active .panel.anim{animation-name:panelRise}
+    .slide.is-active .map-shell.anim-soft{animation-name:mapReveal}
+    .slide.is-active .title-decor.decor-one{animation:floatOrbOne 7s ease-in-out infinite}
+    .slide.is-active .title-decor.decor-two{animation:floatOrbTwo 8s ease-in-out infinite}
+    .slide.is-active:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 50% -12%,rgba(59,130,246,.08),transparent 36%);animation:slideGlow .9s ease both}
+    .title-slide.is-active:after{background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.08),transparent 42%)}
+    @keyframes scrollFadeUp{from{opacity:0;transform:translateY(24px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+    @keyframes scrollFadeZoom{from{opacity:0;transform:translateY(10px) scale(.965);filter:blur(2px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+    @keyframes kpiPop{0%{opacity:0;transform:translateY(18px) scale(.88);filter:blur(2px)}70%{opacity:1;transform:translateY(-3px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+    @keyframes panelRise{from{opacity:0;transform:translateY(30px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+    @keyframes mapReveal{from{opacity:0;transform:scale(.94);clip-path:inset(10% 4% 10% 4% round 20px);filter:blur(4px)}to{opacity:1;transform:scale(1);clip-path:inset(0 round 14px);filter:blur(0)}}
+    @keyframes slideGlow{from{opacity:0}to{opacity:1}}
+    @keyframes floatOrbOne{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-18px,-12px,0) scale(1.06)}}
+    @keyframes floatOrbTwo{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(14px,18px,0) scale(.94)}}
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .scroll-progress-bar{transition:none}
+      .anim,.anim-soft,.slide.is-active .anim,.slide.is-active .anim-soft,.slide.is-active .title-decor{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+      .slide.is-active:after{animation:none!important}
+    }
+    @media(max-width:1050px){
+      .slide{height:auto;min-height:100vh;aspect-ratio:auto}.overall-kpi-grid{grid-template-columns:repeat(4,1fr)}.state-kpi-grid{grid-template-columns:repeat(4,1fr)}.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}
+      .overall-body,.state-body,.data-body{grid-template-columns:1fr}.chart-wrap{height:330px}.chart-panel{min-height:390px}.title-info-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:650px){
+      .deck{padding:0}.slide{border-radius:0;padding:26px 16px 20px}.floating-loading{top:10px;right:10px;font-size:11px;padding:8px 10px}
+      .title-slide h1{font-size:36px}.title-slide p{font-size:17px}.slide-header h2{font-size:26px}
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}.compact-grid{grid-template-columns:repeat(2,1fr)}
+      .lowdist-row{grid-template-columns:1fr}.lowdist-metrics{grid-template-columns:repeat(5,1fr)}.header-status{display:none}
+      .data-status-wrap{overflow:auto}.data-status-table{min-width:780px}.state-map{min-height:500px}
+    }
+    @page{size:13.333in 7.5in;margin:0}
+    @media print{
+      html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .floating-loading,.scroll-progress{display:none!important}.deck{padding:0;gap:0;display:block}
+      .slide{width:13.333in;height:7.5in;min-height:7.5in;aspect-ratio:auto;border-radius:0;box-shadow:none;page-break-after:always;break-after:page;overflow:hidden;padding:0.32in 0.40in 0.24in}
+      .slide:last-child{page-break-after:auto;break-after:auto}
+      .anim,.anim-soft{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"><div id="scrollProgressBar" class="scroll-progress-bar"></div></div>
+  <div id="loading" class="floating-loading">Loading Google Sheets data...</div>
+
+  <main class="deck">
+    <section class="slide title-slide">
+      <div class="title-decor decor-one"></div>
+      <div class="title-decor decor-two"></div>
+      <div class="title-content">
+        <div class="title-kicker anim-soft" style="--delay:.05s">Management Review</div>
+        <h1 class="anim-soft" style="--delay:.15s">Party Onboarding Project Status Report</h1>
+        <p class="anim-soft" style="--delay:.25s">Overall and State-wise Performance Dashboard</p>
+        <div class="state-chip-row anim-soft" style="--delay:.35s">
+          <span class="state-chip">Uttar Pradesh</span>
+          <span class="state-chip">Madhya Pradesh</span>
+          <span class="state-chip">MAH &amp; Goa</span>
+          <span class="state-chip">Rajasthan</span>
+          <span class="state-chip">Bihar</span>
+          <span class="state-chip">Assam</span>
+          <span class="state-chip">West Bengal</span>
+          <span class="state-chip">Jharkhand</span>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 19</span></div>
+    </section>
+
+    <section class="slide" id="dataStatusSlide"></section>
+    <section class="slide" id="overallSlideContent"></section>
+    <div id="stateSlides" style="display:contents"></div>
+  </main>
+
+  <script>
+const DEFAULT_SHEET_ID="1jJta6wOibBHmrqmWQeq-BgYixVUoC1U1ZvX9SxyO8Oo";
+
+const STATES={
+  UP:{name:"Uttar Pradesh",sheetId:DEFAULT_SHEET_ID,gid:"0",newGid:"3567716",requestedDistricts:41,receivedDistricts:41,pendingDistricts:0},
+  MP:{name:"Madhya Pradesh",sheetId:DEFAULT_SHEET_ID,gid:"1101100608",newGid:"807944300",requestedDistricts:32,receivedDistricts:31,pendingDistricts:1},
+  MAH:{name:"MAH & GOA",sheetId:DEFAULT_SHEET_ID,gid:"1763207454",newGid:"529885309",requestedDistricts:21,receivedDistricts:18,pendingDistricts:3},
+  RAJ:{name:"Rajasthan",sheetId:DEFAULT_SHEET_ID,gid:"1667798762",newGid:"1378700901",requestedDistricts:24,receivedDistricts:24,pendingDistricts:0},
+  BIHAR:{name:"Bihar",sheetId:DEFAULT_SHEET_ID,gid:"2138353711",newGid:"525744938",requestedDistricts:20,receivedDistricts:20,pendingDistricts:0},
+  ASSAM:{name:"Assam",sheetId:"1-sEIXuT670OSP3jxoYKFD7BkFjQWMmp7UD0WUjeGqRw",gid:"0",newGid:"1810756355",requestedDistricts:14,receivedDistricts:14,pendingDistricts:0},
+  WB:{name:"West Bengal",sheetId:"1lJCP7Iue8xI_K38wEaU6DLhIryTNOm-1JrEQGZreDhM",gid:"0",newGid:"1968571314",requestedDistricts:13,receivedDistricts:13,pendingDistricts:0},
+  JH:{name:"Jharkhand",sheetId:"1zYHliQrSaBppIvO_el5DNK5UrnNZgNPmI7JDED6FlyQ",gid:"0",newGid:"1788601208",requestedDistricts:10,receivedDistricts:9,pendingDistricts:1}
+};
+
+const STATE_KEYS=["UP","MP","MAH","RAJ","BIHAR","ASSAM","WB","JH"];
+const LOW_DIST_STATE_KEYS=["UP","MP","MAH","RAJ"];
+const TOTAL_SLIDES=STATE_KEYS.length*2+3;
+
+const DISTRICT_STATUS_SUMMARY={received:213,pending:6,total:219,completion:'97%'};
+const DISTRICT_STATUS_ROWS=[
+  {state:'Assam',receipt:'Received',received:14,pending:0},
+  {state:'Bihar',receipt:'Received',received:38,pending:0},
+  {state:'Jharkhand',receipt:'Received',received:9,pending:1},
+  {state:'Madhya Pradesh',receipt:'Received',received:31,pending:1},
+  {state:'MAH & GOA',receipt:'Received',received:18,pending:3},
+  {state:'Rajasthan',receipt:'Received',received:24,pending:0},
+  {state:'UP',receipt:'Received',received:40,pending:1},
+  {state:'West Bengal',receipt:'Received',received:13,pending:0},
+  {state:'West Bengal Food & Beverage Potential Town',receipt:'Received',received:13,pending:0},
+  {state:'West Bengal PC',receipt:'Received',received:13,pending:0}
+];
+
+let rawData=[],jobs=[],jobIndex=0,activeJob=null,currentScript=null,chartInstances={},mapInstances={},mapObservers={};
+let scrollAnimationObserver=null;
+let scrollProgressBound=false;
+
+window.onload=()=>{
+  initScrollAnimations();
+  loadAll();
+};
+
+function updateScrollProgress(){
+  const bar=document.getElementById('scrollProgressBar');
+  if(!bar)return;
+  const maxScroll=Math.max(document.documentElement.scrollHeight-window.innerHeight,1);
+  const progress=Math.min(100,Math.max(0,(window.scrollY/maxScroll)*100));
+  bar.style.width=progress+'%';
+}
+
+function activateSlide(slide){
+  if(!slide)return;
+  slide.classList.remove('is-active');
+  void slide.offsetWidth;
+  slide.classList.add('is-active');
+
+  const mapHolder=slide.querySelector('.state-map');
+  if(mapHolder){
+    const stateKey=String(mapHolder.id||'').replace('map_','');
+    const map=mapInstances[stateKey];
+    if(map)setTimeout(()=>map.invalidateSize({pan:false}),180);
+  }
+}
+
+function initScrollAnimations(){
+  if(scrollAnimationObserver)scrollAnimationObserver.disconnect();
+  const slides=[...document.querySelectorAll('.slide')];
+
+  if(!('IntersectionObserver' in window)){
+    slides.forEach(slide=>slide.classList.add('is-active'));
+  }else{
+    scrollAnimationObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting && entry.intersectionRatio>=0.28){
+          activateSlide(entry.target);
+        }else if(!entry.isIntersecting){
+          entry.target.classList.remove('is-active');
+        }
+      });
+    },{threshold:[0,0.28,0.55,0.8],rootMargin:'-4% 0px -8% 0px'});
+    slides.forEach(slide=>scrollAnimationObserver.observe(slide));
+  }
+
+  const visibleSlide=slides.find(slide=>{
+    const rect=slide.getBoundingClientRect();
+    return rect.top<window.innerHeight*.65 && rect.bottom>window.innerHeight*.35;
+  });
+  if(visibleSlide)activateSlide(visibleSlide);
+
+  if(!scrollProgressBound){
+    window.addEventListener('scroll',updateScrollProgress,{passive:true});
+    window.addEventListener('resize',updateScrollProgress,{passive:true});
+    scrollProgressBound=true;
+  }
+  updateScrollProgress();
+}
+
+function loadAll(){
+  rawData=[];
+  jobs=[];
+  STATE_KEYS.forEach(k=>{
+    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].gid,partySource:'Existing'});
+    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].newGid,partySource:'New'});
+  });
+  jobIndex=0;
+  loadNext();
+}
+
+function loadNext(){
+  if(jobIndex>=jobs.length){
+    document.getElementById('loading').style.display='none';
+    renderReport();
+    return;
+  }
+
+  activeJob=jobs[jobIndex];
+  document.getElementById('loading').innerText='Loading '+STATES[activeJob.stateKey].name+' - '+activeJob.partySource+'...';
+
+  if(currentScript)currentScript.remove();
+
+  const url=`https://docs.google.com/spreadsheets/d/${activeJob.sheetId}/gviz/tq?gid=${activeJob.gid}&tqx=responseHandler:handleSheetData&cacheBust=${Date.now()}`;
+  currentScript=document.createElement('script');
+  currentScript.src=url;
+  currentScript.onerror=()=>{
+    console.error('Could not load Google Sheet',activeJob);
+    jobIndex++;
+    loadNext();
+  };
+  document.body.appendChild(currentScript);
+}
+
+function handleSheetData(response){
+  try{
+    rawData=rawData.concat(parseSheetResponse(response,activeJob.stateKey,activeJob.partySource));
+    jobIndex++;
+    loadNext();
+  }catch(e){
+    console.error(e);
+    document.getElementById('loading').innerText='Data loading failed. Check Google Sheet sharing permission and GIDs.';
+  }
+}
+
+function normHeader(v){
+  return String(v||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+
+function buildHeaderMap(cols){
+  const map={};
+  (cols||[]).forEach((col,i)=>{
+    [col.label,col.id].forEach(v=>{
+      const k=normHeader(v);
+      if(k && map[k]===undefined)map[k]=i;
+    });
+  });
+  return map;
+}
+
+function getValue(cells,i){
+  return cells[i] ? (cells[i].f || cells[i].v || '') : '';
+}
+
+function getByHeader(cells,map,aliases,fallback){
+  for(const a of aliases){
+    const k=normHeader(a);
+    if(map[k]!==undefined)return getValue(cells,map[k]);
+  }
+  for(const i of fallback||[]){
+    const v=getValue(cells,i);
+    if(String(v||'').trim()!=='')return v;
+  }
+  return '';
+}
+
+function getByHeaderLoose(cells,map,aliases,containsTokens,fallback){
+  for(const a of aliases||[]){
+    const k=normHeader(a);
+    if(map[k]!==undefined)return getValue(cells,map[k]);
+  }
+
+  for(const token of containsTokens||[]){
+    const normalized=normHeader(token);
+    if(!normalized)continue;
+    for(const key in map){
+      if(key.includes(normalized)){
+        const value=getValue(cells,map[key]);
+        if(String(value||'').trim()!=='')return value;
+      }
+    }
+  }
+
+  for(const i of fallback||[]){
+    const v=getValue(cells,i);
+    if(String(v||'').trim()!=='')return v;
+  }
+  return '';
+}
+
+function buildHeaderMapFromFirstRow(rows){
+  if(!rows || !rows.length)return null;
+  const cells=rows[0].c||[];
+  const map={};
+  let strongHits=0;
+
+  cells.forEach((cell,index)=>{
+    const value=cell ? (cell.f||cell.v||'') : '';
+    const key=normHeader(value);
+    if(!key)return;
+    map[key]=index;
+    if([
+      'verified','datecorrect','sdename','salesteam','partyname','nameofparty',
+      'state','district','tehsil','town'
+    ].includes(key) || key.includes('verified') || key.includes('datecorrect')){
+      strongHits++;
+    }
+  });
+
+  return strongHits>=2 ? map : null;
+}
+
+function parseCoordinateNumber(value,axis){
+  if(value===null || value===undefined || value==='')return null;
+  const text=String(value).trim().replace(/\u00a0/g,' ');
+  const match=text.match(/-?\d+(?:\.\d+)?/);
+  if(!match)return null;
+  const number=Number(match[0]);
+  if(!Number.isFinite(number))return null;
+  if(axis==='lat' && (number<-90 || number>90))return null;
+  if(axis==='lng' && (number<-180 || number>180))return null;
+  return number;
+}
+
+function parseCoordinatePair(value){
+  if(value===null || value===undefined || value==='')return null;
+  let text=String(value).trim();
+  try{text=decodeURIComponent(text);}catch(e){}
+  const atMatch=text.match(/@\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+  const qMatch=text.match(/[?&](?:q|query|ll)=\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)/i);
+  const plainMatch=text.match(/(-?\d{1,2}(?:\.\d+)?)\s*[,|; ]+\s*(-?\d{1,3}(?:\.\d+)?)/);
+  const match=atMatch || qMatch || plainMatch;
+  if(!match)return null;
+  const lat=parseCoordinateNumber(match[1],'lat');
+  const lng=parseCoordinateNumber(match[2],'lng');
+  return lat===null || lng===null ? null : {lat,lng};
+}
+
+function getLatLngFromCells(cells,map){
+  const latRaw=getByHeader(cells,map,[
+    'Latitude','Lat','GPS Latitude','GPS_Latitude','Outlet Latitude','Outlet_Latitude',
+    'Party Latitude','Party_Latitude','Geo Latitude','Geo_Latitude'
+  ],[]);
+  const lngRaw=getByHeader(cells,map,[
+    'Longitude','Long','Lng','Lon','GPS Longitude','GPS_Longitude','Outlet Longitude',
+    'Outlet_Longitude','Party Longitude','Party_Longitude','Geo Longitude','Geo_Longitude'
+  ],[]);
+  const lat=parseCoordinateNumber(latRaw,'lat');
+  const lng=parseCoordinateNumber(lngRaw,'lng');
+  if(lat!==null && lng!==null)return {lat,lng};
+
+  const combined=getByHeader(cells,map,[
+    'Lat Long','Lat_Long','LatLong','Latitude Longitude','Latitude_Longitude',
+    'GPS Coordinates','GPS_Coordinates','Coordinates','Geo Location','Geo_Location',
+    'Geolocation','Location','Map Location','Map_Location','Google Maps Link','Google_Maps_Link'
+  ],[]);
+  return parseCoordinatePair(combined) || {lat:null,lng:null};
+}
+
+function parseSheetResponse(response,stateKey,partySource){
+  let rows=response.table.rows||[];
+  let map=buildHeaderMap(response.table.cols||[]);
+  const firstRowMap=buildHeaderMapFromFirstRow(rows);
+  if(firstRowMap){
+    map=Object.assign({},firstRowMap,map);
+    rows=rows.slice(1);
+  }
+
+  const sourceStateName=STATES[stateKey].name;
+
+  return rows.map(r=>{
+    const c=r.c||[];
+
+    if(partySource==='New'){
+      const dateCorrect=getByHeaderLoose(c,map,[
+        'Date Correct','Date_Correct','DateCorrect','Correct Date','Correct_Date','Date'
+      ],['datecorrect','correctdate'],[23]);
+      const verified=getByHeaderLoose(c,map,[
+        'Verified','Verification Status','Verified Status','Verification','Verify','Verified?',
+        'Verified_YN','Verified YN','Audit Verified','Auditor Verified'
+      ],['verified','verification'],[9,21,22,23,24,25,26,27,28,29,30]);
+      const coords=getLatLngFromCells(c,map);
+
+      return {
+        sourceStateKey:stateKey,
+        sourceStateName,
+        partySource:'New',
+        rtr:getByHeader(c,map,['New_Party_ID','New Party ID','Party ID'],[0]),
+        state:getByHeader(c,map,['State'],[4])||sourceStateName,
+        partyName:getByHeader(c,map,['Name_of_Party','Name of Party','Party Name','Party'],[3]),
+        district:getByHeader(c,map,['District'],[5]),
+        tehsil:getByHeader(c,map,['Tehsil'],[6]),
+        town:getByHeader(c,map,['Town'],[7]),
+        uniqueKey:'',
+        uniqueTown:'',
+        villageType:getByHeader(c,map,['Village_Type','Village Type','Type','P Type','Priority','P1/P2'],[8]),
+        cat:getByHeader(c,map,['Cat','CAT','Category','Billed Outlets Category','Billed_Outlets_Category'],[]),
+        verified,
+        submissionTime:getByHeader(c,map,['Submission_Time','Submission Time','Timestamp','Time Stamp'],[1]),
+        dateCorrect,
+        sde:getByHeader(c,map,['SDE_Name','SDE Name','Sales Team','Sales_Team','SDE'],[2]),
+        status:getByHeader(c,map,['Party_Status','Party Status','Status'],[14]),
+        ready:getByHeader(c,map,['Ready_To_Onboard','Ready To Onboard','Onboarded','Ready','Ready for Onboarding'],[18]),
+        latitude:coords.lat,
+        longitude:coords.lng
+      };
+    }
+
+    const dateCorrect=getByHeaderLoose(c,map,[
+      'Date Correct','Date_Correct','DateCorrect','Correct Date','Correct_Date'
+    ],['datecorrect','correctdate'],[]);
+    const uniqueKey=getByHeader(c,map,[
+      'Unique','Unique Key','Unique_Key','Town Unique','Town_Unique','Unique Town','Unique_Town'
+    ],[]);
+    const coords=getLatLngFromCells(c,map);
+
+    return {
+      sourceStateKey:stateKey,
+      sourceStateName,
+      partySource:'Existing',
+      rtr:getByHeader(c,map,['RTR Code','RTR_Code','RTR'],[0]),
+      state:getByHeader(c,map,['State'],[1])||sourceStateName,
+      partyName:getByHeader(c,map,['Name_of_Party','Name of Party','Party Name','Party_Name','Party'],[2]),
+      district:getByHeader(c,map,['District'],[5]),
+      tehsil:getByHeader(c,map,['Tehsil'],[6]),
+      town:getByHeader(c,map,['Town'],[7]),
+      uniqueKey,
+      uniqueTown:uniqueKey,
+      villageType:getByHeader(c,map,['Village Type','Village_Type','Type','P Type','Priority','P1/P2'],[]),
+      cat:getByHeader(c,map,['Cat','CAT','Category','Billed Outlets Category','Billed_Outlets_Category'],[]),
+      verified:getByHeaderLoose(c,map,[
+        'Verified','Verification Status','Verified Status','Verification','Verify','Verified?',
+        'Verified_YN','Verified YN','Audit Verified','Auditor Verified'
+      ],['verified','verification'],[9,21,22,23,24,25,26,27,28,29,30]),
+      submissionTime:getByHeader(c,map,['Submission Time','Submission_Time','Timestamp','Time Stamp'],[10]),
+      dateCorrect,
+      sde:getByHeader(c,map,['Sales Team','Sales_Team','Sales Manpower','SDE'],[11]),
+      status:getByHeader(c,map,['Status'],[15]),
+      ready:getByHeader(c,map,['Onboarded','Ready','Ready for Onboarding'],[19]),
+      latitude:coords.lat,
+      longitude:coords.lng
+    };
+  });
+}
+
+function isValidParsedDate(date,year,month,day){
+  return date instanceof Date && !isNaN(date.getTime()) &&
+    date.getFullYear()===year && date.getMonth()===month-1 && date.getDate()===day;
+}
+
+function parseFlexibleDate(value){
+  if(value===null || value===undefined || value==='')return null;
+  if(value instanceof Date && !isNaN(value.getTime()))return value;
+
+  let text=String(value).trim().replace(/\u00a0/g,' ').replace(/[\u200e\u200f]/g,'').replace(/\s+/g,' ');
+  if(!text)return null;
+  if(['#n/a','n/a','na','#value!','#ref!','#div/0!','not available'].includes(text.toLowerCase()))return null;
+
+  const google=text.match(/^Date\((\d{4}),\s*(\d{1,2}),\s*(\d{1,2})(?:,\s*(\d{1,2}),\s*(\d{1,2}),\s*(\d{1,2}))?\)$/);
+  if(google){
+    const year=Number(google[1]),monthZero=Number(google[2]),day=Number(google[3]);
+    const d=new Date(year,monthZero,day,Number(google[4]||0),Number(google[5]||0),Number(google[6]||0));
+    return isValidParsedDate(d,year,monthZero+1,day)?d:null;
+  }
+
+  if(/^\d+(?:\.\d+)?$/.test(text)){
+    const serial=Number(text);
+    if(serial>25000 && serial<80000){
+      const wholeDays=Math.floor(serial-25569);
+      const d=new Date(wholeDays*86400*1000);
+      const fraction=serial-Math.floor(serial);
+      const seconds=Math.round(fraction*86400);
+      d.setHours(Math.floor(seconds/3600),Math.floor((seconds%3600)/60),seconds%60);
+      return isNaN(d.getTime())?null:d;
+    }
+    return null;
+  }
+
+  const standard=text.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})(?:\s*,?\s*(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*([AP]M)?)?$/i);
+  if(standard){
+    const month=Number(standard[1]),day=Number(standard[2]);
+    let year=Number(standard[3]);
+    if(year<100)year+=2000;
+    if(month<1||month>12||day<1||day>31)return null;
+    let hour=Number(standard[4]||0);
+    const minute=Number(standard[5]||0),second=Number(standard[6]||0);
+    const meridian=standard[7]?standard[7].toUpperCase():'';
+    if(meridian==='PM'&&hour<12)hour+=12;
+    if(meridian==='AM'&&hour===12)hour=0;
+    const d=new Date(year,month-1,day,hour,minute,second);
+    return isValidParsedDate(d,year,month,day)?d:null;
+  }
+
+  const iso=text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$/);
+  if(iso){
+    const year=Number(iso[1]),month=Number(iso[2]),day=Number(iso[3]);
+    const d=new Date(year,month-1,day,Number(iso[4]||0),Number(iso[5]||0),Number(iso[6]||0));
+    return isValidParsedDate(d,year,month,day)?d:null;
+  }
+
+  return null;
+}
+
+function parseDateCorrect(value){
+  return parseFlexibleDate(value);
+}
+
+function isDatabaseRow(r){
+  return r.partySource!=='New' && (
+    String(r.rtr||'').trim() || String(r.partyName||'').trim() ||
+    String(r.district||'').trim() || String(r.town||'').trim() || String(r.state||'').trim()
+  );
+}
+
+function isVerifiedYes(r){
+  const verified=String(r.verified||'').toLowerCase().trim();
+  return verified==='yes' || verified==='y' || verified==='true' || verified==='1';
+}
+
+function isSubmitted(r){
+  if(r.partySource==='New')return parseFlexibleDate(r.dateCorrect)!==null;
+  return isVerifiedYes(r);
+}
+
+function normStatus(r){
+  return String(r.status||'').toLowerCase().replace(/[’‘`´]/g,"'").replace(/\s+/g,' ').trim();
+}
+
+function isDoesntExist(r){
+  const s=normStatus(r);
+  return s.includes("doesn't exist") || s.includes('doesnt exist') || s.includes('does not exist') || s.includes('not exist');
+}
+
+function isOpen(r){
+  return normStatus(r)==='open';
+}
+
+function isReady(r){
+  const ready=String(r.ready||'').toLowerCase().trim();
+  return !isDoesntExist(r) && (
+    ['yes','y','true','1','onboarded','ready','ready to onboard'].includes(ready) ||
+    ready.includes('onboard') || normStatus(r).includes('onboard')
+  );
+}
+
+function isClosed(r){
+  return !isOpen(r) && !isReady(r) && !isDoesntExist(r);
+}
+
+function getDate(r){
+  return parseFlexibleDate(r.dateCorrect);
+}
+
+function pct(n,d){
+  return d ? ((n/d)*100).toFixed(1).replace(/\.0$/,'')+'%' : '0%';
+}
+
+function fmt(n){
+  return Number(n||0).toLocaleString('en-IN');
+}
+
+function formatDate(d){
+  if(!d)return '-';
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+}
+
+function activityStats(rows){
+  const dates=rows.map(getDate).filter(Boolean).map(d=>new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+  if(!dates.length){
+    return {startDate:null,workingDaysElapsed:0,activeVisitDays:0};
+  }
+
+  const startDate=new Date(Math.min(...dates.map(d=>d.getTime())));
+  const today=new Date();
+  const endDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  const effectiveEnd=endDate<startDate ? startDate : endDate;
+
+  let workingDaysElapsed=0;
+  for(let d=new Date(startDate);d<=effectiveEnd;d.setDate(d.getDate()+1)){
+    if(d.getDay()!==0)workingDaysElapsed++;
+  }
+
+  const activeVisitDays=new Set(
+    dates.filter(d=>d.getDay()!==0).map(d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))
+  ).size;
+
+  return {startDate,workingDaysElapsed,activeVisitDays};
+}
+
+function normType(v){
+  const x=String(v||'').trim().toUpperCase().replace(/\s+/g,'');
+  if(x.includes('DHQ')||x.includes('DISTRICTHQ'))return'DHQ';
+  if(x.includes('P1'))return'P1';
+  if(x.includes('P2'))return'P2';
+  return 'Other';
+}
+
+function getTownUniqueKey(r){
+  const unique=String(r.uniqueKey||r.uniqueTown||'').trim();
+  if(unique)return unique.toLowerCase();
+  return [r.state,r.district,r.tehsil,r.town]
+    .map(x=>String(x||'').trim().toLowerCase()).filter(Boolean).join(' | ') || 'town not available';
+}
+
+function townKey(r){
+  return [r.state,r.district,r.tehsil,r.town,normType(r.villageType)]
+    .map(x=>String(x||'').trim().toLowerCase()).join('||');
+}
+
+function matchText(value){
+  return String(value||'')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]/g,'');
+}
+
+function matchStateKey(r){
+  return matchText(r.sourceStateKey||r.sourceStateName||r.state);
+}
+
+function referenceTownFallbackKey(r){
+  const state=matchStateKey(r);
+  const district=matchText(r.district);
+  const tehsil=matchText(r.tehsil);
+  const town=matchText(r.town);
+  const explicit=matchText(r.uniqueKey||r.uniqueTown);
+  const type=normType(r.villageType);
+  const typeKey=type&&type!=='Other' ? type.toLowerCase() : 'other';
+
+  // P1 and P2 must remain separate even when District / Tehsil / Town text is
+  // identical. New Party sheets already contain Village_Type, so that value is
+  // authoritative; only CAT is inherited from Sheet1.
+  if(district||tehsil||town)return `${state}||dtt||${district}||${tehsil}||${town}||${typeKey}`;
+  if(explicit)return `${state}||u||${explicit}||${typeKey}`;
+  return '';
+}
+
+function townReferenceMatchKeys(r){
+  const state=matchStateKey(r);
+  const district=matchText(r.district);
+  const tehsil=matchText(r.tehsil);
+  const town=matchText(r.town);
+  const explicit=matchText(r.uniqueKey||r.uniqueTown);
+  const flat=matchText(`${r.district||''}${r.tehsil||''}${r.town||''}`);
+  const type=normType(r.villageType);
+  const typeKey=type&&type!=='Other' ? type.toLowerCase() : '';
+  const keys=[];
+
+  // Typed keys are deliberately first and are the only accepted keys when the
+  // New Party row has a valid P1/P2/DHQ value.
+  if(typeKey&&explicit)keys.push(`${state}||utype||${explicit}||${typeKey}`);
+  if(typeKey&&(district||tehsil||town))keys.push(`${state}||dtttype||${district}||${tehsil}||${town}||${typeKey}`);
+  if(typeKey&&flat)keys.push(`${state}||flattype||${flat}||${typeKey}`);
+  if(typeKey&&tehsil&&town)keys.push(`${state}||tttype||${tehsil}||${town}||${typeKey}`);
+  if(typeKey&&district&&town)keys.push(`${state}||dttowntype||${district}||${town}||${typeKey}`);
+  if(typeKey&&town)keys.push(`${state}||towntype||${town}||${typeKey}`);
+
+  // Untyped fallbacks are retained only for rows where Village_Type is absent.
+  if(!typeKey){
+    if(explicit)keys.push(`${state}||u||${explicit}`);
+    if(district||tehsil||town)keys.push(`${state}||dtt||${district}||${tehsil}||${town}`);
+    if(flat)keys.push(`${state}||flat||${flat}`);
+    if(tehsil&&town)keys.push(`${state}||tt||${tehsil}||${town}`);
+    if(district&&town)keys.push(`${state}||dt||${district}||${town}`);
+    if(town)keys.push(`${state}||town||${town}`);
+  }
+
+  return [...new Set(keys)];
+}
+
+function pickMostFrequentValue(counter){
+  const entries=Object.entries(counter||{}).filter(([,count])=>count>0);
+  if(!entries.length)return '';
+  entries.sort((a,b)=>b[1]-a[1] || String(a[0]).localeCompare(String(b[0])));
+  return entries[0][0];
+}
+
+function buildTownReferenceLookup(rows){
+  const references={};
+  const index={};
+
+  rows.filter(r=>r.partySource!=='New'&&isDatabaseRow(r)).forEach(r=>{
+    const refId=referenceTownFallbackKey(r);
+    if(!refId)return;
+
+    if(!references[refId]){
+      references[refId]={
+        id:refId,
+        catCounts:{},
+        typeCounts:{},
+        rows:[]
+      };
+    }
+
+    const ref=references[refId];
+    ref.rows.push(r);
+    const cat=String(r.cat||'').trim();
+    const type=normType(r.villageType);
+    if(cat)ref.catCounts[cat]=(ref.catCounts[cat]||0)+1;
+    if(type&&type!=='Other')ref.typeCounts[type]=(ref.typeCounts[type]||0)+1;
+
+    townReferenceMatchKeys(r).forEach(key=>{
+      if(!index[key])index[key]=new Set();
+      index[key].add(refId);
+    });
+  });
+
+  Object.values(references).forEach(ref=>{
+    ref.cat=pickMostFrequentValue(ref.catCounts);
+    ref.villageType=pickMostFrequentValue(ref.typeCounts);
+  });
+
+  return {references,index};
+}
+
+function selectTownReference(row,lookup){
+  const rowType=normType(row.villageType);
+
+  for(const key of townReferenceMatchKeys(row)){
+    const ids=lookup.index[key] ? [...lookup.index[key]] : [];
+    if(!ids.length)continue;
+
+    const refs=ids.map(id=>lookup.references[id]).filter(Boolean);
+    const candidates=rowType!=='Other'
+      ? refs.filter(ref=>ref.villageType===rowType)
+      : refs;
+
+    // Never borrow CAT from a different P type. That was the reason one
+    // Maharashtra P1 onboarding was incorrectly appearing under P2.
+    if(!candidates.length)continue;
+    if(candidates.length===1)return candidates[0];
+
+    const signatures=[...new Set(candidates.map(ref=>normCat(ref.cat)))];
+    if(signatures.length===1)return candidates[0];
+  }
+
+  return null;
+}
+
+function enrichRowsFromExistingTownData(rows){
+  const lookup=buildTownReferenceLookup(rows);
+
+  return rows.map(row=>{
+    const reference=selectTownReference(row,lookup);
+    const fallback=referenceTownFallbackKey(row);
+    const enriched={...row,referenceTownKey:reference ? reference.id : fallback};
+
+    // New Party sheets already contain Village_Type. Preserve that P1/P2 value
+    // and inherit only CAT from the same-type original Sheet1 town.
+    if(row.partySource==='New'&&reference){
+      if(reference.cat)enriched.cat=reference.cat;
+      if((!String(row.villageType||'').trim() || normType(row.villageType)==='Other') && reference.villageType){
+        enriched.villageType=reference.villageType;
+      }
+      enriched.matchedToOriginalTown=true;
+    }
+
+    return enriched;
+  });
+}
+
+function getDistrictNumbers(stateKey){
+  if(stateKey){
+    return {requested:STATES[stateKey].requestedDistricts,districtReceived:STATES[stateKey].receivedDistricts,districtPending:STATES[stateKey].pendingDistricts};
+  }
+  return {
+    requested:STATE_KEYS.reduce((a,k)=>a+STATES[k].requestedDistricts,0),
+    districtReceived:STATE_KEYS.reduce((a,k)=>a+STATES[k].receivedDistricts,0),
+    districtPending:STATE_KEYS.reduce((a,k)=>a+STATES[k].pendingDistricts,0)
+  };
+}
+
+function calc(rows,stateKey=null){
+  const submitted=rows.filter(isSubmitted);
+  const districtNumbers=getDistrictNumbers(stateKey);
+  const salesTeams=[...new Set(submitted.map(r=>String(r.sde||'').trim()).filter(Boolean))].length;
+  const open=submitted.filter(isOpen).length;
+  const onboarded=submitted.filter(isReady).length;
+
+  const ptypes={DHQ:calcType(rows,'DHQ'),P1:calcType(rows,'P1'),P2:calcType(rows,'P2')};
+  const townStatus=calcTownStatus(rows);
+  const lowDist={p1Less25:calcLowDistribution(rows,'P1',isCatLess25),p2Less15:calcLowDistribution(rows,'P2',isCatLess15)};
+
+  return {
+    rows,submitted,
+    requested:districtNumbers.requested,
+    districtReceived:districtNumbers.districtReceived,
+    districtPending:districtNumbers.districtPending,
+    salesTeams,visited:submitted.length,open,onboarded,conversion:pct(onboarded,open),
+    closed:submitted.filter(isClosed).length,doesnt:submitted.filter(isDoesntExist).length,
+    ptypes,townStatus,lowDist
+  };
+}
+
+function calcTownStatus(rows){
+  const groups={};
+
+  rows.filter(isDatabaseRow).forEach(r=>{
+    const k=townKey(r);
+    if(!k.replace(/\|/g,'').trim())return;
+    if(!groups[k])groups[k]={total:0,submitted:[]};
+    groups[k].total++;
+  });
+
+  rows.filter(isSubmitted).forEach(r=>{
+    const k=townKey(r);
+    if(!k.replace(/\|/g,'').trim())return;
+    if(!groups[k])groups[k]={total:0,submitted:[]};
+    groups[k].submitted.push(r);
+  });
+
+  const out={totalTowns:0,visitedTowns:0,notVisited:0,onboardedAtLeastOne:0,openButNotConverted:0,notFoundAnything:0};
+
+  Object.values(groups).forEach(g=>{
+    out.totalTowns++;
+    const visited=g.submitted.length;
+    if(visited===0){out.notVisited++;return;}
+    out.visitedTowns++;
+    const open=g.submitted.filter(isOpen).length;
+    const onboarded=g.submitted.filter(isReady).length;
+    if(onboarded>0)out.onboardedAtLeastOne++;
+    else if(open>0)out.openButNotConverted++;
+    else out.notFoundAnything++;
+  });
+
+  return out;
+}
+
+function calcType(rows,type){
+  const groups={};
+
+  function ensureTown(r){
+    const key=getTownUniqueKey(r);
+    if(!key)return null;
+    if(!groups[key]){
+      groups[key]={
+        villageType:normType(r.villageType),
+        submitted:0,
+        open:0,
+        ready:0
+      };
+    }
+    if(groups[key].villageType==='Other')groups[key].villageType=normType(r.villageType);
+    return groups[key];
+  }
+
+  rows.filter(isDatabaseRow).forEach(r=>ensureTown(r));
+  rows.filter(isSubmitted).forEach(r=>{
+    const g=ensureTown(r);
+    if(!g)return;
+    g.submitted++;
+    if(isOpen(r))g.open++;
+    if(isReady(r))g.ready++;
+  });
+
+  const typeGroups=Object.values(groups).filter(g=>g.villageType===type);
+  const towns=typeGroups.length;
+  const visited=typeGroups.reduce((a,g)=>a+g.submitted,0);
+  const open=typeGroups.reduce((a,g)=>a+g.open,0);
+  const onboardedParties=typeGroups.reduce((a,g)=>a+g.ready,0);
+  const onboarded=typeGroups.filter(g=>g.ready>0).length;
+
+  return {towns,visited,open,onboarded,conversion:pct(onboardedParties,open)};
+}
+
+function normCat(v){
+  return String(v||'').trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+function isCatLess25(r){ return normCat(r.cat)==='less than 25 billed outlets'; }
+function isCatLess15(r){ return normCat(r.cat)==='less than 15 billed outlets'; }
+
+function normalizeLowDistributionText(value){
+  return String(value||'')
+    .trim()
+    .toLowerCase()
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function lowDistributionTownKey(r){
+  return [
+    r.sourceStateKey,
+    r.district,
+    r.tehsil,
+    r.town,
+    normType(r.villageType)
+  ]
+    .map(normalizeLowDistributionText)
+    .join('|');
+}
+
+function lowDistributionDistrictTownKey(r){
+  return [
+    r.sourceStateKey,
+    r.district,
+    r.town,
+    normType(r.villageType)
+  ]
+    .map(normalizeLowDistributionText)
+    .join('|');
+}
+
+function lowDistributionTownTypeKey(r){
+  return [
+    r.sourceStateKey,
+    r.town,
+    normType(r.villageType)
+  ]
+    .map(normalizeLowDistributionText)
+    .join('|');
+}
+
+function isLowDistributionSubmitted(r){
+  // Reference-code submission treatment, isolated only to Low Distribution Focus.
+  // New Party rows are treated as verified because that sheet has no Verified column.
+  const verified=r.partySource==='New'
+    ? 'yes'
+    : String(r.verified||'').toLowerCase().trim();
+
+  return (
+    verified==='yes' ||
+    verified==='y' ||
+    verified==='true' ||
+    parseFlexibleDate(r.submissionTime)!==null
+  );
+}
+
+function addLowDistributionIndex(index,key,groupKey){
+  if(!key || !key.replace(/\|/g,'').trim())return;
+  if(!index[key])index[key]=new Set();
+  index[key].add(groupKey);
+}
+
+function getSingleLowDistributionMatch(index,key){
+  const matches=index[key];
+  if(!matches || matches.size!==1)return '';
+  return [...matches][0];
+}
+
+function calcLowDistribution(rows,type,catCheck){
+  const groups={};
+  const exactIndex={};
+  const districtTownIndex={};
+  const townTypeIndex={};
+
+  // Reference flow: Sheet1 / Existing rows define the eligible low-distribution
+  // town universe through CAT and P1/P2.
+  rows
+    .filter(r=>isDatabaseRow(r)&&normType(r.villageType)===type&&catCheck(r))
+    .forEach(r=>{
+      const groupKey=lowDistributionTownKey(r);
+      if(!groupKey.replace(/\|/g,'').trim())return;
+
+      if(!groups[groupKey])groups[groupKey]={submitted:[]};
+
+      addLowDistributionIndex(exactIndex,groupKey,groupKey);
+      addLowDistributionIndex(
+        districtTownIndex,
+        lowDistributionDistrictTownKey(r),
+        groupKey
+      );
+      addLowDistributionIndex(
+        townTypeIndex,
+        lowDistributionTownTypeKey(r),
+        groupKey
+      );
+    });
+
+  // Existing + New Party submissions are attached to the Sheet1 low-town universe.
+  // Exact State/District/Tehsil/Town/P-type match is tried first. Controlled
+  // fallbacks are used only when they point to one unambiguous low town.
+  rows.filter(isLowDistributionSubmitted).forEach(r=>{
+    if(normType(r.villageType)!==type)return;
+
+    const exactKey=lowDistributionTownKey(r);
+    let matchedGroup=groups[exactKey] ? exactKey : '';
+
+    if(!matchedGroup){
+      matchedGroup=getSingleLowDistributionMatch(
+        districtTownIndex,
+        lowDistributionDistrictTownKey(r)
+      );
+    }
+
+    if(!matchedGroup){
+      matchedGroup=getSingleLowDistributionMatch(
+        townTypeIndex,
+        lowDistributionTownTypeKey(r)
+      );
+    }
+
+    if(matchedGroup){
+      groups[matchedGroup].submitted.push(r);
+      return;
+    }
+
+    // Preserve the reference-code direct-match behaviour for Existing rows that
+    // themselves carry the low-distribution CAT.
+    if(r.partySource!=='New'&&catCheck(r)){
+      if(!groups[exactKey])groups[exactKey]={submitted:[]};
+      groups[exactKey].submitted.push(r);
+    }
+  });
+
+  const out={
+    totalTowns:0,
+    visitedTowns:0,
+    onboardedAtLeastOne:0,
+    openButNotConverted:0,
+    notFoundAnything:0
+  };
+
+  Object.values(groups).forEach(g=>{
+    out.totalTowns++;
+
+    if(g.submitted.length===0)return;
+
+    out.visitedTowns++;
+
+    const open=g.submitted.filter(isOpen).length;
+    const onboarded=g.submitted.filter(isReady).length;
+
+    if(onboarded>0)out.onboardedAtLeastOne++;
+    else if(open>0)out.openButNotConverted++;
+    else out.notFoundAnything++;
+  });
+
+  return out;
+}
+
+function renderReport(){
+  const byState={};
+  STATE_KEYS.forEach(k=>{ byState[k]=calc(rawData.filter(r=>r.sourceStateKey===k),k); });
+  const overall=calc(rawData,null);
+  renderDataStatusSlide();
+  renderOverallSlide(overall);
+  renderStateSlides(byState);
+  renderCharts(overall,byState);
+  renderMaps(byState);
+  setTimeout(initScrollAnimations,60);
+}
+
+function kpiCard(value,label,tone='blue',delay=0){
+  return `
+    <div class="kpi-card tone-${tone} anim" style="--delay:${delay}s">
+      <div class="kpi-value">${value}</div>
+      <div class="kpi-label">${label}</div>
+    </div>`;
+}
+
+function compactMetric(value,label,tone='blue'){
+  return `
+    <div class="compact-metric tone-${tone}">
+      <b>${value}</b>
+      <span>${label}</span>
+    </div>`;
+}
+
+function slideFooter(number,total,state=''){
+  return `
+    <div class="slide-footer">
+      <span>Party Onboarding Project Status Report${state ? ' · '+state : ''}</span>
+      <span>${number} / ${total}</span>
+    </div>`;
+}
+
+function summaryBanner(text,delay=.1){
+  return `<div class="summary-banner anim-soft" style="--delay:${delay}s"><p>${text}</p></div>`;
+}
+
+function townCoveragePanel(s,delay=.2){
+  return `
+    <div class="panel anim" style="--delay:${delay}s">
+      <div class="panel-title-row">
+        <h3>Town Coverage</h3>
+        <span class="panel-caption">Execution status by town</span>
+      </div>
+      <div class="compact-grid town-grid">
+        ${compactMetric(fmt(s.townStatus.totalTowns),'Total Towns','gray')}
+        ${compactMetric(fmt(s.townStatus.visitedTowns),'Visited','blue')}
+        ${compactMetric(fmt(s.townStatus.notVisited),'Not Visited','amber')}
+        ${compactMetric(fmt(s.townStatus.onboardedAtLeastOne),'With Onboarding','green')}
+        ${compactMetric(fmt(s.townStatus.openButNotConverted),'Open, Not Converted','orange')}
+        ${compactMetric(fmt(s.townStatus.notFoundAnything),'No Open Party','red')}
+      </div>
+    </div>`;
+}
+
+function ptypeTable(s,delay=.3){
+  const rows=[['DHQ',s.ptypes.DHQ,'purple'],['P1',s.ptypes.P1,'orange'],['P2',s.ptypes.P2,'amber']];
+  return `
+    <div class="panel ptype-panel anim" style="--delay:${delay}s">
+      <div class="panel-title-row">
+        <h3>DHQ / P1 / P2 Performance</h3>
+        <span class="panel-caption">Town base and conversion</span>
+      </div>
+      <table class="performance-table">
+        <thead>
+          <tr><th>Type</th><th>Towns</th><th>Towns Onboarded</th><th>Conversion</th></tr>
+        </thead>
+        <tbody>
+          ${rows.map(([label,d,tone])=>`
+            <tr>
+              <td><span class="type-pill tone-${tone}">${label}</span></td>
+              <td>${fmt(d.towns)}</td>
+              <td>${fmt(d.onboarded)}</td>
+              <td><strong>${d.conversion}</strong></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function lowDistRow(title,s){
+  return `
+    <div class="lowdist-row">
+      <div class="lowdist-title">${title}</div>
+      <div class="lowdist-metrics">
+        <div><b>${fmt(s.totalTowns)}</b><span>Focus</span></div>
+        <div><b>${fmt(s.visitedTowns)}</b><span>Visited</span></div>
+        <div><b>${fmt(s.onboardedAtLeastOne)}</b><span>Onboarded</span></div>
+        <div><b>${fmt(s.openButNotConverted)}</b><span>Open, No Conv.</span></div>
+        <div><b>${fmt(s.notFoundAnything)}</b><span>Not Found</span></div>
+      </div>
+    </div>`;
+}
+
+function lowDistributionPanel(s,stateKey,delay=.25){
+  if(stateKey==='BIHAR')return '';
+  if(!LOW_DIST_STATE_KEYS.includes(stateKey))return '';
+
+  return `
+    <div class="panel lowdist-panel anim" style="--delay:${delay}s">
+      <div class="panel-title-row">
+        <h3>Low Distribution Focus</h3>
+        <span class="panel-caption">Priority towns requiring action · Sheet1 low-town universe + Existing and New Party submissions</span>
+      </div>
+      ${lowDistRow('P1 · Less Than 25 Billed Outlets',s.lowDist.p1Less25)}
+      ${lowDistRow('P2 · Less Than 15 Billed Outlets',s.lowDist.p2Less15)}
+    </div>`;
+}
+
+function chartPanel(canvasId,title='Date-wise Progress',delay=.2){
+  return `
+    <div class="panel chart-panel anim" style="--delay:${delay}s">
+      <div class="panel-title-row">
+        <h3>${title}</h3>
+        <span class="chart-legend-note">Visited · Open · Onboarded</span>
+      </div>
+      <div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>
+    </div>`;
+}
+
+function receiptClass(v){
+  return String(v).toLowerCase().replace(/\s+/g,'-');
+}
+
+function executionClass(v){
+  return String(v).toLowerCase().replace(/\s+/g,'-');
+}
+
+function renderDataStatusSlide(){
+  const html=`
+    <div class="slide-header">
+      <div class="anim-soft" style="--delay:.05s">
+        <div class="eyebrow">Data Readiness</div>
+        <h2>State Data Status</h2>
+      </div>
+      <div class="header-badge anim-soft" style="--delay:.12s">10 Data Streams Tracked</div>
+    </div>
+
+    ${summaryBanner('<b>State-wise District Receipt Status:</b> Data has been received for 213 districts and 6 districts are pending. The combined district base is 219, giving an overall receipt completion of 97%.',.18)}
+
+    <div class="data-kpi-grid">
+      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.received),'Districts Received','blue',.22)}
+      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.pending),'Districts Pending','amber',.28)}
+      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.total),'Total Districts','purple',.34)}
+      ${kpiCard(DISTRICT_STATUS_SUMMARY.completion,'Receipt Completion','green',.40)}
+    </div>
+
+    <div class="panel anim" style="--delay:.24s;flex:1">
+      <div class="panel-title-row">
+        <h3>State-wise District Receipt Status</h3>
+        <span class="panel-caption">Data receipt tracker</span>
+      </div>
+      <div class="data-status-wrap">
+        <table class="data-status-table">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Status</th>
+              <th>District Received</th>
+              <th>Pending</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${DISTRICT_STATUS_ROWS.map((row,i)=>`
+              <tr class="anim-soft" style="--delay:${0.30 + i*0.03}s">
+                <td style="text-align:left;padding-left:12px">${row.state}</td>
+                <td><span class="status-pill receipt-${receiptClass(row.receipt)}">${row.receipt}</span></td>
+                <td>${fmt(row.received)}</td>
+                <td>${fmt(row.pending)}</td>
+              </tr>`).join('')}
+            <tr>
+              <td style="text-align:left;padding-left:12px"><strong>TOTAL</strong></td>
+              <td></td>
+              <td><strong>${fmt(DISTRICT_STATUS_SUMMARY.received)}</strong></td>
+              <td><strong>${fmt(DISTRICT_STATUS_SUMMARY.pending)}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    ${slideFooter(2,TOTAL_SLIDES)}
+  `;
+
+  document.getElementById('dataStatusSlide').innerHTML=html;
+}
+
+function overallSummaryText(s){
+  return `<b>Overall snapshot:</b> Sales teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>. The overall slide shows consolidated project performance, while sales productivity and working-day tracking are shown separately on each state slide.`;
+}
+
+function stateSummaryText(s,stateKey){
+  const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
+  const activity=activityStats(s.submitted);
+  const visitsPerMember=s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0';
+  return `<b>${STATES[stateKey].name}:</b> District receipt is at <b>${districtCoverage}%</b>. Field teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>, averaging <b>${visitsPerMember}</b> party visits per sales member. Fieldwork started on <b>${formatDate(activity.startDate)}</b>; <b>${fmt(activity.workingDaysElapsed)}</b> working days have elapsed excluding Sundays, with visits made on <b>${fmt(activity.activeVisitDays)}</b> working days.`;
+}
+
+function renderOverallSlide(s){
+  document.getElementById('overallSlideContent').innerHTML=`
+    <div class="slide-header">
+      <div class="anim-soft" style="--delay:.05s">
+        <div class="eyebrow">Management Summary</div>
+        <h2>Overall Project Status</h2>
+      </div>
+      <div class="header-badge anim-soft" style="--delay:.12s">8 Active States</div>
+    </div>
+
+    ${summaryBanner(overallSummaryText(s),.18)}
+
+    <div class="overall-kpi-grid">
+      ${kpiCard(fmt(s.salesTeams),'Sales Members','gray',.22)}
+      ${kpiCard(fmt(s.visited),'Parties Visited','blue',.28)}
+      ${kpiCard(fmt(s.open),'Open Parties','orange',.34)}
+      ${kpiCard(fmt(s.onboarded),'Onboarded','green',.40)}
+      ${kpiCard(s.conversion,'Conversion','purple',.46)}
+    </div>
+
+    <div class="overall-body">
+      <div class="overall-left">
+        ${townCoveragePanel(s,.20)}
+        ${ptypeTable(s,.28)}
+      </div>
+      ${chartPanel('chart_OVERALL','Overall Date-wise Progress',.24)}
+    </div>
+    ${slideFooter(3,TOTAL_SLIDES)}
+  `;
+}
+
+
+
+function normalizeIndiaCoordinate(latValue,lngValue){
+  let lat=Number(latValue);
+  let lng=Number(lngValue);
+  if(!Number.isFinite(lat) || !Number.isFinite(lng))return null;
+
+  const insideIndia=(a,b)=>a>=6 && a<=38 && b>=68 && b<=98.5;
+  if(insideIndia(lat,lng))return {lat,lng};
+
+  // Correct coordinates accidentally supplied as Longitude, Latitude.
+  if(insideIndia(lng,lat))return {lat:lng,lng:lat};
+
+  // Do not plot invalid Indian state coordinates elsewhere in the world.
+  return null;
+}
+
+function getMappableRows(rows){
+  return rows.map(r=>{
+    const coordinate=normalizeIndiaCoordinate(r.latitude,r.longitude);
+    return coordinate ? {...r,latitude:coordinate.lat,longitude:coordinate.lng} : null;
+  }).filter(Boolean);
+}
+
+function uniqueTownMapKey(r){
+  const reference=String(r.referenceTownKey||'').trim();
+  if(reference)return reference;
+  const explicit=String(r.uniqueTown||r.uniqueKey||'').trim();
+  if(explicit)return String(r.sourceStateKey||'')+'|'+matchText(explicit);
+  return referenceTownFallbackKey(r);
+}
+
+function townCoverageClass(type,cat){
+  const t=normType(type);
+  const c=normCat(cat);
+  if(!c)return null;
+  if(t==='P1')return c==='less than 25 billed outlets' ? 'lowP1' : 'highP1';
+  if(t==='P2')return c==='less than 15 billed outlets' ? 'lowP2' : 'highP2';
+  return null;
+}
+
+function buildUniqueTownMap(rows,stateKey){
+  const mappable=getMappableRows(rows);
+  const groups={};
+
+  mappable.forEach(r=>{
+    const key=uniqueTownMapKey(r);
+    if(!key.replace(/\|/g,'').trim())return;
+    if(!groups[key])groups[key]={rows:[]};
+    groups[key].rows.push(r);
+  });
+
+  let towns=Object.values(groups).map(g=>{
+    const submitted=g.rows.filter(isSubmitted);
+    const base=g.rows.find(r=>String(r.cat||'').trim()) || g.rows[0];
+    const onboardingRow=submitted.find(isReady);
+
+    // Use any one valid party coordinate from this town. Do not average coordinates
+    // and do not change the point based on onboarding status.
+    const coordinateRow=g.rows[0];
+    const type=normType(base.villageType);
+    const category=townCoverageClass(type,base.cat);
+
+    return {
+      latitude:coordinateRow.latitude,
+      longitude:coordinateRow.longitude,
+      town:base.town || coordinateRow.town || '',
+      district:base.district || coordinateRow.district || '',
+      tehsil:base.tehsil || coordinateRow.tehsil || '',
+      type,
+      cat:base.cat || '',
+      category,
+      onboarded:Boolean(onboardingRow),
+      partyName:onboardingRow ? String(onboardingRow.partyName||'').trim() : '',
+      submittedCount:submitted.length
+    };
+  });
+
+  if(stateKey==='BIHAR')towns=towns.filter(t=>t.onboarded);
+  else towns=towns.filter(t=>t.category || t.onboarded);
+
+  return {
+    towns,
+    highP1:towns.filter(t=>t.category==='highP1').length,
+    highP2:towns.filter(t=>t.category==='highP2').length,
+    lowP1:towns.filter(t=>t.category==='lowP1').length,
+    lowP2:towns.filter(t=>t.category==='lowP2').length,
+    onboarded:towns.filter(t=>t.onboarded).length
+  };
+}
+
+function haversineKm(lat1,lng1,lat2,lng2){
+  const R=6371;
+  const toRad=d=>d*Math.PI/180;
+  const dLat=toRad(lat2-lat1);
+  const dLng=toRad(lng2-lng1);
+  const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+
+function clusterNearbyTowns(points,thresholdKm=35){
+  const clusters=[];
+  const used=new Array(points.length).fill(false);
+
+  for(let i=0;i<points.length;i++){
+    if(used[i])continue;
+    used[i]=true;
+    const cluster=[points[i]];
+    const queue=[i];
+
+    while(queue.length){
+      const idx=queue.shift();
+      for(let j=0;j<points.length;j++){
+        if(used[j])continue;
+        if(haversineKm(points[idx].latitude,points[idx].longitude,points[j].latitude,points[j].longitude)<=thresholdKm){
+          used[j]=true;
+          queue.push(j);
+          cluster.push(points[j]);
+        }
+      }
+    }
+
+    clusters.push(cluster);
+  }
+
+  return clusters;
+}
+
+function convexHullLatLng(points){
+  if(points.length<=1)return points.map(p=>[p.latitude,p.longitude]);
+  const pts=points.map(p=>({x:p.longitude,y:p.latitude})).sort((a,b)=>a.x===b.x ? a.y-b.y : a.x-b.x);
+  const cross=(o,a,b)=>(a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);
+  const lower=[];
+  for(const p of pts){
+    while(lower.length>=2 && cross(lower[lower.length-2],lower[lower.length-1],p)<=0)lower.pop();
+    lower.push(p);
+  }
+  const upper=[];
+  for(let i=pts.length-1;i>=0;i--){
+    const p=pts[i];
+    while(upper.length>=2 && cross(upper[upper.length-2],upper[upper.length-1],p)<=0)upper.pop();
+    upper.push(p);
+  }
+  const hull=lower.slice(0,-1).concat(upper.slice(0,-1));
+  return hull.map(p=>[p.y,p.x]);
+}
+
+function offsetPoint(lat,lng,bearingDeg,km){
+  const R=6371;
+  const brng=bearingDeg*Math.PI/180;
+  const lat1=lat*Math.PI/180;
+  const lon1=lng*Math.PI/180;
+  const ang=km/R;
+  const lat2=Math.asin(Math.sin(lat1)*Math.cos(ang)+Math.cos(lat1)*Math.sin(ang)*Math.cos(brng));
+  const lon2=lon1+Math.atan2(Math.sin(brng)*Math.sin(ang)*Math.cos(lat1),Math.cos(ang)-Math.sin(lat1)*Math.sin(lat2));
+  return [lat2*180/Math.PI,lon2*180/Math.PI];
+}
+
+function clusterPolygonLatLngs(cluster){
+  if(cluster.length>=3)return convexHullLatLng(cluster);
+  if(cluster.length===2){
+    const a=cluster[0], b=cluster[1];
+    const dx=b.longitude-a.longitude, dy=b.latitude-a.latitude;
+    const len=Math.sqrt(dx*dx+dy*dy) || 1e-9;
+    const px=-dy/len, py=dx/len;
+    const midLat=(a.latitude+b.latitude)/2;
+    const widthKm=6;
+    const latKm=1/111;
+    const lngKm=1/(111*Math.cos(midLat*Math.PI/180) || 1);
+    const offLat=py*widthKm*latKm;
+    const offLng=px*widthKm*lngKm;
+    return [
+      [a.latitude+offLat,a.longitude+offLng],
+      [b.latitude+offLat,b.longitude+offLng],
+      [b.latitude-offLat,b.longitude-offLng],
+      [a.latitude-offLat,a.longitude-offLng]
+    ];
+  }
+  const p=cluster[0];
+  return [0,60,120,180,240,300].map(b=>offsetPoint(p.latitude,p.longitude,b,5));
+}
+
+function polygonCentroidLatLng(polygon){
+  const n=polygon.length || 1;
+  const lat=polygon.reduce((a,p)=>a+p[0],0)/n;
+  const lng=polygon.reduce((a,p)=>a+p[1],0)/n;
+  return [lat,lng];
+}
+
+function expandPolygonForVisibility(polygon,bufferKm=8){
+  if(!polygon || polygon.length<3)return polygon;
+  const [cLat,cLng]=polygonCentroidLatLng(polygon);
+  return polygon.map(([lat,lng])=>{
+    const dist=Math.max(haversineKm(cLat,cLng,lat,lng),0.5);
+    const target=dist+bufferKm;
+    const scale=target/dist;
+    const newLat=cLat + (lat-cLat)*scale;
+    const newLng=cLng + (lng-cLng)*scale;
+    return [newLat,newLng];
+  });
+}
+
+function clusterCentroid(cluster){
+  const n=cluster.length || 1;
+  return {
+    latitude:cluster.reduce((a,p)=>a+p.latitude,0)/n,
+    longitude:cluster.reduce((a,p)=>a+p.longitude,0)/n
+  };
+}
+
+function circlePolygonLatLng(lat,lng,radiusKm=8,steps=28){
+  const ring=[];
+  for(let i=0;i<steps;i++){
+    ring.push(offsetPoint(lat,lng,(360*i)/steps,radiusKm));
+  }
+  return ring;
+}
+
+function pointInPolygon(lat,lng,polygon){
+  let inside=false;
+  for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){
+    const yi=polygon[i][0], xi=polygon[i][1];
+    const yj=polygon[j][0], xj=polygon[j][1];
+    const intersect=((yi>lat)!==(yj>lat)) && (lng < (xj-xi)*(lat-yi)/((yj-yi)||1e-12)+xi);
+    if(intersect)inside=!inside;
+  }
+  return inside;
+}
+
+function createLowClusterRecord(cluster,cat,highPoints){
+  if(!cluster || !cluster.length)return [];
+
+  let polygon;
+  if(cluster.length===1){
+    polygon=circlePolygonLatLng(cluster[0].latitude,cluster[0].longitude,8,30);
+  }else{
+    polygon=clusterPolygonLatLngs(cluster);
+    if(!polygon || polygon.length<3)return [];
+    polygon=expandPolygonForVisibility(polygon,10);
+  }
+
+  const blueInside=highPoints.filter(p=>pointInPolygon(p.latitude,p.longitude,polygon));
+
+  // If the polygon encloses blue towns, split the low cluster into smaller
+  // blue-free clusters instead of keeping a red polygon over blue towns.
+  if(blueInside.length && cluster.length>1){
+    const latSpread=Math.max(...cluster.map(p=>p.latitude)) - Math.min(...cluster.map(p=>p.latitude));
+    const lngSpread=Math.max(...cluster.map(p=>p.longitude)) - Math.min(...cluster.map(p=>p.longitude));
+    const axis=(lngSpread>latSpread) ? 'longitude' : 'latitude';
+    const sorted=[...cluster].sort((a,b)=>a[axis]-b[axis]);
+    const mid=Math.ceil(sorted.length/2);
+    let left=sorted.slice(0,mid);
+    let right=sorted.slice(mid);
+
+    if(!left.length || !right.length){
+      left=cluster.filter((_,i)=>i%2===0);
+      right=cluster.filter((_,i)=>i%2===1);
+    }
+
+    return [
+      ...createLowClusterRecord(left,cat,highPoints),
+      ...createLowClusterRecord(right,cat,highPoints)
+    ];
+  }
+
+  // For a single-town low cluster that still overlaps a blue town at nearly the
+  // same point, keep the low zone but carve a tiny hole so blue is not inside.
+  const holes=(blueInside.length && cluster.length===1)
+    ? blueInside.map(p=>circlePolygonLatLng(p.latitude,p.longitude,8.5,30))
+    : [];
+
+  return [{
+    points:cluster,
+    polygon,
+    holes,
+    blueExcluded:holes.length,
+    centroid:clusterCentroid(cluster),
+    lowP1Count:cat==='lowP1' ? cluster.length : 0,
+    lowP2Count:cat==='lowP2' ? cluster.length : 0,
+    dominant:cat
+  }];
+}
+
+function polygonAreaScore(polygon){
+  if(!polygon || polygon.length<3)return 0;
+  let area=0;
+  for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){
+    const xi=polygon[i][1], yi=polygon[i][0];
+    const xj=polygon[j][1], yj=polygon[j][0];
+    area+=(xj*yi)-(xi*yj);
+  }
+  return Math.abs(area/2);
+}
+
+function buildLowCoverageClusters(towns){
+  const highPoints=towns.filter(t=>t.category==='highP1' || t.category==='highP2');
+  const clustersOut=[];
+
+  ['lowP1','lowP2'].forEach(cat=>{
+    const lowPoints=towns.filter(t=>t.category===cat);
+    const rawClusters=clusterNearbyTowns(lowPoints,45);
+
+    rawClusters.forEach(cluster=>{
+      if(!cluster.length)return;
+      clustersOut.push(...createLowClusterRecord(cluster,cat,highPoints));
+    });
+  });
+
+  // Show only the five largest meaningful clusters across Low P1 and Low P2.
+  // Isolated single-town zones are intentionally removed.
+  return clustersOut
+    .filter(cluster=>cluster.points.length>=2)
+    .sort((a,b)=>{
+      const countDiff=b.points.length-a.points.length;
+      if(countDiff!==0)return countDiff;
+      return polygonAreaScore(b.polygon)-polygonAreaScore(a.polygon);
+    })
+    .slice(0,5);
+}function stateMapSlide(stateKey,s,slideNumber){
+  const coverage=buildUniqueTownMap(s.rows,stateKey);
+  const isBihar=stateKey==='BIHAR';
+  const summary=isBihar
+    ? `<b>Town onboarding view:</b> Bihar does not have the CAT classification in the current data, so this slide shows only unique towns where at least one party has been onboarded.`
+    : `<b>Unique-town coverage view:</b> Each town appears only once. High P1 and P2 towns are shown in blue shades, low P1 and P2 towns in red shades, and towns with at least one onboarded party are highlighted in green. New-party rows without CAT are mapped back to the original town data so low / high coverage classification stays correct.`;
+
+  return `
+    <section class="slide map-slide" id="map_slide_${stateKey}">
+      <div class="slide-header">
+        <div class="anim-soft" style="--delay:.05s">
+          <div class="eyebrow">Geographic Execution View</div>
+          <h2>${STATES[stateKey].name} · Town Coverage &amp; Onboarding Map</h2>
+        </div>
+        <div class="header-badge anim-soft" style="--delay:.12s">Animated Onboarding · Top 5 Low Clusters</div>
+      </div>
+
+      ${summaryBanner(summary,.16)}
+
+      <div class="map-kpi-grid${isBihar?' bihar-only':''}">
+        ${isBihar ? kpiCard(fmt(coverage.onboarded),'Onboarded Towns','green',.20) : `
+          ${kpiCard(fmt(coverage.highP1),'High P1 Towns','blue',.20)}
+          ${kpiCard(fmt(coverage.highP2),'High P2 Towns','blue',.25)}
+          ${kpiCard(fmt(coverage.lowP1),'Low P1 Towns','red',.30)}
+          ${kpiCard(fmt(coverage.lowP2),'Low P2 Towns','red',.35)}
+          ${kpiCard(fmt(coverage.onboarded),'Onboarded Towns','green',.40)}`}
+      </div>
+
+      <div class="map-shell anim-soft" style="--delay:.22s">
+        <div id="map_${stateKey}" class="state-map"></div>
+        <div id="map_empty_${stateKey}" class="map-empty">No valid town-level latitude/longitude was found for this state.</div>
+      </div>
+
+      <div class="map-legend anim" style="--delay:.28s">
+        <div class="legend-items">
+          ${isBihar ? '' : `
+            <span class="legend-item"><i class="legend-dot legend-high-p1"></i>High P1</span>
+            <span class="legend-item"><i class="legend-dot legend-high-p2"></i>High P2</span>
+            <span class="legend-item"><i class="legend-dot legend-low-p1"></i>Low P1</span>
+            <span class="legend-item"><i class="legend-dot legend-low-p2"></i>Low P2</span>`}
+          <span class="legend-item"><i class="legend-dot legend-onboarded"></i>Onboarded town</span>
+        </div>
+        <div class="map-note">Low P1 = Less Than 25 Billed Outlets. Low P2 = Less Than 15 Billed Outlets. New-party rows retain their own P1/P2 classification and inherit CAT only from the matching same-type original town. Onboarded towns use an animated green marker with a light green 10 km coverage circle. Only the five largest blue-free low-coverage clusters are shown on each state map. Isolated single-town and very small zones are excluded.</div>
+      </div>
+      ${slideFooter(slideNumber,TOTAL_SLIDES,STATES[stateKey].name+' Map')}
+    </section>`;
+}
+
+function renderMaps(byState){
+  setTimeout(()=>{
+    STATE_KEYS.forEach(k=>renderTownCoverageMap('map_'+k,byState[k].rows,k));
+  },350);
+}
+
+function renderTownCoverageMap(canvasId,rows,stateKey){
+  const empty=document.getElementById('map_empty_'+stateKey);
+  const coverage=buildUniqueTownMap(rows,stateKey);
+  const holder=document.getElementById(canvasId);
+  if(!holder)return;
+
+  if(typeof L==='undefined' || !coverage.towns.length){
+    if(empty)empty.style.display='flex';
+    return;
+  }
+
+  if(mapInstances[stateKey])mapInstances[stateKey].remove();
+
+  const map=L.map(canvasId,{zoomControl:true,attributionControl:true,preferCanvas:true,zoomSnap:0.25});
+  mapInstances[stateKey]=map;
+
+  map.createPane('zonesPane');
+  map.getPane('zonesPane').style.zIndex=350;
+  map.createPane('coveragePane');
+  map.getPane('coveragePane').style.zIndex=390;
+  map.createPane('baseMarkersPane');
+  map.getPane('baseMarkersPane').style.zIndex=430;
+  map.createPane('onboardedPane');
+  map.getPane('onboardedPane').style.zIndex=470;
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19,
+    attribution:'&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const colors={highP1:'#1d4ed8',highP2:'#60a5fa',lowP1:'#dc2626',lowP2:'#fca5a5',onboarded:'#16a34a'};
+  const labels={highP1:'High P1',highP2:'High P2',lowP1:'Low P1',lowP2:'Low P2'};
+
+  const lowClusters=buildLowCoverageClusters(coverage.towns);
+  lowClusters.forEach(cluster=>{
+    const zoneColor=cluster.dominant==='lowP1' ? colors.lowP1 : colors.lowP2;
+    const zoneName=cluster.dominant==='lowP1' ? 'Low P1 territory cluster' : 'Low P2 territory cluster';
+    const polygonRings=[cluster.polygon,...cluster.holes];
+    const excludedText=cluster.blueExcluded ? `<br>Blue towns excluded: ${cluster.blueExcluded}` : '';
+
+    L.polygon(polygonRings,{
+      pane:'zonesPane',
+      color:zoneColor,
+      weight:4,
+      opacity:1,
+      fillColor:zoneColor,
+      fillOpacity:cluster.dominant==='lowP1' ? 0.30 : 0.23,
+      dashArray:'9,5',
+      smoothFactor:1.1,
+      fillRule:'evenodd'
+    }).bindPopup(`<b>${zoneName}</b><br>Low P1 towns: ${cluster.lowP1Count}<br>Low P2 towns: ${cluster.lowP2Count}<br>Total low towns: ${cluster.points.length}${excludedText}`)
+      .bindTooltip(`${zoneName} · ${cluster.points.length} low towns`,{sticky:true,direction:'center'})
+      .addTo(map);
+
+    const zoneLabel=cluster.points.length===1 ? 'Zone' : 'Cluster';
+    const labelHtml=`<div style="background:${cluster.dominant==='lowP1' ? 'rgba(220,38,38,.95)' : 'rgba(252,165,165,.98)'};color:${cluster.dominant==='lowP1' ? '#fff' : '#7f1d1d'};border:2px solid ${zoneColor};padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;box-shadow:0 2px 8px rgba(15,23,42,.22);">${cluster.dominant==='lowP1' ? 'Low P1' : 'Low P2'} ${zoneLabel} (${cluster.points.length})</div>`;
+    L.marker([cluster.centroid.latitude,cluster.centroid.longitude],{
+      pane:'zonesPane',
+      interactive:false,
+      icon:L.divIcon({className:'',html:labelHtml,iconSize:[116,24],iconAnchor:[58,12]})
+    }).addTo(map);
+  });
+
+  const nonOnboarded=coverage.towns.filter(t=>!t.onboarded);
+  const onboarded=coverage.towns.filter(t=>t.onboarded);
+
+  function addTownMarker(t,isOnboarded){
+    const color=isOnboarded ? colors.onboarded : colors[t.category];
+    if(!color)return;
+    const place=[t.town,t.tehsil,t.district].filter(Boolean).join(', ') || STATES[stateKey].name;
+    const classLabel=t.category ? labels[t.category] : 'Not classified';
+    const popup=`<b>${place}</b><br>Town type: ${t.type || '-'}<br>Coverage: ${classLabel}${t.cat ? '<br>CAT: '+t.cat : ''}${isOnboarded ? '<br><b style="color:#15803d">Onboarded town</b><br>Coverage circle: 10 km radius' : ''}`;
+
+    if(isOnboarded){
+      L.circle([t.latitude,t.longitude],{
+        pane:'coveragePane',
+        radius:10000,
+        color:'#22c55e',
+        weight:1.5,
+        opacity:0.85,
+        fillColor:'#86efac',
+        fillOpacity:0.18,
+        className:'onboarded-coverage-pulse'
+      }).bindPopup(popup).addTo(map);
+
+      const animatedIcon=L.divIcon({
+        className:'',
+        html:'<div class="pulse-marker"><span class="pulse-ring"></span><span class="pulse-ring"></span><span class="pulse-ring"></span><span class="pulse-dot"></span></div>',
+        iconSize:[30,30],
+        iconAnchor:[15,15],
+        popupAnchor:[0,-10]
+      });
+
+      const marker=L.marker([t.latitude,t.longitude],{pane:'onboardedPane',icon:animatedIcon})
+        .bindPopup(popup)
+        .bindTooltip(`${place}<br>Onboarded`);
+
+      marker.addTo(map);
+      return;
+    }
+
+    const marker=L.circleMarker([t.latitude,t.longitude],{
+      pane:'baseMarkersPane',
+      radius:6,
+      color:'#ffffff',
+      weight:2,
+      fillColor:color,
+      fillOpacity:1
+    }).bindPopup(popup).bindTooltip(`${place}<br>${classLabel}`);
+
+    marker.addTo(map);
+  }
+
+  nonOnboarded.forEach(t=>addTownMarker(t,false));
+  onboarded.forEach(t=>addTownMarker(t,true));
+
+  const latLngs=coverage.towns.map(t=>[t.latitude,t.longitude]);
+  const bounds=L.latLngBounds(latLngs);
+
+  function applyTownZoom(){
+    map.invalidateSize({pan:false});
+    if(!bounds.isValid()){
+      map.setView([coverage.towns[0].latitude,coverage.towns[0].longitude],10);
+      return;
+    }
+    if(latLngs.length===1){
+      map.setView(latLngs[0],11);
+      return;
+    }
+    map.fitBounds(bounds,{padding:[18,18],maxZoom:11.5,animate:false});
+  }
+
+  applyTownZoom();
+  setTimeout(applyTownZoom,250);
+  setTimeout(applyTownZoom,700);
+
+  if(mapObservers[stateKey])mapObservers[stateKey].disconnect();
+  if(typeof IntersectionObserver!=='undefined'){
+    const slide=holder.closest('.map-slide')||holder;
+    mapObservers[stateKey]=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          requestAnimationFrame(()=>requestAnimationFrame(applyTownZoom));
+          setTimeout(applyTownZoom,180);
+        }
+      });
+    },{threshold:0.25});
+    mapObservers[stateKey].observe(slide);
+  }
+}
+
+function renderStateSlides(byState){
+  let html='';
+
+  STATE_KEYS.forEach((k,index)=>{
+    const s=byState[k];
+    const slideNumber=4+(index*2);
+    const mapSlideNumber=slideNumber+1;
+    const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
+
+    html+=`
+      <section class="slide state-slide" id="state_${k}">
+        <div class="slide-header">
+          <div class="anim-soft" style="--delay:.05s">
+            <div class="eyebrow">State-wise Performance</div>
+            <h2>${STATES[k].name}</h2>
+          </div>
+          <div class="header-status anim-soft" style="--delay:.12s">
+            <span>${fmt(s.districtReceived)} / ${fmt(s.requested)} Districts</span>
+            <strong>${districtCoverage}% Received</strong>
+          </div>
+        </div>
+
+        ${summaryBanner(stateSummaryText(s,k),.18)}
+
+        <div class="state-kpi-grid">
+          ${kpiCard(fmt(s.salesTeams),'Sales Teams','gray',.20)}
+          ${kpiCard(fmt(s.visited),'Parties Visited','blue',.26)}
+          ${kpiCard(fmt(s.onboarded),'Onboarded','green',.32)}
+          ${kpiCard(s.conversion,'Conversion','purple',.38)}
+          ${kpiCard(s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0','Parties Visited / Sales Member','blue',.44)}
+          ${kpiCard(fmt(activityStats(s.submitted).workingDaysElapsed),'Working Days Since Start','amber',.50)}
+          ${kpiCard(fmt(activityStats(s.submitted).activeVisitDays),'Working Days With Visits','green',.56)}
+        </div>
+
+        <div class="state-body">
+          <div class="state-left">
+            ${townCoveragePanel(s,.20)}
+            ${ptypeTable(s,.28)}
+          </div>
+          <div class="state-right">
+            ${chartPanel('chart_'+k,'Date-wise Progress',.24)}
+            ${lowDistributionPanel(s,k,.30)}
+          </div>
+        </div>
+        ${slideFooter(slideNumber,TOTAL_SLIDES,STATES[k].name)}
+      </section>
+      ${stateMapSlide(k,s,mapSlideNumber)}`;
+  });
+
+  document.getElementById('stateSlides').innerHTML=html;
+}
+
+function renderCharts(overall,byState){
+  setTimeout(()=>{
+    renderTrend('chart_OVERALL',overall.submitted,'OVERALL');
+    STATE_KEYS.forEach(k=>renderTrend('chart_'+k,byState[k].submitted,k));
+  },80);
+}
+
+function renderTrend(canvasId,rows,k){
+  const counts={};
+
+  rows.forEach(r=>{
+    const d=getDate(r);
+    if(!d)return;
+    const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(!counts[key])counts[key]={visited:0,open:0,onboarded:0};
+    counts[key].visited++;
+    if(isOpen(r))counts[key].open++;
+    if(isReady(r))counts[key].onboarded++;
+  });
+
+  const keys=Object.keys(counts).sort();
+  const labels=keys.map(x=>{ const p=x.split('-'); return p[2]+'/'+p[1]; });
+  const visited=keys.map(x=>counts[x].visited);
+  const open=keys.map(x=>counts[x].open);
+  const onboarded=keys.map(x=>counts[x].onboarded);
+
+  if(chartInstances[k])chartInstances[k].destroy();
+
+  const ctx=document.getElementById(canvasId);
+  if(!ctx || typeof Chart==='undefined')return;
+
+  const valueLabelPlugin={
+    id:'valueLabels_'+k,
+    afterDatasetsDraw(chart){
+      const c=chart.ctx;
+      c.save();
+      c.font='bold 10px Arial';
+      c.textAlign='center';
+      c.textBaseline='bottom';
+      chart.data.datasets.forEach((ds,di)=>{
+        const meta=chart.getDatasetMeta(di);
+        if(!meta || meta.hidden)return;
+        c.fillStyle=di===0?'#334155':(di===1?'#ea580c':'#16a34a');
+        meta.data.forEach((point,i)=>{
+          const val=ds.data[i];
+          if(val===null || val===undefined || val==='')return;
+          const y=point.y-(di===0?4:8);
+          c.fillText(String(val),point.x,y);
+        });
+      });
+      c.restore();
+    }
+  };
+
+  const maxVal=Math.max(0,...visited,...open,...onboarded);
+
+  chartInstances[k]=new Chart(ctx,{
+    data:{
+      labels,
+      datasets:[
+        {type:'bar',label:'Visited',data:visited,backgroundColor:'rgba(100,116,139,.28)',borderColor:'#64748b',borderWidth:1,borderRadius:7},
+        {type:'line',label:'Open',data:open,borderColor:'#ea580c',backgroundColor:'#ea580c',borderWidth:3,tension:.25,pointRadius:4},
+        {type:'line',label:'Onboarded',data:onboarded,borderColor:'#16a34a',backgroundColor:'#16a34a',borderWidth:3,tension:.25,pointRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      layout:{padding:{top:18,right:8,left:4,bottom:0}},
+      plugins:{
+        legend:{position:'top',align:'end',labels:{boxWidth:14,usePointStyle:true,font:{size:10,weight:'bold'}}},
+        tooltip:{enabled:true}
+      },
+      scales:{
+        y:{beginAtZero:true,suggestedMax:maxVal>0 ? Math.ceil(maxVal*1.25) : 5,ticks:{precision:0,font:{size:9}}},
+        x:{ticks:{font:{size:9,weight:'bold'},maxRotation:35,minRotation:0,autoSkip:true,maxTicksLimit:12}}
+      }
+    },
+    plugins:[valueLabelPlugin]
+  });
+}
+
+setTimeout(()=>{
+  if(rawData.length===0){
+    document.getElementById('loading').style.display='block';
+    document.getElementById('loading').innerText='No data loaded. Check that the Google Sheet is shared publicly / accessible.';
+  }
+},9000);
+  </script>
+</body>
+</html>
