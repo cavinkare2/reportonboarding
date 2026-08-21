@@ -686,6 +686,259 @@
       #dataStatusSlide .status-pill{font-size:7.5px}
     }
 
+
+
+    /* FULL-SPACE READABLE OVERRIDE
+       Designed for GitHub Pages viewed on office laptops / 125% display scaling.
+       The key change is structural: content fills the remaining slide height instead
+       of staying content-height and leaving a large white lower half. */
+    @media screen and (min-width:1051px){
+      .slide{
+        padding:10px 18px 6px!important;
+        height:100vh!important;
+        min-height:0!important;
+        overflow:hidden!important;
+      }
+
+      .slide-header{margin-bottom:4px!important;gap:10px!important}
+      .eyebrow{font-size:13px!important;line-height:1.05!important;margin-bottom:2px!important}
+      .slide-header h2{font-size:34px!important;line-height:1!important}
+      .header-badge,.header-status{font-size:12.5px!important;padding:7px 11px!important}
+      .header-status strong{font-size:11px!important}
+
+      .summary-banner{margin-bottom:5px!important;padding:7px 10px!important;border-radius:10px!important}
+      .summary-banner p{font-size:13.5px!important;line-height:1.2!important}
+
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{
+        gap:6px!important;
+        margin-bottom:5px!important;
+        flex:0 0 auto!important;
+      }
+      .kpi-card{
+        min-height:60px!important;
+        padding:6px 5px 5px!important;
+        display:flex!important;
+        flex-direction:column!important;
+        justify-content:center!important;
+      }
+      .kpi-value{font-size:31px!important;line-height:.95!important}
+      .kpi-label{font-size:10px!important;line-height:1.05!important;margin-top:4px!important}
+
+      .overall-body,.state-body{
+        flex:1 1 auto!important;
+        min-height:0!important;
+        height:auto!important;
+        align-items:stretch!important;
+        grid-template-rows:minmax(0,1fr)!important;
+        gap:7px!important;
+      }
+
+      /* IMPORTANT: height:auto + grid stretch works better than height:100%
+         inside a grid track when the browser is zoomed/scaled. */
+      .overall-left,.state-left{
+        display:grid!important;
+        grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr)!important;
+        align-self:stretch!important;
+        align-items:stretch!important;
+        height:auto!important;
+        min-height:0!important;
+        gap:7px!important;
+      }
+      .overall-left>.panel,.state-left>.panel{
+        height:auto!important;
+        min-height:0!important;
+        margin:0!important;
+        padding:10px 11px!important;
+        display:flex!important;
+        flex-direction:column!important;
+      }
+
+      .panel-title-row{margin-bottom:7px!important;gap:8px!important;flex:0 0 auto!important}
+      .panel h3{font-size:17px!important;line-height:1.05!important}
+      .panel-caption,.chart-legend-note{font-size:10px!important}
+
+      /* Town Coverage fills its entire panel. */
+      .overall-left .compact-grid,.state-left .compact-grid{
+        flex:1 1 auto!important;
+        min-height:0!important;
+        height:auto!important;
+        grid-template-columns:repeat(3,minmax(0,1fr))!important;
+        grid-template-rows:repeat(2,minmax(0,1fr))!important;
+        gap:7px!important;
+      }
+      .overall-left .compact-metric,.state-left .compact-metric{
+        min-height:0!important;
+        height:auto!important;
+        padding:8px 5px!important;
+        display:flex!important;
+        flex-direction:column!important;
+        justify-content:center!important;
+      }
+      .overall-left .compact-metric b,.state-left .compact-metric b{
+        font-size:28px!important;
+        line-height:1!important;
+      }
+      .overall-left .compact-metric span,.state-left .compact-metric span{
+        font-size:10px!important;
+        line-height:1.08!important;
+        margin-top:5px!important;
+      }
+
+      /* DHQ / P1 / P2 table also fills its panel vertically. */
+      .overall-left .performance-table,.state-left .performance-table{
+        flex:1 1 auto!important;
+        width:100%!important;
+        height:100%!important;
+        min-height:0!important;
+        table-layout:fixed!important;
+        font-size:13px!important;
+      }
+      .overall-left .performance-table thead tr,.state-left .performance-table thead tr{height:20%!important}
+      .overall-left .performance-table tbody tr,.state-left .performance-table tbody tr{height:26.66%!important}
+      .overall-left .performance-table th,.state-left .performance-table th{
+        font-size:10px!important;
+        padding:5px 5px!important;
+      }
+      .overall-left .performance-table td,.state-left .performance-table td{
+        font-size:14px!important;
+        padding:7px 5px!important;
+      }
+      .overall-left .type-pill,.state-left .type-pill{
+        font-size:12px!important;
+        padding:5px 12px!important;
+        min-width:64px!important;
+      }
+
+      /* Right column remains full-height but its labels are larger. */
+      .state-right{height:auto!important;align-self:stretch!important;min-height:0!important;gap:7px!important}
+      .chart-panel{flex:1 1 auto!important;min-height:0!important;padding:9px 11px!important}
+      .chart-wrap{flex:1 1 auto!important;min-height:0!important;height:auto!important}
+      .lowdist-panel{flex:0 0 auto!important;padding:8px 10px 7px!important}
+      .lowdist-row{grid-template-columns:165px 1fr!important;gap:7px!important;padding:6px 0!important}
+      .lowdist-title{font-size:10.5px!important;line-height:1.12!important}
+      .lowdist-metrics{gap:5px!important}
+      .lowdist-metrics div{padding:6px 3px!important}
+      .lowdist-metrics b{font-size:17px!important}
+      .lowdist-metrics span{font-size:7.5px!important;line-height:1.05!important}
+
+      /* DATA STATUS: explicitly consume the remaining viewport height.
+         This removes the large white lower half visible on GitHub. */
+      #dataStatusSlide .data-kpi-grid .kpi-card{min-height:64px!important}
+      #dataStatusSlide .panel{
+        flex:none!important;
+        height:calc(100vh - 190px)!important;
+        min-height:0!important;
+        max-height:none!important;
+        display:flex!important;
+        flex-direction:column!important;
+        padding:10px 12px!important;
+        overflow:hidden!important;
+      }
+      #dataStatusSlide .panel h3{font-size:17px!important}
+      #dataStatusSlide .panel-caption{font-size:10px!important}
+      #dataStatusSlide .data-status-wrap{
+        flex:1 1 auto!important;
+        height:auto!important;
+        min-height:0!important;
+        overflow:hidden!important;
+      }
+      #dataStatusSlide .data-status-table{
+        width:100%!important;
+        height:100%!important;
+        table-layout:fixed!important;
+      }
+      #dataStatusSlide .data-status-table thead tr{height:9%!important}
+      #dataStatusSlide .data-status-table tbody tr{height:8.27%!important}
+      #dataStatusSlide .data-status-table th{
+        font-size:10px!important;
+        padding:6px 6px!important;
+      }
+      #dataStatusSlide .data-status-table td{
+        font-size:14px!important;
+        line-height:1.05!important;
+        padding:6px 8px!important;
+      }
+      #dataStatusSlide .status-pill{
+        font-size:11px!important;
+        padding:4px 8px!important;
+      }
+
+      .slide-footer{font-size:8.5px!important;margin-top:3px!important;padding-top:3px!important;flex:0 0 auto!important}
+
+      .map-kpi-grid .kpi-card{min-height:58px!important}
+      .map-shell{flex:1 1 auto!important;min-height:0!important}
+      .map-legend{font-size:9px!important;margin-top:4px!important}
+      .map-note{font-size:8px!important;line-height:1.15!important}
+    }
+
+    /* This is the most common effective viewport when Windows/browser scaling is ~125%.
+       Do NOT collapse fonts aggressively; use the newly reclaimed whitespace instead. */
+    @media screen and (min-width:1051px) and (max-height:820px){
+      .slide{padding:7px 14px 4px!important}
+      .slide-header{margin-bottom:3px!important}
+      .eyebrow{font-size:11px!important}
+      .slide-header h2{font-size:29px!important}
+      .header-badge,.header-status{font-size:10.5px!important;padding:5px 8px!important}
+      .header-status strong{font-size:9.5px!important}
+
+      .summary-banner{margin-bottom:4px!important;padding:5px 8px!important}
+      .summary-banner p{font-size:11.5px!important;line-height:1.16!important}
+
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{gap:4px!important;margin-bottom:4px!important}
+      .kpi-card{min-height:52px!important;padding:4px 3px!important}
+      .kpi-value{font-size:27px!important}
+      .kpi-label{font-size:8.5px!important;margin-top:3px!important}
+
+      .overall-body,.state-body{gap:5px!important}
+      .overall-left,.state-left,.state-right{gap:5px!important}
+      .overall-left>.panel,.state-left>.panel,.chart-panel{padding:7px 8px!important}
+      .panel-title-row{margin-bottom:4px!important}
+      .panel h3{font-size:14px!important}
+      .panel-caption,.chart-legend-note{font-size:8.2px!important}
+
+      .overall-left .compact-grid,.state-left .compact-grid{gap:5px!important}
+      .overall-left .compact-metric,.state-left .compact-metric{padding:5px 3px!important}
+      .overall-left .compact-metric b,.state-left .compact-metric b{font-size:23px!important}
+      .overall-left .compact-metric span,.state-left .compact-metric span{font-size:8px!important;margin-top:3px!important}
+
+      .overall-left .performance-table th,.state-left .performance-table th{font-size:8.2px!important;padding:3px!important}
+      .overall-left .performance-table td,.state-left .performance-table td{font-size:11.5px!important;padding:4px 3px!important}
+      .overall-left .type-pill,.state-left .type-pill{font-size:9.5px!important;padding:3px 8px!important;min-width:55px!important}
+
+      .lowdist-panel{padding:5px 7px 4px!important}
+      .lowdist-row{grid-template-columns:135px 1fr!important;gap:5px!important;padding:3px 0!important}
+      .lowdist-title{font-size:8.3px!important}
+      .lowdist-metrics{gap:3px!important}
+      .lowdist-metrics div{padding:3px 2px!important}
+      .lowdist-metrics b{font-size:13px!important}
+      .lowdist-metrics span{font-size:6px!important}
+
+      #dataStatusSlide .data-kpi-grid .kpi-card{min-height:52px!important}
+      #dataStatusSlide .panel{
+        height:calc(100vh - 160px)!important;
+        padding:7px 9px!important;
+      }
+      #dataStatusSlide .panel h3{font-size:14px!important}
+      #dataStatusSlide .data-status-table th{font-size:8px!important;padding:3px 4px!important}
+      #dataStatusSlide .data-status-table td{font-size:11px!important;padding:4px 5px!important}
+      #dataStatusSlide .status-pill{font-size:9px!important;padding:2px 5px!important}
+      .slide-footer{font-size:7px!important;margin-top:2px!important;padding-top:2px!important}
+    }
+
+    @media screen and (min-width:1051px) and (max-height:700px){
+      .slide-header h2{font-size:26px!important}
+      .summary-banner p{font-size:10.3px!important}
+      .kpi-card{min-height:44px!important}
+      .kpi-value{font-size:23px!important}
+      .kpi-label{font-size:7.5px!important}
+      .panel h3{font-size:12.5px!important}
+      .overall-left .compact-metric b,.state-left .compact-metric b{font-size:19px!important}
+      .overall-left .compact-metric span,.state-left .compact-metric span{font-size:7px!important}
+      .overall-left .performance-table td,.state-left .performance-table td{font-size:10px!important}
+      #dataStatusSlide .panel{height:calc(100vh - 145px)!important}
+      #dataStatusSlide .data-status-table td{font-size:9.7px!important;padding:3px 4px!important}
+    }
+
     @page{size:13.333in 7.5in;margin:0}
     @media print{
       html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;zoom:1}
@@ -2549,7 +2802,7 @@ function renderTrend(canvasId,rows,k){
       },
       scales:{
         y:{beginAtZero:true,suggestedMax:maxVal>0 ? Math.ceil(maxVal*1.25) : 5,ticks:{precision:0,font:{size:10}}},
-        x:{ticks:{font:{size:10,weight:'bold'},maxRotation:35,minRotation:0,autoSkip:true,maxTicksLimit:12}}
+        x:{ticks:{font:{size:11,weight:'bold'},maxRotation:35,minRotation:0,autoSkip:true,maxTicksLimit:12}}
       }
     },
     plugins:[valueLabelPlugin]
