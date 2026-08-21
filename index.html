@@ -456,6 +456,236 @@
       }
     }
 
+
+
+    /* Whitespace reduction / space utilisation
+       Keep readable type; use available vertical space instead of leaving large blank areas. */
+    @media screen{
+      /* Fill the left side of Overall / State performance slides. */
+      .overall-left,.state-left{height:100%;align-self:stretch}
+      .overall-left>.panel,.state-left>.panel{
+        display:flex;
+        flex-direction:column;
+        min-height:0;
+      }
+      .overall-left>.panel:first-child,.state-left>.panel:first-child{flex:.92 1 0}
+      .overall-left>.ptype-panel,.state-left>.ptype-panel{flex:1.08 1 0}
+
+      .overall-left .compact-grid,.state-left .compact-grid{
+        flex:1;
+        grid-auto-rows:1fr;
+        align-items:stretch;
+      }
+      .overall-left .compact-metric,.state-left .compact-metric{
+        height:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+      }
+      .overall-left .performance-table,.state-left .performance-table{
+        flex:1;
+        height:100%;
+      }
+      .overall-left .performance-table tbody tr,
+      .state-left .performance-table tbody tr{height:33.33%}
+
+      /* Data-readiness had a large unused lower half. Give the table more breathing room
+         while retaining the same full-screen report-slide structure. */
+      #dataStatusSlide .panel{
+        flex:0 0 54vh!important;
+        min-height:470px;
+        max-height:610px;
+        display:flex;
+        flex-direction:column;
+      }
+      #dataStatusSlide .data-status-wrap{
+        flex:1;
+        height:auto;
+        overflow:hidden;
+      }
+      #dataStatusSlide .data-status-table{height:100%}
+      #dataStatusSlide .data-status-table th{font-size:9px;padding:5px 5px}
+      #dataStatusSlide .data-status-table td{font-size:11.5px;padding:6px 6px}
+      #dataStatusSlide .status-pill{font-size:9.5px;padding:3px 6px}
+      #dataStatusSlide .slide-footer{margin-top:5px}
+
+      /* Moderate viewport: still fill the screen, but don't force oversized rows. */
+      @media (max-height:900px){
+        #dataStatusSlide .panel{flex-basis:51vh!important;min-height:390px;max-height:500px}
+        #dataStatusSlide .data-status-table th{font-size:8px;padding:3.5px 4px}
+        #dataStatusSlide .data-status-table td{font-size:10px;padding:4px 5px}
+        #dataStatusSlide .status-pill{font-size:8.5px;padding:2px 5px}
+      }
+
+      @media (max-height:820px){
+        .overall-left>.panel:first-child,.state-left>.panel:first-child{flex:.88 1 0}
+        .overall-left>.ptype-panel,.state-left>.ptype-panel{flex:1.12 1 0}
+        #dataStatusSlide .panel{flex-basis:50vh!important;min-height:350px;max-height:430px}
+        #dataStatusSlide .data-status-table th{font-size:7.5px;padding:3px}
+        #dataStatusSlide .data-status-table td{font-size:9.2px;padding:3.2px 4px}
+        #dataStatusSlide .status-pill{font-size:8px;padding:2px 4px}
+      }
+
+      @media (max-height:700px){
+        #dataStatusSlide .panel{flex-basis:49vh!important;min-height:300px;max-height:350px}
+        #dataStatusSlide .data-status-table th{font-size:6.8px;padding:2px 2.5px}
+        #dataStatusSlide .data-status-table td{font-size:8.3px;padding:2.4px 3px}
+        #dataStatusSlide .status-pill{font-size:7.2px;padding:1.5px 3px}
+      }
+    }
+
+
+
+    /* FINAL MAXIMIZED DESKTOP LAYOUT
+       Use the full GitHub viewport: larger components, less dead white space. */
+    @media screen and (min-width:1051px){
+      .slide{padding:16px 22px 10px}
+      .slide-header{margin-bottom:5px}
+      .eyebrow{font-size:12px}
+      .slide-header h2{font-size:31px}
+      .header-badge,.header-status{font-size:11.5px;padding:6px 10px}
+      .header-status strong{font-size:10.5px}
+
+      .summary-banner{margin-bottom:5px;padding:7px 10px}
+      .summary-banner p{font-size:12.5px;line-height:1.22}
+
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{gap:6px;margin-bottom:5px}
+      .kpi-card{padding:7px 5px 6px;min-height:54px;display:flex;flex-direction:column;justify-content:center}
+      .kpi-value{font-size:28px}
+      .kpi-label{font-size:9.5px;margin-top:3px}
+
+      .overall-body,.state-body{gap:7px;flex:1;min-height:0}
+      .overall-left,.state-left,.state-right{gap:7px;height:100%;min-height:0}
+
+      /* Make left-side state/overall panels consume their full column height. */
+      .overall-left,.state-left{
+        display:grid!important;
+        grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr);
+        align-content:stretch;
+      }
+      .overall-left>.panel,.state-left>.panel{
+        height:100%;
+        min-height:0;
+        padding:8px 10px;
+      }
+      .overall-left>.panel:first-child,.state-left>.panel:first-child,
+      .overall-left>.ptype-panel,.state-left>.ptype-panel{flex:none!important}
+
+      .panel-title-row{margin-bottom:6px}
+      .panel h3{font-size:15.5px}
+      .panel-caption,.chart-legend-note{font-size:9.5px}
+
+      .overall-left .compact-grid,.state-left .compact-grid{
+        height:calc(100% - 24px);
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        grid-template-rows:repeat(2,minmax(0,1fr));
+        gap:6px;
+      }
+      .overall-left .compact-metric,.state-left .compact-metric{
+        padding:8px 4px;
+        justify-content:center;
+      }
+      .overall-left .compact-metric b,.state-left .compact-metric b{font-size:23px}
+      .overall-left .compact-metric span,.state-left .compact-metric span{font-size:9px;margin-top:4px}
+
+      .overall-left .performance-table,.state-left .performance-table{
+        height:calc(100% - 24px);
+        table-layout:fixed;
+        font-size:12px;
+      }
+      .overall-left .performance-table thead tr,.state-left .performance-table thead tr{height:22%}
+      .overall-left .performance-table tbody tr,.state-left .performance-table tbody tr{height:26%}
+      .overall-left .performance-table th,.state-left .performance-table th{font-size:9px;padding:5px}
+      .overall-left .performance-table td,.state-left .performance-table td{font-size:12.5px;padding:6px 4px}
+      .overall-left .type-pill,.state-left .type-pill{font-size:11px;padding:4px 10px}
+
+      /* Right side: larger chart/low-distribution elements while retaining fit. */
+      .chart-panel{padding:8px 10px}
+      .lowdist-panel{padding:7px 9px 6px}
+      .lowdist-row{grid-template-columns:155px 1fr;gap:6px;padding:5px 0}
+      .lowdist-title{font-size:9.5px}
+      .lowdist-metrics div{padding:5px 3px}
+      .lowdist-metrics b{font-size:15px}
+      .lowdist-metrics span{font-size:7.2px}
+
+      /* DATA STATUS: use virtually all remaining height; no big blank lower half. */
+      #dataStatusSlide .panel{
+        flex:1 1 auto!important;
+        min-height:0!important;
+        max-height:none!important;
+        display:flex;
+        flex-direction:column;
+        padding:8px 10px;
+      }
+      #dataStatusSlide .data-status-wrap{
+        flex:1 1 auto;
+        min-height:0;
+        height:auto!important;
+        overflow:hidden;
+      }
+      #dataStatusSlide .data-status-table{
+        width:100%;
+        height:100%!important;
+        table-layout:fixed;
+      }
+      #dataStatusSlide .data-status-table thead tr{height:8%}
+      #dataStatusSlide .data-status-table tbody tr{height:8.35%}
+      #dataStatusSlide .data-status-table th{font-size:10px;padding:6px}
+      #dataStatusSlide .data-status-table td{font-size:13px;padding:7px 7px;line-height:1.12}
+      #dataStatusSlide .status-pill{font-size:10.5px;padding:3px 7px}
+      #dataStatusSlide .slide-footer{margin-top:4px}
+
+      /* Maps should also visually fill the slide. */
+      .map-kpi-grid{gap:6px;margin-bottom:5px}
+      .map-shell{min-height:0;flex:1}
+      .map-legend{margin-top:4px}
+
+      .slide-footer{margin-top:3px;padding-top:3px;font-size:8px}
+    }
+
+    /* Keep readability even when GitHub/Windows scaling reduces effective height. */
+    @media screen and (min-width:1051px) and (max-height:820px){
+      .slide{padding:10px 17px 6px}
+      .eyebrow{font-size:10px}
+      .slide-header h2{font-size:26px}
+      .summary-banner p{font-size:10.7px}
+      .kpi-card{min-height:44px;padding:4px 3px}
+      .kpi-value{font-size:23px}
+      .kpi-label{font-size:8px}
+      .panel h3{font-size:13px}
+      .panel-caption,.chart-legend-note{font-size:8px}
+      .overall-left .compact-metric b,.state-left .compact-metric b{font-size:18px}
+      .overall-left .compact-metric span,.state-left .compact-metric span{font-size:7.2px}
+      .overall-left .performance-table,.state-left .performance-table{font-size:10px}
+      .overall-left .performance-table th,.state-left .performance-table th{font-size:7.5px;padding:3px}
+      .overall-left .performance-table td,.state-left .performance-table td{font-size:10.5px;padding:4px 3px}
+      .overall-left .type-pill,.state-left .type-pill{font-size:9px;padding:3px 7px}
+      .lowdist-row{grid-template-columns:130px 1fr;padding:3px 0}
+      .lowdist-title{font-size:8px}
+      .lowdist-metrics div{padding:3px 2px}
+      .lowdist-metrics b{font-size:12px}
+      .lowdist-metrics span{font-size:6px}
+      #dataStatusSlide .data-status-table th{font-size:8px;padding:3.5px 4px}
+      #dataStatusSlide .data-status-table td{font-size:10.5px;padding:4px 5px}
+      #dataStatusSlide .status-pill{font-size:8.7px;padding:2px 5px}
+    }
+
+    @media screen and (min-width:1051px) and (max-height:700px){
+      .slide{padding:7px 14px 4px}
+      .slide-header h2{font-size:23px}
+      .summary-banner p{font-size:9.5px}
+      .kpi-card{min-height:38px}
+      .kpi-value{font-size:20px}
+      .kpi-label{font-size:7px}
+      .panel h3{font-size:11.5px}
+      .overall-left .compact-metric b,.state-left .compact-metric b{font-size:15px}
+      .overall-left .compact-metric span,.state-left .compact-metric span{font-size:6.4px}
+      .overall-left .performance-table td,.state-left .performance-table td{font-size:9px;padding:3px 2px}
+      #dataStatusSlide .data-status-table th{font-size:7px;padding:2px 3px}
+      #dataStatusSlide .data-status-table td{font-size:9px;padding:3px 4px}
+      #dataStatusSlide .status-pill{font-size:7.5px}
+    }
+
     @page{size:13.333in 7.5in;margin:0}
     @media print{
       html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;zoom:1}
