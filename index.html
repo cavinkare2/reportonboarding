@@ -312,6 +312,150 @@
       }
     }
 
+
+
+    /* Readability rebalance for GitHub / browser viewing.
+       Keep Auto-Fit, but spend less space on padding and more on type size. */
+    @media screen{
+      .slide{padding:18px 26px 12px}
+      .slide-header{margin-bottom:6px;gap:10px}
+      .eyebrow{font-size:11px;margin-bottom:2px}
+      .slide-header h2{font-size:29px;line-height:1.02}
+      .header-badge,.header-status{padding:6px 9px;font-size:11px}
+      .header-status strong{font-size:10px}
+
+      .summary-banner{margin-bottom:6px;padding:6px 9px;border-radius:9px}
+      .summary-banner p{font-size:12px;line-height:1.25}
+
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{gap:6px;margin-bottom:6px}
+      .kpi-card{padding:6px 4px 5px;border-radius:8px}
+      .kpi-value{font-size:25px}
+      .kpi-label{font-size:9px;margin-top:3px;line-height:1.1}
+
+      .overall-body,.state-body,.data-body{gap:6px}
+      .overall-left,.state-left,.state-right,.data-left{gap:6px}
+      .panel{padding:6px 9px;border-radius:9px}
+      .panel-title-row{margin-bottom:4px;gap:6px}
+      .panel h3{font-size:14px}
+      .panel-caption,.chart-legend-note{font-size:9px}
+
+      .compact-grid{gap:4px}
+      .compact-metric{padding:5px 3px;border-radius:6px}
+      .compact-metric b{font-size:18px}
+      .compact-metric span{font-size:8px;margin-top:2px;line-height:1.08}
+
+      .performance-table{font-size:10.5px}
+      .performance-table th,.data-status-table th{font-size:8px;padding:3.5px 4px}
+      .performance-table td{padding:4px 3px}
+      .data-status-table td{padding:4px 5px;font-size:10px;line-height:1.08}
+      .type-pill{padding:3px 6px}
+      .status-pill{padding:2px 5px;font-size:8.5px}
+
+      .lowdist-panel{padding-top:5px;padding-bottom:4px}
+      .lowdist-row{grid-template-columns:140px 1fr;gap:5px;padding:4px 0}
+      .lowdist-title{font-size:8.5px}
+      .lowdist-metrics{gap:3px}
+      .lowdist-metrics div{padding:3px 2px}
+      .lowdist-metrics b{font-size:13px}
+      .lowdist-metrics span{font-size:6.7px}
+
+      .map-kpi-grid{gap:5px;margin-bottom:5px}
+      .map-shell{min-height:205px}
+      .map-legend{gap:6px;margin-top:4px;font-size:8.5px}
+      .legend-items{gap:7px}
+      .legend-dot{width:9px;height:9px}
+      .map-note{font-size:7.5px;line-height:1.18;max-width:820px}
+      .slide-footer{font-size:7.8px;padding-top:3px;margin-top:3px}
+
+      .title-slide h1{font-size:52px}
+      .title-slide p{font-size:20px}
+      .title-kicker{font-size:12px}
+      .state-chip-row{gap:6px;margin-top:12px}
+      .state-chip{font-size:11px;padding:5px 9px}
+      .title-slide .slide-footer{left:26px;right:26px;bottom:12px}
+
+      #dataStatusSlide .data-status-table{height:auto}
+      #dataStatusSlide .data-status-wrap{height:auto;overflow:visible}
+      #dataStatusSlide .panel{flex:0 0 auto!important}
+      #dataStatusSlide .slide-footer{margin-top:auto}
+
+      @media (max-height:820px){
+        .slide{padding:12px 20px 8px}
+        .slide-header{margin-bottom:4px}
+        .eyebrow{font-size:10px}
+        .slide-header h2{font-size:26px}
+        .header-badge,.header-status{padding:4px 7px;font-size:10px}
+        .header-status strong{font-size:9px}
+        .summary-banner{margin-bottom:4px;padding:5px 8px}
+        .summary-banner p{font-size:10.8px;line-height:1.18}
+        .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{gap:4px;margin-bottom:4px}
+        .kpi-card{padding:4px 3px}
+        .kpi-value{font-size:22px}
+        .kpi-label{font-size:8px;margin-top:2px}
+        .overall-body,.state-body,.data-body{gap:5px}
+        .overall-left,.state-left,.state-right,.data-left{gap:5px}
+        .panel{padding:5px 7px}
+        .panel-title-row{margin-bottom:3px}
+        .panel h3{font-size:12.5px}
+        .panel-caption,.chart-legend-note{font-size:8px}
+        .compact-metric{padding:4px 2px}
+        .compact-metric b{font-size:16px}
+        .compact-metric span{font-size:7px}
+        .performance-table{font-size:9.5px}
+        .performance-table th,.data-status-table th{font-size:7.3px;padding:2.5px 3px}
+        .performance-table td{padding:3px 2.5px}
+        .data-status-table td{padding:3px 4px;font-size:9px}
+        .status-pill{font-size:7.8px;padding:1.5px 4px}
+        .lowdist-row{grid-template-columns:125px 1fr;padding:2.5px 0}
+        .lowdist-title{font-size:7.8px}
+        .lowdist-metrics div{padding:2px 1px}
+        .lowdist-metrics b{font-size:11px}
+        .lowdist-metrics span{font-size:6px}
+        .map-shell{min-height:175px}
+        .map-legend{margin-top:3px;font-size:7.7px}
+        .map-note{font-size:6.8px}
+        .slide-footer{font-size:7px;margin-top:2px;padding-top:2px}
+        .title-slide h1{font-size:46px}
+        .title-slide p{font-size:17px}
+        .state-chip{font-size:10px;padding:4px 7px}
+      }
+
+      @media (max-height:700px){
+        .slide{padding:8px 16px 5px}
+        .slide-header{margin-bottom:3px}
+        .eyebrow{font-size:9px}
+        .slide-header h2{font-size:23px}
+        .header-badge,.header-status{padding:3px 6px;font-size:9px}
+        .summary-banner{margin-bottom:3px;padding:4px 7px}
+        .summary-banner p{font-size:9.7px;line-height:1.14}
+        .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid{margin-bottom:3px;gap:3px}
+        .kpi-card{padding:3px 2px}
+        .kpi-value{font-size:19px}
+        .kpi-label{font-size:7.2px;margin-top:1px}
+        .panel{padding:4px 6px}
+        .panel h3{font-size:11px}
+        .panel-caption,.chart-legend-note{font-size:7px}
+        .compact-metric{padding:3px 2px}
+        .compact-metric b{font-size:14px}
+        .compact-metric span{font-size:6.4px}
+        .performance-table{font-size:8.5px}
+        .performance-table th,.data-status-table th{font-size:6.6px;padding:2px 2.5px}
+        .performance-table td{padding:2.5px 2px}
+        .data-status-table td{padding:2.4px 3px;font-size:8.2px}
+        .lowdist-row{grid-template-columns:112px 1fr;padding:1.5px 0}
+        .lowdist-title{font-size:7px}
+        .lowdist-metrics b{font-size:10px}
+        .lowdist-metrics span{font-size:5.5px}
+        .map-shell{min-height:145px}
+        .map-note{font-size:6px}
+        .slide-footer{font-size:6.5px;margin-top:1px;padding-top:1px}
+        .title-slide h1{font-size:40px;margin:10px 0 6px}
+        .title-slide p{font-size:15px}
+        .state-chip-row{margin-top:8px}
+        .state-chip{font-size:9px;padding:3px 6px}
+      }
+    }
+
     @page{size:13.333in 7.5in;margin:0}
     @media print{
       html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;zoom:1}
@@ -2136,7 +2280,7 @@ function renderTrend(canvasId,rows,k){
     afterDatasetsDraw(chart){
       const c=chart.ctx;
       c.save();
-      c.font='bold 10px Arial';
+      c.font='bold 11px Arial';
       c.textAlign='center';
       c.textBaseline='bottom';
       chart.data.datasets.forEach((ds,di)=>{
@@ -2170,12 +2314,12 @@ function renderTrend(canvasId,rows,k){
       maintainAspectRatio:false,
       layout:{padding:{top:18,right:8,left:4,bottom:0}},
       plugins:{
-        legend:{position:'top',align:'end',labels:{boxWidth:14,usePointStyle:true,font:{size:10,weight:'bold'}}},
+        legend:{position:'top',align:'end',labels:{boxWidth:14,usePointStyle:true,font:{size:11,weight:'bold'}}},
         tooltip:{enabled:true}
       },
       scales:{
-        y:{beginAtZero:true,suggestedMax:maxVal>0 ? Math.ceil(maxVal*1.25) : 5,ticks:{precision:0,font:{size:9}}},
-        x:{ticks:{font:{size:9,weight:'bold'},maxRotation:35,minRotation:0,autoSkip:true,maxTicksLimit:12}}
+        y:{beginAtZero:true,suggestedMax:maxVal>0 ? Math.ceil(maxVal*1.25) : 5,ticks:{precision:0,font:{size:10}}},
+        x:{ticks:{font:{size:10,weight:'bold'},maxRotation:35,minRotation:0,autoSkip:true,maxTicksLimit:12}}
       }
     },
     plugins:[valueLabelPlugin]
