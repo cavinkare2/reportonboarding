@@ -42,7 +42,17 @@
     .summary-banner{margin-bottom:14px;background:linear-gradient(90deg,#eff6ff 0%,#f8fafc 100%);border:1px solid #dbeafe;border-left:6px solid var(--blue);border-radius:14px;padding:12px 14px}
     .summary-banner b{color:#0f172a}.summary-banner p{margin:0;font-size:13px;line-height:1.45;color:#334155;font-weight:700}
     .overall-kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
-    .state-kpi-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-bottom:16px}
+    .state-kpi-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;margin-bottom:16px}
+    .all-state-performance-table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;table-layout:fixed}
+    .all-state-performance-table th{background:#0f3d66;color:#fff;padding:9px 5px;line-height:1.15;border-right:1px solid rgba(255,255,255,.18)}
+    .all-state-performance-table td{padding:9px 5px;text-align:center;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;font-weight:700;color:#334155}
+    .all-state-performance-table td:first-child{text-align:left;font-weight:900;color:#0f3d66;padding-left:10px}
+    .all-state-performance-table tbody tr:nth-child(even){background:#f8fafc}
+    .all-state-performance-table tbody tr:hover{background:#eff6ff}
+    .all-state-performance-table th:first-child{width:15%}
+    .all-state-performance-table .stale-days{color:#c2410c;font-weight:900}
+    .all-state-performance-table .recent-days{color:#15803d;font-weight:900}
+    .performance-note{margin-top:10px;font-size:11px;color:#64748b;text-align:right;font-weight:700}
     .data-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
     .kpi-card{min-width:0;background:#f8fafc;border:1px solid #e2e8f0;border-top:4px solid var(--blue);border-radius:12px;padding:12px 8px 10px;text-align:center}
     .kpi-value{font-size:28px;line-height:1;font-weight:900;color:var(--blue);white-space:nowrap}
@@ -972,11 +982,12 @@
           <span class="state-chip">Jharkhand</span>
         </div>
       </div>
-      <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 19</span></div>
+      <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 20</span></div>
     </section>
 
     <section class="slide" id="dataStatusSlide"></section>
     <section class="slide" id="overallSlideContent"></section>
+    <section class="slide" id="allStatePerformanceSlide"></section>
     <div id="stateSlides" style="display:contents"></div>
   </main>
 
@@ -996,7 +1007,7 @@ const STATES={
 
 const STATE_KEYS=["UP","MP","MAH","RAJ","BIHAR","ASSAM","WB","JH"];
 const LOW_DIST_STATE_KEYS=["UP","MP","MAH","RAJ"];
-const TOTAL_SLIDES=STATE_KEYS.length*2+3;
+const TOTAL_SLIDES=STATE_KEYS.length*2+4;
 
 const DISTRICT_STATUS_SUMMARY={received:213,pending:6,total:219,completion:'97%'};
 const DISTRICT_STATUS_ROWS=[
@@ -1455,13 +1466,15 @@ function formatDate(d){
 function activityStats(rows){
   const dates=rows.map(getDate).filter(Boolean).map(d=>new Date(d.getFullYear(),d.getMonth(),d.getDate()));
   if(!dates.length){
-    return {startDate:null,workingDaysElapsed:0,activeVisitDays:0};
+    return {startDate:null,lastWorkingDate:null,workingDaysElapsed:0,activeVisitDays:0,daysSinceLastWorked:null};
   }
 
   const startDate=new Date(Math.min(...dates.map(d=>d.getTime())));
+  const lastWorkingDate=new Date(Math.max(...dates.map(d=>d.getTime())));
   const today=new Date();
   const endDate=new Date(today.getFullYear(),today.getMonth(),today.getDate());
   const effectiveEnd=endDate<startDate ? startDate : endDate;
+  const daysSinceLastWorked=Math.max(0,Math.floor((endDate-lastWorkingDate)/86400000));
 
   let workingDaysElapsed=0;
   for(let d=new Date(startDate);d<=effectiveEnd;d.setDate(d.getDate()+1)){
@@ -1472,7 +1485,7 @@ function activityStats(rows){
     dates.filter(d=>d.getDay()!==0).map(d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))
   ).size;
 
-  return {startDate,workingDaysElapsed,activeVisitDays};
+  return {startDate,lastWorkingDate,workingDaysElapsed,activeVisitDays,daysSinceLastWorked};
 }
 
 function normType(v){
@@ -1927,6 +1940,7 @@ function renderReport(){
   const overall=calc(rawData,null);
   renderDataStatusSlide();
   renderOverallSlide(overall);
+  renderAllStatePerformanceSlide(byState);
   renderStateSlides(byState);
   renderCharts(overall,byState);
   renderMaps(byState);
@@ -2118,7 +2132,8 @@ function stateSummaryText(s,stateKey){
   const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
   const activity=activityStats(s.submitted);
   const visitsPerMember=s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0';
-  return `<b>${STATES[stateKey].name}:</b> District receipt is at <b>${districtCoverage}%</b>. Field teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>, averaging <b>${visitsPerMember}</b> party visits per sales member. Fieldwork started on <b>${formatDate(activity.startDate)}</b>; <b>${fmt(activity.workingDaysElapsed)}</b> working days have elapsed excluding Sundays, with visits made on <b>${fmt(activity.activeVisitDays)}</b> working days.`;
+  const lastWorked=activity.daysSinceLastWorked===null ? 'not available' : `<b>${formatDate(activity.lastWorkingDate)}</b> (${fmt(activity.daysSinceLastWorked)} calendar day${activity.daysSinceLastWorked===1?'':'s'} ago)`;
+  return `<b>${STATES[stateKey].name}:</b> District receipt is at <b>${districtCoverage}%</b>. Field teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>, averaging <b>${visitsPerMember}</b> party visits per sales member. Fieldwork started on <b>${formatDate(activity.startDate)}</b>; <b>${fmt(activity.workingDaysElapsed)}</b> working days have elapsed excluding Sundays, with visits made on <b>${fmt(activity.activeVisitDays)}</b> working days. Last worked: ${lastWorked}.`;
 }
 
 function renderOverallSlide(s){
@@ -2149,6 +2164,63 @@ function renderOverallSlide(s){
       ${chartPanel('chart_OVERALL','Overall Date-wise Progress',.24)}
     </div>
     ${slideFooter(3,TOTAL_SLIDES)}
+  `;
+}
+
+function renderAllStatePerformanceSlide(byState){
+  const rows=STATE_KEYS.map(k=>{
+    const s=byState[k];
+    const activity=activityStats(s.submitted);
+    const visitsPerMember=s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0';
+    const daysValue=activity.daysSinceLastWorked===null ? '-' : fmt(activity.daysSinceLastWorked);
+    const daysClass=activity.daysSinceLastWorked!==null && activity.daysSinceLastWorked>3 ? 'stale-days' : 'recent-days';
+    return `
+      <tr class="anim-soft">
+        <td>${STATES[k].name}</td>
+        <td>${fmt(s.salesTeams)}</td>
+        <td>${fmt(s.visited)}</td>
+        <td>${fmt(s.onboarded)}</td>
+        <td>${s.conversion}</td>
+        <td>${visitsPerMember}</td>
+        <td>${fmt(activity.workingDaysElapsed)}</td>
+        <td>${fmt(activity.activeVisitDays)}</td>
+        <td>${formatDate(activity.lastWorkingDate)}</td>
+        <td class="${daysClass}">${daysValue}</td>
+      </tr>`;
+  }).join('');
+
+  document.getElementById('allStatePerformanceSlide').innerHTML=`
+    <div class="slide-header">
+      <div class="anim-soft" style="--delay:.05s">
+        <div class="eyebrow">State-wise Management Summary</div>
+        <h2>All States Project Performance</h2>
+      </div>
+      <div class="header-badge anim-soft" style="--delay:.12s">${STATE_KEYS.length} Active States</div>
+    </div>
+
+    ${summaryBanner('<b>State comparison:</b> Performance and field activity are shown row by row, including the most recent working date and the number of calendar days since the state last recorded a visit.',.18)}
+
+    <div class="panel anim-soft" style="--delay:.24s;padding:10px 12px">
+      <table class="all-state-performance-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Sales Teams</th>
+            <th>Parties Visited</th>
+            <th>Onboarded</th>
+            <th>Conversion</th>
+            <th>Visited / Sales Member</th>
+            <th>Working Days Since Start</th>
+            <th>Working Days With Visits</th>
+            <th>Last Working Date</th>
+            <th>Days Since Last Worked</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="performance-note">Days Since Last Worked = calendar days from the latest recorded visit date to today.</div>
+    </div>
+    ${slideFooter(4,TOTAL_SLIDES,'All States')}
   `;
 }
 
@@ -2680,7 +2752,7 @@ function renderStateSlides(byState){
 
   STATE_KEYS.forEach((k,index)=>{
     const s=byState[k];
-    const slideNumber=4+(index*2);
+    const slideNumber=5+(index*2);
     const mapSlideNumber=slideNumber+1;
     const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
 
@@ -2707,6 +2779,8 @@ function renderStateSlides(byState){
           ${kpiCard(s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0','Parties Visited / Sales Member','blue',.44)}
           ${kpiCard(fmt(activityStats(s.submitted).workingDaysElapsed),'Working Days Since Start','amber',.50)}
           ${kpiCard(fmt(activityStats(s.submitted).activeVisitDays),'Working Days With Visits','green',.56)}
+          ${kpiCard(formatDate(activityStats(s.submitted).lastWorkingDate),'Last Working Date','orange',.62)}
+          ${kpiCard(activityStats(s.submitted).daysSinceLastWorked===null?'-':fmt(activityStats(s.submitted).daysSinceLastWorked),'Days Since Last Worked','red',.68)}
         </div>
 
         <div class="state-body">
