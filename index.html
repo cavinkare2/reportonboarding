@@ -53,6 +53,27 @@
     .all-state-performance-table .stale-days{color:#c2410c;font-weight:900}
     .all-state-performance-table .recent-days{color:#15803d;font-weight:900}
     .performance-note{margin-top:10px;font-size:11px;color:#64748b;text-align:right;font-weight:700}
+    .outcome-tree{position:relative;margin:0 0 12px;padding:0 12px 2px;flex:0 0 auto}
+    .outcome-tree-parent{width:190px;margin:0 auto 18px;padding:8px 12px;border-radius:12px;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;text-align:center;box-shadow:0 4px 12px rgba(37,99,235,.22)}
+    .outcome-tree-parent b,.outcome-tree-child b{display:block;font-size:24px;line-height:1;font-weight:900}
+    .outcome-tree-parent span,.outcome-tree-child span{display:block;margin-top:4px;font-size:10px;line-height:1.1;font-weight:900;text-transform:uppercase;letter-spacing:.35px}
+    .outcome-tree-children{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .outcome-tree-children:before{content:"";position:absolute;left:16.67%;right:16.67%;top:-10px;border-top:2px solid #94a3b8}
+    .outcome-tree-child{position:relative;padding:8px 8px;border-radius:12px;text-align:center;background:#fff;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(15,23,42,.08)}
+    .outcome-tree-child:before{content:"";position:absolute;left:50%;top:-11px;height:11px;border-left:2px solid #94a3b8}
+    .outcome-tree-child.onboarded{border-top:4px solid #16a34a;color:#15803d}
+    .outcome-tree-child.open-not-converted{border-top:4px solid #ea580c;color:#c2410c}
+    .outcome-tree-child.no-open{border-top:4px solid #64748b;color:#475569}
+    .town-coverage-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px}
+    .town-coverage-overview div{padding:6px 8px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;text-align:center}
+    .town-coverage-overview b{display:block;font-size:18px;line-height:1;color:#334155}
+    .town-coverage-overview span{display:block;margin-top:3px;font-size:8px;font-weight:900;text-transform:uppercase;color:#64748b}
+    .town-coverage-tree{margin:0;padding:0 2px}
+    .town-coverage-tree .outcome-tree-parent{width:150px;margin-bottom:15px;padding:6px 10px}
+    .town-coverage-tree .outcome-tree-parent b,.town-coverage-tree .outcome-tree-child b{font-size:19px}
+    .town-coverage-tree .outcome-tree-parent span,.town-coverage-tree .outcome-tree-child span{font-size:8px}
+    .town-coverage-tree .outcome-tree-children{gap:6px}
+    .town-coverage-tree .outcome-tree-child{padding:6px 3px}
     .data-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
     .kpi-card{min-width:0;background:#f8fafc;border:1px solid #e2e8f0;border-top:4px solid var(--blue);border-radius:12px;padding:12px 8px 10px;text-align:center}
     .kpi-value{font-size:28px;line-height:1;font-weight:900;color:var(--blue);white-space:nowrap}
@@ -1982,13 +2003,17 @@ function townCoveragePanel(s,delay=.2){
         <h3>Town Coverage</h3>
         <span class="panel-caption">Execution status by town</span>
       </div>
-      <div class="compact-grid town-grid">
-        ${compactMetric(fmt(s.townStatus.totalTowns),'Total Towns','gray')}
-        ${compactMetric(fmt(s.townStatus.visitedTowns),'Visited','blue')}
-        ${compactMetric(fmt(s.townStatus.notVisited),'Not Visited','amber')}
-        ${compactMetric(fmt(s.townStatus.onboardedAtLeastOne),'With Onboarding','green')}
-        ${compactMetric(fmt(s.townStatus.openButNotConverted),'Open, Not Converted','orange')}
-        ${compactMetric(fmt(s.townStatus.notFoundAnything),'No Open Party','red')}
+      <div class="town-coverage-overview">
+        <div><b>${fmt(s.townStatus.totalTowns)}</b><span>Total Towns</span></div>
+        <div><b>${fmt(s.townStatus.notVisited)}</b><span>Not Visited</span></div>
+      </div>
+      <div class="outcome-tree town-coverage-tree">
+        <div class="outcome-tree-parent"><b>${fmt(s.townStatus.visitedTowns)}</b><span>Towns Visited</span></div>
+        <div class="outcome-tree-children">
+          <div class="outcome-tree-child onboarded"><b>${fmt(s.townStatus.onboardedAtLeastOne)}</b><span>With Onboarding</span></div>
+          <div class="outcome-tree-child open-not-converted"><b>${fmt(s.townStatus.openButNotConverted)}</b><span>Open, Not Converted</span></div>
+          <div class="outcome-tree-child no-open"><b>${fmt(s.townStatus.notFoundAnything)}</b><span>No Open Party</span></div>
+        </div>
       </div>
     </div>`;
 }
@@ -2040,7 +2065,6 @@ function lowDistributionPanel(s,stateKey,delay=.25){
     <div class="panel lowdist-panel anim" style="--delay:${delay}s">
       <div class="panel-title-row">
         <h3>Low Distribution Focus</h3>
-        <span class="panel-caption">Priority towns requiring action · Sheet1 low-town universe + Existing and New Party submissions</span>
       </div>
       ${lowDistRow('P1 · Less Than 25 Billed Outlets',s.lowDist.p1Less25)}
       ${lowDistRow('P2 · Less Than 15 Billed Outlets',s.lowDist.p2Less15)}
@@ -2126,14 +2150,6 @@ function renderDataStatusSlide(){
 
 function overallSummaryText(s){
   return `<b>Overall snapshot:</b> Sales teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>. The overall slide shows consolidated project performance, while sales productivity and working-day tracking are shown separately on each state slide.`;
-}
-
-function stateSummaryText(s,stateKey){
-  const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
-  const activity=activityStats(s.submitted);
-  const visitsPerMember=s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0';
-  const lastWorked=activity.daysSinceLastWorked===null ? 'not available' : `<b>${formatDate(activity.lastWorkingDate)}</b> (${fmt(activity.daysSinceLastWorked)} calendar day${activity.daysSinceLastWorked===1?'':'s'} ago)`;
-  return `<b>${STATES[stateKey].name}:</b> District receipt is at <b>${districtCoverage}%</b>. Field teams have visited <b>${fmt(s.visited)}</b> parties and onboarded <b>${fmt(s.onboarded)}</b>, averaging <b>${visitsPerMember}</b> party visits per sales member. Fieldwork started on <b>${formatDate(activity.startDate)}</b>; <b>${fmt(activity.workingDaysElapsed)}</b> working days have elapsed excluding Sundays, with visits made on <b>${fmt(activity.activeVisitDays)}</b> working days. Last worked: ${lastWorked}.`;
 }
 
 function renderOverallSlide(s){
@@ -2768,8 +2784,6 @@ function renderStateSlides(byState){
             <strong>${districtCoverage}% Received</strong>
           </div>
         </div>
-
-        ${summaryBanner(stateSummaryText(s,k),.18)}
 
         <div class="state-kpi-grid">
           ${kpiCard(fmt(s.salesTeams),'Sales Teams','gray',.20)}
