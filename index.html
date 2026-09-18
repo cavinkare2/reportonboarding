@@ -69,7 +69,7 @@
     .outcome-tree-child.onboarded{border-top:4px solid #16a34a;color:#15803d}
     .outcome-tree-child.open-not-converted{border-top:4px solid #ea580c;color:#c2410c}
     .outcome-tree-child.no-open{border-top:4px solid #64748b;color:#475569}
-    .town-coverage-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px}
+    .town-coverage-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px}
     .town-coverage-overview div{padding:6px 8px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;text-align:center}
     .town-coverage-overview b{display:block;font-size:18px;line-height:1;color:#334155}
     .town-coverage-overview span{display:block;margin-top:3px;font-size:8px;font-weight:900;text-transform:uppercase;color:#64748b}
@@ -2024,6 +2024,9 @@ function summaryBanner(text,delay=.1){
 }
 
 function townCoveragePanel(s,delay=.2){
+  const townConversion=s.townStatus.visitedTowns
+    ? Math.round((s.townStatus.onboardedAtLeastOne/s.townStatus.visitedTowns)*100)+'%'
+    : '0%';
   return `
     <div class="panel anim" style="--delay:${delay}s">
       <div class="panel-title-row">
@@ -2033,6 +2036,7 @@ function townCoveragePanel(s,delay=.2){
       <div class="town-coverage-overview">
         <div><b>${fmt(s.townStatus.totalTowns)}</b><span>Total Towns</span></div>
         <div><b>${fmt(s.townStatus.notVisited)}</b><span>Not Visited</span></div>
+        <div style="background:#ecfdf5;border-color:#bbf7d0"><b style="color:#15803d">${townConversion}</b><span style="color:#15803d">Town Conversion</span></div>
       </div>
       <div class="outcome-tree town-coverage-tree">
         <div class="outcome-tree-parent"><b>${fmt(s.townStatus.visitedTowns)}</b><span>Towns Visited</span></div>
@@ -2191,7 +2195,7 @@ function renderOverallSlide(s){
       ${kpiCard(fmt(s.visited),'Parties Visited','blue',.28)}
       ${kpiCard(fmt(s.open),'Open Parties','orange',.34)}
       ${kpiCard(fmt(s.onboarded),'Onboarded','green',.40)}
-      ${kpiCard(s.conversion,'Conversion','purple',.46)}
+      ${kpiCard(s.conversion,'Party Conversion','purple',.46)}
     </div>
 
     <div class="overall-body">
@@ -2811,7 +2815,7 @@ function renderStateSlides(byState){
           ${kpiCard(fmt(s.salesTeams),'Sales Teams','gray',.20)}
           ${kpiCard(fmt(s.visited),'Parties Visited','blue',.26)}
           ${kpiCard(fmt(s.onboarded),'Onboarded','green',.32)}
-          ${kpiCard(s.conversion,'Conversion','purple',.38)}
+          ${kpiCard(s.conversion,'Party Conversion','purple',.38)}
           ${kpiCard(s.salesTeams ? (s.visited/s.salesTeams).toFixed(1) : '0','Parties Visited / Sales Member','blue',.44)}
           ${kpiCard(fmt(activityStats(s.submitted).workingDaysElapsed),'Working Days Since Start','amber',.50)}
           ${kpiCard(fmt(activityStats(s.submitted).activeVisitDays),'Working Days With Visits','green',.56)}
