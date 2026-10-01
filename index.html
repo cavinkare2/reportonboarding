@@ -983,6 +983,25 @@
       .slide:last-child{page-break-after:auto;break-after:auto}
       .anim,.anim-soft{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
     }
+
+    /* Cover presentation button */
+    .present-btn{
+      margin-top:26px;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:14px 24px;border:1px solid rgba(255,255,255,.28);border-radius:999px;
+      background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-size:15px;font-weight:900;
+      letter-spacing:.2px;cursor:pointer;box-shadow:0 10px 30px rgba(37,99,235,.34),0 0 0 0 rgba(96,165,250,.45);
+      position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease;
+      animation:presentPulse 2.1s ease-in-out infinite;
+    }
+    .present-btn:hover{transform:translateY(-2px) scale(1.035);box-shadow:0 16px 36px rgba(37,99,235,.42),0 0 0 8px rgba(96,165,250,.10)}
+    .present-btn:active{transform:translateY(0) scale(.985)}
+    .present-btn::before{content:"";position:absolute;top:-120%;left:-35%;width:30%;height:340%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.46),transparent);transform:rotate(22deg);animation:presentShine 2.8s ease-in-out infinite}
+    .present-btn svg{width:18px;height:18px;fill:currentColor;position:relative;z-index:1}
+    .present-btn span{position:relative;z-index:1}
+    @keyframes presentPulse{0%,100%{box-shadow:0 10px 30px rgba(37,99,235,.34),0 0 0 0 rgba(96,165,250,.34)}50%{box-shadow:0 12px 34px rgba(37,99,235,.42),0 0 0 10px rgba(96,165,250,0)}}
+    @keyframes presentShine{0%,55%{left:-35%;opacity:0}65%{opacity:1}100%{left:125%;opacity:0}}
+    body.presentation-mode{overflow:hidden}
+    @media print{.present-btn{display:none!important}}
   </style>
 </head>
 <body>
@@ -1002,6 +1021,11 @@
       <div class="title-content">
         <h1 class="anim-soft" style="--delay:.15s">Party Onboarding Project Status Report</h1>
         <p class="anim-soft" style="--delay:.25s">Overall and State-wise Performance Dashboard</p>
+
+        <button class="present-btn anim-soft" style="--delay:.46s" type="button" onclick="startPresentation()" aria-label="Open presentation in fullscreen">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <span>Click to Present</span>
+        </button>
         <div class="state-chip-row anim-soft" style="--delay:.35s">
           <span class="state-chip">Uttar Pradesh</span>
           <span class="state-chip">Madhya Pradesh</span>
@@ -2928,6 +2952,38 @@ setTimeout(()=>{
     updateLoadingStatus('No data loaded. Check sheet access.',0);
   }
 },9000);
+
+
+async function startPresentation(){
+  const root=document.documentElement;
+  try{
+    if(!document.fullscreenElement){
+      if(root.requestFullscreen){
+        await root.requestFullscreen({navigationUI:'hide'});
+      }else if(root.webkitRequestFullscreen){
+        root.webkitRequestFullscreen();
+      }
+    }
+  }catch(err){
+    console.warn('Fullscreen request was blocked by the browser.',err);
+  }
+
+  document.body.classList.add('presentation-mode');
+  const cover=document.querySelector('.title-slide');
+  if(cover){
+    cover.scrollIntoView({behavior:'smooth',block:'start'});
+    activateSlide(cover);
+  }
+}
+
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement){
+    document.body.classList.remove('presentation-mode');
+  }else{
+    document.body.classList.add('presentation-mode');
+  }
+});
+
   </script>
 </body>
 </html>
