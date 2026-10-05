@@ -48,6 +48,52 @@
     .summary-banner b{color:#0f172a}.summary-banner p{margin:0;font-size:13px;line-height:1.45;color:#334155;font-weight:700}
     .overall-kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
     .state-kpi-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;margin-bottom:16px}
+    .wb-bev-strip{display:grid;grid-template-columns:150px repeat(4,minmax(0,1fr));gap:6px;align-items:stretch;margin:-7px 0 8px;padding:6px 8px;border:1px solid #bbf7d0;border-left:5px solid #16a34a;border-radius:10px;background:#f0fdf4}
+    .wb-bev-title{display:flex;align-items:center;font-size:10px;line-height:1.15;font-weight:900;text-transform:uppercase;color:#166534}
+    .wb-bev-metric{background:#fff;border:1px solid #dcfce7;border-radius:8px;padding:5px 6px;text-align:center}
+    .wb-bev-metric b{display:block;font-size:18px;line-height:1;color:#15803d}
+    .wb-bev-metric span{display:block;margin-top:3px;font-size:7.5px;line-height:1.05;font-weight:900;text-transform:uppercase;color:#64748b}
+    .wb-performance-body{display:grid;grid-template-columns:42% 29% 29%;gap:7px;flex:1;min-height:0}
+    .wb-segment{display:grid;grid-template-rows:auto minmax(0,1.08fr) minmax(0,.92fr);gap:7px;min-height:0}
+    .wb-segment-title{border-radius:9px;padding:7px 10px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.45px;text-align:center}
+    .wb-segment.pc .wb-segment-title{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+    .wb-segment.bev .wb-segment-title{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+    .wb-segment>.panel{height:auto!important;min-height:0!important;margin:0!important;padding:8px 9px!important;display:flex!important;flex-direction:column!important}
+    .wb-segment .compact-grid{flex:1;min-height:0}
+    .wb-segment .performance-table{flex:1;height:100%;table-layout:fixed}
+    .open-not-converted.clickable-analysis{cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;position:relative}
+    .open-not-converted.clickable-analysis:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(234,88,12,.16);border-color:#fb923c}
+    .open-not-converted.clickable-analysis:focus-visible{outline:3px solid rgba(234,88,12,.28);outline-offset:2px}
+    .open-not-converted.clickable-analysis:after{content:"Click for reasons";display:block;margin-top:3px;font-size:6px;line-height:1;font-weight:900;text-transform:uppercase;letter-spacing:.25px;color:#c2410c}
+    .remarks-modal{display:none;position:fixed;inset:0;z-index:20000;background:rgba(15,23,42,.72);padding:22px;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+    .remarks-modal.is-open{display:flex}
+    .remarks-dialog{width:min(1180px,96vw);height:min(720px,92vh);background:#fff;border-radius:18px;box-shadow:0 24px 70px rgba(15,23,42,.38);display:flex;flex-direction:column;overflow:hidden;border:1px solid #cbd5e1}
+    .remarks-dialog-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px 18px 12px;border-bottom:1px solid #e2e8f0;background:linear-gradient(90deg,#fff7ed,#fff)}
+    .remarks-dialog-header h3{margin:3px 0 0;font-size:24px;color:#0f172a}
+    .remarks-dialog-kicker{font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:#c2410c}
+    .remarks-dialog-close{border:0;background:#f1f5f9;color:#334155;width:38px;height:38px;border-radius:999px;font-size:24px;line-height:1;cursor:pointer;font-weight:800}
+    .remarks-dialog-close:hover{background:#e2e8f0}
+    .remarks-dialog-body{padding:12px 14px 14px;overflow:auto;min-height:0;flex:1}
+    .remarks-modal .reason-summary-grid{margin-bottom:10px}
+    .remarks-modal .reason-layout{height:calc(100% - 78px);min-height:430px}
+    body.remarks-modal-open{overflow:hidden}
+    .reason-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px;flex:0 0 auto}
+    .reason-layout{display:grid;grid-template-columns:42% 58%;gap:10px;flex:1;min-height:0}
+    .reason-left,.reason-right{display:flex;flex-direction:column;gap:10px;min-height:0}
+    .reason-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+    .reason-table th{background:#f1f5f9;color:#475569;font-size:9px;text-transform:uppercase;letter-spacing:.35px;padding:7px 6px;border-bottom:1px solid #dbe4f0}
+    .reason-table td{padding:8px 6px;border-bottom:1px solid #edf2f7;font-weight:800;color:#334155;vertical-align:middle}
+    .reason-table td:nth-child(2),.reason-table td:nth-child(3){text-align:center}
+    .reason-bar-track{height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden;margin-top:5px}
+    .reason-bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#f97316,#ea580c)}
+    .word-cloud{flex:1;min-height:0;display:flex;align-content:center;justify-content:center;align-items:center;flex-wrap:wrap;gap:9px 13px;padding:16px;border-radius:12px;background:radial-gradient(circle at 50% 45%,#fff7ed 0%,#ffffff 62%);border:1px solid #fed7aa;overflow:hidden}
+    .word-cloud span{display:inline-block;font-weight:900;line-height:1;white-space:nowrap;color:#9a3412;transform:rotate(var(--rot,0deg));opacity:var(--op,.9)}
+    .remark-samples{display:grid;gap:7px;overflow:auto;min-height:0;max-height:100%}
+    .remark-sample{padding:9px 10px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #64748b;font-size:11px;line-height:1.35;color:#334155;font-weight:700}
+    .remark-sample b{color:#0f172a}
+    .reason-note{font-size:9px;color:#64748b;font-weight:700;line-height:1.3;margin-top:6px}
+    @media(max-width:1050px){.reason-layout{grid-template-columns:1fr}.reason-summary-grid{grid-template-columns:repeat(2,1fr)}.remarks-dialog{height:94vh}.remarks-modal .reason-layout{height:auto;min-height:0}.remarks-dialog-body{overflow:auto}}
+    .wb-overall-chart{min-height:0;height:auto!important}
     .all-state-performance-table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;table-layout:fixed}
     .all-state-performance-table th{background:#0f3d66;color:#fff;padding:9px 5px;line-height:1.15;border-right:1px solid rgba(255,255,255,.18)}
     .all-state-performance-table td{padding:9px 5px;text-align:center;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;font-weight:700;color:#334155}
@@ -177,13 +223,13 @@
       .slide.is-active:after{animation:none!important}
     }
     @media(max-width:1050px){
-      .slide{height:auto;min-height:100vh;aspect-ratio:auto}.overall-kpi-grid{grid-template-columns:repeat(4,1fr)}.state-kpi-grid{grid-template-columns:repeat(4,1fr)}.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}
+      .slide{height:auto;min-height:100vh;aspect-ratio:auto}.overall-kpi-grid{grid-template-columns:repeat(4,1fr)}.state-kpi-grid{grid-template-columns:repeat(4,1fr)}.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}.wb-bev-strip{grid-template-columns:1fr repeat(4,minmax(0,1fr))}.wb-performance-body{grid-template-columns:1fr}.wb-segment{grid-template-rows:auto auto auto}
       .overall-body,.state-body,.data-body{grid-template-columns:1fr}.chart-wrap{height:330px}.chart-panel{min-height:390px}.title-info-grid{grid-template-columns:1fr}
     }
     @media(max-width:650px){
       .deck{padding:0}.slide{border-radius:0;padding:26px 16px 20px}.floating-loading{top:10px;right:10px;font-size:11px;padding:8px 10px}
       .title-slide h1{font-size:36px}.title-slide p{font-size:17px}.slide-header h2{font-size:26px}
-      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}.compact-grid{grid-template-columns:repeat(2,1fr)}
+      .overall-kpi-grid,.state-kpi-grid,.data-kpi-grid,.map-kpi-grid{grid-template-columns:repeat(2,1fr)}.compact-grid{grid-template-columns:repeat(2,1fr)}.wb-bev-strip{grid-template-columns:1fr 1fr}.wb-bev-title{grid-column:1/-1}
       .lowdist-row{grid-template-columns:1fr}.lowdist-metrics{grid-template-columns:repeat(5,1fr)}.header-status{display:none}
       .data-status-wrap{overflow:auto}.data-status-table{min-width:780px}.state-map{min-height:500px}
     }
@@ -1086,7 +1132,7 @@
           <span class="state-chip">Jharkhand</span>
         </div>
       </div>
-      <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 20</span></div>
+      <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 28</span></div>
     </section>
 
     <section class="slide" id="dataStatusSlide"></section>
@@ -1105,7 +1151,7 @@ const STATES={
   RAJ:{name:"Rajasthan",sheetId:DEFAULT_SHEET_ID,gid:"1667798762",newGid:"1378700901",requestedDistricts:24,receivedDistricts:24,pendingDistricts:0},
   BIHAR:{name:"Bihar",sheetId:DEFAULT_SHEET_ID,gid:"2138353711",newGid:"525744938",requestedDistricts:20,receivedDistricts:20,pendingDistricts:0},
   ASSAM:{name:"Assam",sheetId:"1-sEIXuT670OSP3jxoYKFD7BkFjQWMmp7UD0WUjeGqRw",gid:"0",newGid:"1810756355",requestedDistricts:14,receivedDistricts:14,pendingDistricts:0},
-  WB:{name:"West Bengal",sheetId:"1lJCP7Iue8xI_K38wEaU6DLhIryTNOm-1JrEQGZreDhM",gid:"0",newGid:"1968571314",requestedDistricts:13,receivedDistricts:13,pendingDistricts:0},
+  WB:{name:"West Bengal",sheetId:DEFAULT_SHEET_ID,gid:"1347135670",newGid:"1140724904",requestedDistricts:13,receivedDistricts:13,pendingDistricts:0},
   JH:{name:"Jharkhand",sheetId:"1zYHliQrSaBppIvO_el5DNK5UrnNZgNPmI7JDED6FlyQ",gid:"0",newGid:"1788601208",requestedDistricts:10,receivedDistricts:9,pendingDistricts:1}
 };
 
@@ -1194,8 +1240,14 @@ function loadAll(){
   rawData=[];
   jobs=[];
   STATE_KEYS.forEach(k=>{
-    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].gid,partySource:'Existing'});
-    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].newGid,partySource:'New'});
+    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].gid,partySource:'Existing',distributorType:'PC',sourceSheet:k==='WB'?'WB':k});
+    jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].newGid,partySource:'New',distributorType:'PC',sourceSheet:k==='WB'?'WB_New':k+'_New'});
+
+    // West Bengal has one additional Food & Beverage distributor sheet.
+    // Load by sheet name so no numeric gid is required.
+    if(k==='WB'){
+      jobs.push({stateKey:'WB',sheetId:STATES.WB.sheetId,sheetName:'WB_BEV',partySource:'Existing',distributorType:'F&B',sourceSheet:'WB_BEV'});
+    }
   });
   jobIndex=0;
   updateLoadingStatus('Starting data load...',0);
@@ -1230,7 +1282,10 @@ function loadNext(){
 
   if(currentScript)currentScript.remove();
 
-  const url=`https://docs.google.com/spreadsheets/d/${activeJob.sheetId}/gviz/tq?gid=${activeJob.gid}&tqx=responseHandler:handleSheetData&cacheBust=${Date.now()}`;
+  const sourceSelector=activeJob.sheetName
+    ? `sheet=${encodeURIComponent(activeJob.sheetName)}`
+    : `gid=${activeJob.gid}`;
+  const url=`https://docs.google.com/spreadsheets/d/${activeJob.sheetId}/gviz/tq?${sourceSelector}&tqx=responseHandler:handleSheetData&cacheBust=${Date.now()}`;
   currentScript=document.createElement('script');
   currentScript.src=url;
   currentScript.onerror=()=>{
@@ -1243,7 +1298,7 @@ function loadNext(){
 
 function handleSheetData(response){
   try{
-    rawData=rawData.concat(parseSheetResponse(response,activeJob.stateKey,activeJob.partySource));
+    rawData=rawData.concat(parseSheetResponse(response,activeJob.stateKey,activeJob.partySource,activeJob.distributorType||'PC',activeJob.sourceSheet||''));
     jobIndex++;
     loadNext();
   }catch(e){
@@ -1376,7 +1431,7 @@ function getLatLngFromCells(cells,map){
   return parseCoordinatePair(combined) || {lat:null,lng:null};
 }
 
-function parseSheetResponse(response,stateKey,partySource){
+function parseSheetResponse(response,stateKey,partySource,distributorType='PC',sourceSheet=''){
   let rows=response.table.rows||[];
   let map=buildHeaderMap(response.table.cols||[]);
   const firstRowMap=buildHeaderMapFromFirstRow(rows);
@@ -1387,23 +1442,71 @@ function parseSheetResponse(response,stateKey,partySource){
 
   const sourceStateName=STATES[stateKey].name;
 
+  // WB_BEV has a known fixed column structure supplied by the project team.
+  // Parse it by exact column position so no other populated column can ever be
+  // mistaken for Verified / Status / Ready To Onboard.
+  if(stateKey==='WB' && partySource==='Existing' && sourceSheet==='WB_BEV'){
+    return rows.map(r=>{
+      const c=r.c||[];
+      const lat=parseCoordinateNumber(getValue(c,3),'lat');
+      const lng=parseCoordinateNumber(getValue(c,4),'lng');
+      return {
+        sourceStateKey:stateKey,
+        sourceStateName,
+        sourceSheet:'WB_BEV',
+        partySource:'Existing',
+        distributorType:'F&B',
+        distributorTypeRaw:'WB_BEV',
+        rtr:getValue(c,0),
+        state:getValue(c,1)||sourceStateName,
+        partyName:getValue(c,2),
+        district:getValue(c,5),
+        tehsil:getValue(c,6),
+        town:getValue(c,7),
+        uniqueKey:getValue(c,24),
+        uniqueTown:getValue(c,24),
+        villageType:getValue(c,8),
+        verified:getValue(c,9),
+        submissionTime:getValue(c,10),
+        sde:getValue(c,11),
+        status:getValue(c,15),
+        ready:getValue(c,19),
+        dateCorrect:getValue(c,25),
+        cat:getValue(c,29),
+        remarks:getValue(c,21),
+        latitude:lat,
+        longitude:lng
+      };
+    });
+  }
+
   return rows.map(r=>{
     const c=r.c||[];
 
     if(partySource==='New'){
       const dateCorrect=getByHeaderLoose(c,map,[
         'Date Correct','Date_Correct','DateCorrect','Correct Date','Correct_Date','Date'
-      ],['datecorrect','correctdate'],[23]);
+      ],['datecorrect','correctdate'],stateKey==='WB' ? [] : [23]);
       const verified=getByHeaderLoose(c,map,[
         'Verified','Verification Status','Verified Status','Verification','Verify','Verified?',
         'Verified_YN','Verified YN','Audit Verified','Auditor Verified'
       ],['verified','verification'],[9,21,22,23,24,25,26,27,28,29,30]);
       const coords=getLatLngFromCells(c,map);
 
+      const distributorTypeRaw=getByHeaderLoose(c,map,[
+        'Distributor_Type','Distributor Type','DistributorType','Type of Distributor','Distributor Category'
+      ],['distributortype','distributor'],[]);
+      const classifiedDistributorType=stateKey==='WB'
+        ? (String(distributorTypeRaw||'').trim()==='' ? 'UNCLASSIFIED' : (/BEV/i.test(String(distributorTypeRaw)) ? 'F&B' : 'PC'))
+        : distributorType;
+
       return {
         sourceStateKey:stateKey,
         sourceStateName,
+        sourceSheet,
         partySource:'New',
+        distributorType:classifiedDistributorType,
+        distributorTypeRaw,
         rtr:getByHeader(c,map,['New_Party_ID','New Party ID','Party ID'],[0]),
         state:getByHeader(c,map,['State'],[4])||sourceStateName,
         partyName:getByHeader(c,map,['Name_of_Party','Name of Party','Party Name','Party'],[3]),
@@ -1420,6 +1523,7 @@ function parseSheetResponse(response,stateKey,partySource){
         sde:getByHeader(c,map,['SDE_Name','SDE Name','Sales Team','Sales_Team','SDE'],[2]),
         status:getByHeader(c,map,['Party_Status','Party Status','Status'],[14]),
         ready:getByHeader(c,map,['Ready_To_Onboard','Ready To Onboard','Onboarded','Ready','Ready for Onboarding'],[18]),
+        remarks:getByHeader(c,map,['Remarks','Remark','Comments','Comment'],[22]),
         latitude:coords.lat,
         longitude:coords.lng
       };
@@ -1436,7 +1540,9 @@ function parseSheetResponse(response,stateKey,partySource){
     return {
       sourceStateKey:stateKey,
       sourceStateName,
+      sourceSheet,
       partySource:'Existing',
+      distributorType,
       rtr:getByHeader(c,map,['RTR Code','RTR_Code','RTR'],[0]),
       state:getByHeader(c,map,['State'],[1])||sourceStateName,
       partyName:getByHeader(c,map,['Name_of_Party','Name of Party','Party Name','Party_Name','Party'],[2]),
@@ -1450,12 +1556,13 @@ function parseSheetResponse(response,stateKey,partySource){
       verified:getByHeaderLoose(c,map,[
         'Verified','Verification Status','Verified Status','Verification','Verify','Verified?',
         'Verified_YN','Verified YN','Audit Verified','Auditor Verified'
-      ],['verified','verification'],[9,21,22,23,24,25,26,27,28,29,30]),
-      submissionTime:getByHeader(c,map,['Submission Time','Submission_Time','Timestamp','Time Stamp'],[10]),
+      ],['verified','verification'],distributorType==='F&B' ? [] : [9,21,22,23,24,25,26,27,28,29,30]),
+      submissionTime:getByHeader(c,map,['Submission Time','Submission_Time','Timestamp','Time Stamp'],distributorType==='F&B' ? [] : [10]),
       dateCorrect,
-      sde:getByHeader(c,map,['Sales Team','Sales_Team','Sales Manpower','SDE'],[11]),
-      status:getByHeader(c,map,['Status'],[15]),
-      ready:getByHeader(c,map,['Onboarded','Ready','Ready for Onboarding'],[19]),
+      sde:getByHeader(c,map,['Sales Team','Sales_Team','Sales Manpower','SDE'],distributorType==='F&B' ? [] : [11]),
+      status:getByHeader(c,map,['Status','Party Status','Party_Status'],distributorType==='F&B' ? [] : [15]),
+      ready:getByHeader(c,map,['Onboarded','Ready','Ready for Onboarding','Ready_To_Onboard','Ready To Onboard'],distributorType==='F&B' ? [] : [19]),
+      remarks:getByHeader(c,map,['Remarks','Remark','Comments','Comment'],distributorType==='F&B' ? [] : [21,22]),
       latitude:coords.lat,
       longitude:coords.lng
     };
@@ -1793,15 +1900,15 @@ function getDistrictNumbers(stateKey){
   };
 }
 
-function calc(rows,stateKey=null){
-  const submitted=rows.filter(isSubmitted);
+function calc(rows,stateKey=null,submittedPredicate=isSubmitted){
+  const submitted=rows.filter(submittedPredicate);
   const districtNumbers=getDistrictNumbers(stateKey);
   const salesTeams=[...new Set(submitted.map(r=>String(r.sde||'').trim()).filter(Boolean))].length;
   const open=submitted.filter(isOpen).length;
   const onboarded=submitted.filter(isReady).length;
 
-  const ptypes={DHQ:calcType(rows,'DHQ'),P1:calcType(rows,'P1'),P2:calcType(rows,'P2')};
-  const townStatus=calcTownStatus(rows);
+  const ptypes={DHQ:calcType(rows,'DHQ',submittedPredicate),P1:calcType(rows,'P1',submittedPredicate),P2:calcType(rows,'P2',submittedPredicate)};
+  const townStatus=calcTownStatus(rows,submittedPredicate);
   const lowDist={p1Less25:calcLowDistribution(rows,'P1',isCatLess25),p2Less15:calcLowDistribution(rows,'P2',isCatLess15)};
 
   return {
@@ -1815,7 +1922,7 @@ function calc(rows,stateKey=null){
   };
 }
 
-function calcTownStatus(rows){
+function calcTownStatus(rows,submittedPredicate=isSubmitted){
   const groups={};
 
   rows.filter(isDatabaseRow).forEach(r=>{
@@ -1825,7 +1932,7 @@ function calcTownStatus(rows){
     groups[k].total++;
   });
 
-  rows.filter(isSubmitted).forEach(r=>{
+  rows.filter(submittedPredicate).forEach(r=>{
     const k=townKey(r);
     if(!k.replace(/\|/g,'').trim())return;
     if(!groups[k])groups[k]={total:0,submitted:[]};
@@ -1849,7 +1956,7 @@ function calcTownStatus(rows){
   return out;
 }
 
-function calcType(rows,type){
+function calcType(rows,type,submittedPredicate=isSubmitted){
   const groups={};
 
   function ensureTown(r){
@@ -1868,7 +1975,7 @@ function calcType(rows,type){
   }
 
   rows.filter(isDatabaseRow).forEach(r=>ensureTown(r));
-  rows.filter(isSubmitted).forEach(r=>{
+  rows.filter(submittedPredicate).forEach(r=>{
     const g=ensureTown(r);
     if(!g)return;
     g.submitted++;
@@ -2054,16 +2161,107 @@ function calcLowDistribution(rows,type,catCheck){
   return out;
 }
 
+function wbNewDistributorType(r){
+  return String(r.distributorTypeRaw||'').trim();
+}
+
+function isFoodBeverageRow(r){
+  if(r.sourceStateKey!=='WB')return false;
+  // Same architecture as the reference dashboard: classify at source/row level,
+  // then filter the tagged business type for the separate F&B KPI section.
+  return String(r.distributorType||'')==='F&B';
+}
+
+function isPersonalCareRow(r){
+  if(r.sourceStateKey!=='WB')return true;
+  return String(r.distributorType||'')==='PC';
+}
+
+function isWBIncludedRow(r){
+  if(r.sourceStateKey!=='WB')return true;
+  return isFoodBeverageRow(r) || isPersonalCareRow(r);
+}
+
+function isWBBevSubmitted(r){
+  if(!isFoodBeverageRow(r))return false;
+  if(r.partySource==='New'){
+    // New BEV activity counts only after Distributor_Type is BEV and Date Correct exists.
+    return wbNewDistributorType(r).toUpperCase().includes('BEV') && parseFlexibleDate(r.dateCorrect)!==null;
+  }
+  // Existing WB_BEV activity counts only when column J (Verified) is explicitly Yes.
+  return isVerifiedYes(r);
+}
+
+function isWBPCSubmitted(r){
+  if(!isPersonalCareRow(r))return false;
+  return isSubmitted(r);
+}
+
+function isWBSubmitted(r){
+  if(!isWBIncludedRow(r))return false;
+  return isFoodBeverageRow(r) ? isWBBevSubmitted(r) : isWBPCSubmitted(r);
+}
+
+function calcWBBevKpis(rows){
+  const bevRows=rows.filter(isFoodBeverageRow);
+  if(!bevRows.length)return {totalTowns:0,p1Towns:0,p2Towns:0,onboardedTowns:0};
+
+  const status=calcTownStatus(bevRows,isWBBevSubmitted);
+  return {
+    totalTowns:status.totalTowns,
+    p1Towns:calcType(bevRows,'P1',isWBBevSubmitted).towns,
+    p2Towns:calcType(bevRows,'P2',isWBBevSubmitted).towns,
+    onboardedTowns:status.onboardedAtLeastOne
+  };
+}
+
+function wbBevKpiStrip(rows){
+  const b=calcWBBevKpis(rows);
+  return `
+    <div class="wb-bev-strip anim-soft" style="--delay:.72s">
+      <div class="wb-bev-title">Food &amp; Beverage Distributor Summary</div>
+      <div class="wb-bev-metric"><b>${fmt(b.totalTowns)}</b><span>Total BEV Towns</span></div>
+      <div class="wb-bev-metric"><b>${fmt(b.p1Towns)}</b><span>P1 Towns</span></div>
+      <div class="wb-bev-metric"><b>${fmt(b.p2Towns)}</b><span>P2 Towns</span></div>
+      <div class="wb-bev-metric"><b>${fmt(b.onboardedTowns)}</b><span>Towns Onboarded</span></div>
+    </div>`;
+}
+
 function renderReport(){
   const byState={};
-  STATE_KEYS.forEach(k=>{ byState[k]=calc(rawData.filter(r=>r.sourceStateKey===k),k); });
-  const overall=calc(rawData,null);
+  const detailByState={};
+  STATE_KEYS.forEach(k=>{
+    const stateRows=rawData.filter(r=>r.sourceStateKey===k);
+    if(k==='WB'){
+      const wbPcRows=stateRows.filter(isPersonalCareRow);
+      const wbBevRows=stateRows.filter(isFoodBeverageRow);
+      const wbCombinedRows=[...wbPcRows,...wbBevRows];
+      byState[k]=calc(wbCombinedRows,k,isWBSubmitted);
+      detailByState[k]=calc(wbPcRows,k,isWBPCSubmitted);
+      byState[k].pcRows=wbPcRows;
+      byState[k].bevRows=wbBevRows;
+      console.info('[WB split]',{
+        pcExisting:wbPcRows.filter(r=>r.partySource!=='New').length,
+        pcNew:wbPcRows.filter(r=>r.partySource==='New').length,
+        bevExisting:wbBevRows.filter(r=>r.partySource!=='New').length,
+        bevNew:wbBevRows.filter(r=>r.partySource==='New').length,
+        bevVerified:wbBevRows.filter(isWBBevSubmitted).length
+      });
+    }else{
+      byState[k]=calc(stateRows,k,isSubmitted);
+      detailByState[k]=calc(stateRows,k,isSubmitted);
+    }
+  });
+
+  // Overall report also excludes unclassified WB New Party rows where Distributor_Type is blank.
+  const overallRows=rawData.filter(r=>r.sourceStateKey!=='WB' || isWBIncludedRow(r));
+  const overall=calc(overallRows,null,r=>r.sourceStateKey==='WB' ? isWBSubmitted(r) : isSubmitted(r));
   renderDataStatusSlide();
   renderOverallSlide(overall);
   renderAllStatePerformanceSlide(byState);
-  renderStateSlides(byState);
+  renderStateSlides(byState,detailByState);
   renderCharts(overall,byState);
-  renderMaps(byState);
+  renderMaps(detailByState);
   setTimeout(initScrollAnimations,60);
 }
 
@@ -2095,7 +2293,7 @@ function summaryBanner(text,delay=.1){
   return `<div class="summary-banner anim-soft" style="--delay:${delay}s"><p>${text}</p></div>`;
 }
 
-function townCoveragePanel(s,delay=.2){
+function townCoveragePanel(s,delay=.2,analysisKey=''){
   const townConversion=s.townStatus.visitedTowns
     ? Math.round((s.townStatus.onboardedAtLeastOne/s.townStatus.visitedTowns)*100)+'%'
     : '0%';
@@ -2114,7 +2312,7 @@ function townCoveragePanel(s,delay=.2){
         <div class="outcome-tree-parent"><b>${fmt(s.townStatus.visitedTowns)}</b><span>Towns Visited</span></div>
         <div class="outcome-tree-children">
           <div class="outcome-tree-child onboarded"><b>${fmt(s.townStatus.onboardedAtLeastOne)}</b><span>With Onboarding</span></div>
-          <div class="outcome-tree-child open-not-converted"><b>${fmt(s.townStatus.openButNotConverted)}</b><span>Open, Not Converted</span></div>
+          <div class="outcome-tree-child open-not-converted ${analysisKey?'clickable-analysis':''}" ${analysisKey?`role="button" tabindex="0" aria-label="Open reason analysis for open, not converted" onclick="openRemarksAnalysis('${analysisKey}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRemarksAnalysis('${analysisKey}')}"`:''}><b>${fmt(s.townStatus.openButNotConverted)}</b><span>Open, Not Converted</span></div>
           <div class="outcome-tree-child no-open"><b>${fmt(s.townStatus.notFoundAnything)}</b><span>No Open Party</span></div>
         </div>
       </div>
@@ -2895,14 +3093,167 @@ function renderTownCoverageMap(canvasId,rows,stateKey){
   }
 }
 
-function renderStateSlides(byState){
+function escapeHtml(value){
+  return String(value===null||value===undefined?'':value)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function normalizeRemark(value){
+  return String(value||'').replace(/\s+/g,' ').trim();
+}
+
+function classifyNonConversionReason(remark){
+  const t=normalizeRemark(remark).toLowerCase();
+  if(!t)return 'No remark provided';
+  const rules=[
+    ['Credit / payment terms',/credit|payment|cash|outstanding|due|udhaar|udhar|advance/],
+    ['Margin / profitability',/margin|profit|roi|scheme|discount|earning|commission/],
+    ['Investment / working capital',/investment|capital|fund|finance|budget|money|working capital/],
+    ['Existing distributor / brand conflict',/existing distributor|already distributor|other distributor|competitor|other brand|already dealing|dealership|distributorship/],
+    ['Low market potential / volume',/low sale|low sales|low volume|low demand|market potential|potential low|outlet universe|small market|less business/],
+    ['Documentation / compliance',/document|documentation|gst|pan|license|licence|paper|kyc|fssai/],
+    ['Infrastructure / storage / vehicle',/godown|warehouse|storage|space|vehicle|van|infrastructure/],
+    ['Coverage / manpower / service concern',/salesman|manpower|delivery|route|service|beat|distance|coverage|supply/],
+    ['Decision pending / follow-up',/pending|discuss|discussion|thinking|decide|decision|later|follow.?up|next visit|time required|need time|will confirm|owner not available|not available/],
+    ['Not interested / unwilling',/not interested|no interest|unwilling|refus|not ready|dont want|doesn't want|doesnt want|not willing/]
+  ];
+  for(const [label,re] of rules){ if(re.test(t))return label; }
+  return 'Other / uncategorised';
+}
+
+function buildRemarksAnalysis(submittedRows){
+  const openNotConverted=(submittedRows||[]).filter(r=>isOpen(r)&&!isReady(r));
+  const withRemarks=openNotConverted.filter(r=>normalizeRemark(r.remarks));
+  const themeCounts={};
+  withRemarks.forEach(r=>{
+    const theme=classifyNonConversionReason(r.remarks);
+    themeCounts[theme]=(themeCounts[theme]||0)+1;
+  });
+  const reasons=Object.entries(themeCounts)
+    .map(([reason,count])=>({reason,count,pct:withRemarks.length?count/withRemarks.length*100:0}))
+    .sort((a,b)=>b.count-a.count||a.reason.localeCompare(b.reason));
+
+  const stop=new Set(('the a an and or but if then than to of in on at for from with without is are was were be been being this that these those it its they them their he she his her we our you your i me my not no yes party parties distributor distribution business open onboard onboarded onboarding remarks remark status state town district tehsil sales team sde ck cavinkare company said says asked will can could would should have has had do does did as by about after before during into over under again further very more most some any each few own same so too only also'.split(/\s+/)));
+  const wordCounts={};
+  withRemarks.forEach(r=>{
+    normalizeRemark(r.remarks).toLowerCase()
+      .replace(/[^a-z0-9\s]/g,' ')
+      .split(/\s+/)
+      .filter(w=>w.length>=3 && !stop.has(w) && !/^\d+$/.test(w))
+      .forEach(w=>wordCounts[w]=(wordCounts[w]||0)+1);
+  });
+  const words=Object.entries(wordCounts).map(([word,count])=>({word,count})).sort((a,b)=>b.count-a.count||a.word.localeCompare(b.word)).slice(0,28);
+  return {openNotConverted,withRemarks,reasons,words};
+}
+
+function renderWordCloud(words){
+  if(!words.length)return '<div class="not-applicable" style="height:100%">No usable remark words available for this state.</div>';
+  const max=Math.max(...words.map(w=>w.count),1), min=Math.min(...words.map(w=>w.count),1);
+  return `<div class="word-cloud">${words.map((w,i)=>{
+    const scale=max===min?0.55:(w.count-min)/(max-min);
+    const size=Math.round(14+scale*24);
+    const op=(0.62+scale*0.36).toFixed(2);
+    const rotations=[0,0,-4,3,0,5,-3];
+    return `<span style="font-size:${size}px;--op:${op};--rot:${rotations[i%rotations.length]}deg" title="${escapeHtml(w.word)}: ${w.count}">${escapeHtml(w.word)}</span>`;
+  }).join('')}</div>`;
+}
+
+let remarksAnalysisStore={};
+
+function registerRemarksAnalysis(key,title,rows){
+  remarksAnalysisStore[key]={title,rows:Array.isArray(rows)?rows:[]};
+}
+
+function buildRemarksAnalysisHtml(title,rows){
+  const a=buildRemarksAnalysis(rows||[]);
+  const remarkCoverage=a.openNotConverted.length ? Math.round(a.withRemarks.length/a.openNotConverted.length*100)+'%' : '0%';
+  const topReasons=a.reasons.slice(0,7);
+  const samples=a.withRemarks.slice(0,8);
+  return `
+    <div class="reason-summary-grid">
+      ${kpiCard(fmt(a.openNotConverted.length),'Open Parties Not Onboarded','orange',0)}
+      ${kpiCard(fmt(a.withRemarks.length),'With Remarks','blue',0)}
+      ${kpiCard(remarkCoverage,'Remark Coverage','purple',0)}
+      ${kpiCard(a.reasons.length?escapeHtml(a.reasons[0].reason):'-','Top Reason','red',0)}
+    </div>
+    <div class="reason-layout">
+      <div class="reason-left">
+        <div class="panel" style="flex:1;min-height:0">
+          <div class="panel-title-row"><h3>Reason Analysis</h3><span class="panel-caption">Open parties not onboarded</span></div>
+          ${topReasons.length?`<table class="reason-table"><thead><tr><th>Reason</th><th>Count</th><th>Share</th></tr></thead><tbody>${topReasons.map(x=>`<tr><td>${escapeHtml(x.reason)}<div class="reason-bar-track"><div class="reason-bar-fill" style="width:${Math.max(3,x.pct).toFixed(1)}%"></div></div></td><td>${fmt(x.count)}</td><td>${x.pct.toFixed(1).replace(/\.0$/,'')}%</td></tr>`).join('')}</tbody></table>`:'<div class="not-applicable">No remarks available for open, not-converted parties.</div>'}
+          <div class="reason-note">Reason coding is rule-based from the free-text Remarks column. One primary theme is assigned to each comment; use the source remarks for final interpretation.</div>
+        </div>
+      </div>
+      <div class="reason-right">
+        <div class="panel" style="flex:1.05;min-height:0;display:flex;flex-direction:column">
+          <div class="panel-title-row"><h3>Remarks Word Cloud</h3><span class="panel-caption">Most repeated words</span></div>
+          ${renderWordCloud(a.words)}
+        </div>
+        <div class="panel" style="flex:.95;min-height:0;display:flex;flex-direction:column">
+          <div class="panel-title-row"><h3>Example Remarks</h3><span class="panel-caption">Up to 8 comments</span></div>
+          <div class="remark-samples">${samples.length?samples.map(r=>`<div class="remark-sample"><b>${escapeHtml(r.partyName||r.town||'Party')}:</b> ${escapeHtml(normalizeRemark(r.remarks))}</div>`).join(''):'<div class="not-applicable">No remarks available.</div>'}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function ensureRemarksModal(){
+  let modal=document.getElementById('remarksAnalysisModal');
+  if(modal)return modal;
+  modal=document.createElement('div');
+  modal.id='remarksAnalysisModal';
+  modal.className='remarks-modal';
+  modal.setAttribute('aria-hidden','true');
+  modal.innerHTML=`
+    <div class="remarks-dialog" role="dialog" aria-modal="true" aria-labelledby="remarksDialogTitle">
+      <div class="remarks-dialog-header">
+        <div><div class="remarks-dialog-kicker">Open, Not Converted · Remarks Analysis</div><h3 id="remarksDialogTitle">Reason Analysis</h3></div>
+        <button type="button" class="remarks-dialog-close" aria-label="Close analysis">×</button>
+      </div>
+      <div id="remarksDialogBody" class="remarks-dialog-body"></div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector('.remarks-dialog-close').addEventListener('click',closeRemarksAnalysis);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeRemarksAnalysis();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))closeRemarksAnalysis();});
+  return modal;
+}
+
+function openRemarksAnalysis(key){
+  const ctx=remarksAnalysisStore[key];
+  if(!ctx)return;
+  const modal=ensureRemarksModal();
+  const title=document.getElementById('remarksDialogTitle');
+  const body=document.getElementById('remarksDialogBody');
+  if(title)title.textContent=ctx.title;
+  if(body)body.innerHTML=buildRemarksAnalysisHtml(ctx.title,ctx.rows);
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('remarks-modal-open');
+  const close=modal.querySelector('.remarks-dialog-close');
+  if(close)close.focus();
+}
+
+function closeRemarksAnalysis(){
+  const modal=document.getElementById('remarksAnalysisModal');
+  if(!modal)return;
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('remarks-modal-open');
+}
+
+function renderStateSlides(byState,detailByState){
   let html='';
+  remarksAnalysisStore={};
 
   STATE_KEYS.forEach((k,index)=>{
     const s=byState[k];
+    const detail=detailByState[k]||s;
     const slideNumber=5+(index*2);
     const mapSlideNumber=slideNumber+1;
     const districtCoverage=s.requested ? Math.round((s.districtReceived/s.requested)*100) : 0;
+    registerRemarksAnalysis(`state_${k}`,STATES[k].name+' · Open, Not Converted',detail.submitted||[]);
 
     html+=`
       <section class="slide state-slide" id="state_${k}">
@@ -2929,19 +3280,48 @@ function renderStateSlides(byState){
           ${kpiCard(activityStats(s.submitted).daysSinceLastWorked===null?'-':fmt(activityStats(s.submitted).daysSinceLastWorked),'Days Since Last Worked','red',.68)}
         </div>
 
+        ${k==='WB' ? (()=>{
+          const pc=detail;
+          // IMPORTANT: the Food & Beverage panel is sourced ONLY from the physical WB_BEV sheet.
+          // Do not use business-type classification here and do not include WB_New rows.
+          const bevSheetOnlyRows=(s.rows||[]).filter(r=>r.sourceStateKey==='WB' && r.sourceSheet==='WB_BEV');
+          const bev=calc(bevSheetOnlyRows,k,r=>r.sourceSheet==='WB_BEV' && isVerifiedYes(r));
+          registerRemarksAnalysis('state_WB_PC','West Bengal · Personal Care · Open, Not Converted',pc.submitted||[]);
+          registerRemarksAnalysis('state_WB_BEV','West Bengal · Food & Beverage · Open, Not Converted',bev.submitted||[]);
+          return `
+            <div class="wb-performance-body">
+              <div class="panel chart-panel wb-overall-chart anim" style="--delay:.20s">
+                <div class="panel-title-row">
+                  <h3>Overall Date-wise Progress</h3>
+                  <span class="chart-legend-note">PC + Food &amp; Beverage · Visited · Open · Onboarded</span>
+                </div>
+                <div class="chart-wrap"><canvas id="chart_${k}"></canvas></div>
+              </div>
+              <div class="wb-segment pc">
+                <div class="wb-segment-title anim-soft" style="--delay:.23s">Personal Care</div>
+                ${townCoveragePanel(pc,.26,'state_WB_PC')}
+                ${ptypeTable(pc,.30)}
+              </div>
+              <div class="wb-segment bev">
+                <div class="wb-segment-title anim-soft" style="--delay:.23s">Food &amp; Beverage <span style="font-size:10px;font-weight:800;color:#15803d">(WB_BEV only)</span></div>
+                ${townCoveragePanel(bev,.26,'state_WB_BEV')}
+                ${ptypeTable(bev,.30)}
+              </div>
+            </div>`;
+        })() : `
         <div class="state-body">
           <div class="state-left">
-            ${townCoveragePanel(s,.20)}
-            ${ptypeTable(s,.28)}
+            ${townCoveragePanel(detail,.20,'state_'+k)}
+            ${ptypeTable(detail,.28)}
           </div>
           <div class="state-right">
             ${chartPanel('chart_'+k,'Date-wise Progress',.24)}
-            ${lowDistributionPanel(s,k,.30)}
+            ${lowDistributionPanel(detail,k,.30)}
           </div>
-        </div>
+        </div>`}
         ${slideFooter(slideNumber,TOTAL_SLIDES,STATES[k].name)}
       </section>
-      ${stateMapSlide(k,s,mapSlideNumber)}`;
+      ${stateMapSlide(k,detail,mapSlideNumber)}`;
   });
 
   document.getElementById('stateSlides').innerHTML=html;
