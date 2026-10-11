@@ -103,28 +103,45 @@
     .all-state-performance-table th:first-child{width:15%}
     .all-state-performance-table .stale-days{color:#c2410c;font-weight:900}
     .all-state-performance-table .recent-days{color:#15803d;font-weight:900}
+    .all-state-performance-table .overall-performance-row td{background:#dbeafe!important;color:#0f3d66;font-weight:900;border-top:2px solid #60a5fa}
+    .all-state-performance-table .state-performance-percent strong{font-size:1.2em;font-weight:1000;letter-spacing:.1px}
+    .all-state-performance-table .worked-days-rate{display:block;margin-top:3px;font-size:10px;line-height:1.05;color:#0f3d66;font-weight:900;white-space:nowrap}
+    .table-state-link{color:inherit;text-decoration:none;font-weight:900;border-bottom:1px dashed currentColor;transition:color .15s ease,border-color .15s ease}
+    .table-state-link:hover,.table-state-link:focus-visible{color:#1d4ed8;border-bottom-style:solid;outline:none}
+    .overall-status-panel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:14px 16px!important;overflow:hidden}
+    .overall-status-table{width:100%;height:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:14px}
+    .overall-status-table th{background:#0f3d66;color:#fff;padding:12px 7px;font-size:12px;line-height:1.15;text-align:center;border-right:1px solid rgba(255,255,255,.18)}
+    .overall-status-table td{padding:10px 7px;text-align:center;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;font-weight:800;color:#334155;line-height:1.12}
+    .overall-status-table td:first-child{text-align:left;font-weight:900;color:#0f3d66;padding-left:12px}
+    .overall-status-table tbody tr:nth-child(even){background:#f8fafc}
+    .overall-status-table .overall-status-row td{background:#dbeafe!important;color:#0f3d66;font-weight:900;border-top:2px solid #60a5fa}
+    .overall-status-table .cell-percent{display:block;margin-top:4px;font-size:13.5px;color:#334155;font-weight:900}
+    .overall-status-note{flex:0 0 auto;margin-top:8px;font-size:10px;color:#64748b;font-weight:700;text-align:right}
     .performance-note{margin-top:10px;font-size:11px;color:#64748b;text-align:right;font-weight:700}
-    .outcome-tree{position:relative;margin:0 0 12px;padding:0 12px 2px;flex:0 0 auto}
-    .outcome-tree-parent{width:190px;margin:0 auto 18px;padding:8px 12px;border-radius:12px;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;text-align:center;box-shadow:0 4px 12px rgba(37,99,235,.22)}
-    .outcome-tree-parent b,.outcome-tree-child b{display:block;font-size:24px;line-height:1;font-weight:900}
-    .outcome-tree-parent span,.outcome-tree-child span{display:block;margin-top:4px;font-size:10px;line-height:1.1;font-weight:900;text-transform:uppercase;letter-spacing:.35px}
-    .outcome-tree-children{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-    .outcome-tree-children:before{content:"";position:absolute;left:16.67%;right:16.67%;top:-10px;border-top:2px solid #94a3b8}
-    .outcome-tree-child{position:relative;padding:8px 8px;border-radius:12px;text-align:center;background:#fff;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(15,23,42,.08)}
-    .outcome-tree-child:before{content:"";position:absolute;left:50%;top:-11px;height:11px;border-left:2px solid #94a3b8}
-    .outcome-tree-child.onboarded{border-top:4px solid #16a34a;color:#15803d}
-    .outcome-tree-child.open-not-converted{border-top:4px solid #ea580c;color:#c2410c}
-    .outcome-tree-child.no-open{border-top:4px solid #64748b;color:#475569}
-    .town-coverage-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px}
-    .town-coverage-overview div{padding:6px 8px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;text-align:center}
-    .town-coverage-overview b{display:block;font-size:18px;line-height:1;color:#334155}
-    .town-coverage-overview span{display:block;margin-top:3px;font-size:8px;font-weight:900;text-transform:uppercase;color:#64748b}
-    .town-coverage-tree{margin:0;padding:0 2px}
-    .town-coverage-tree .outcome-tree-parent{width:150px;margin-bottom:15px;padding:6px 10px}
-    .town-coverage-tree .outcome-tree-parent b,.town-coverage-tree .outcome-tree-child b{font-size:19px}
-    .town-coverage-tree .outcome-tree-parent span,.town-coverage-tree .outcome-tree-child span{font-size:8px}
-    .town-coverage-tree .outcome-tree-children{gap:6px}
-    .town-coverage-tree .outcome-tree-child{padding:6px 3px}
+    .town-family-tree{display:flex;flex-direction:column;gap:11px;min-height:0}
+    .town-tree-root{position:relative;width:min(220px,70%);margin:0 auto 2px;padding:9px 12px;border-radius:12px;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;text-align:center;box-shadow:0 4px 12px rgba(37,99,235,.18)}
+    .town-tree-root:after{content:"";position:absolute;left:50%;bottom:-11px;height:11px;border-left:2px solid #94a3b8}
+    .town-tree-root b{display:block;font-size:24px;line-height:1;font-weight:900}
+    .town-tree-root span,.town-tree-status-card span,.town-tree-outcome span{display:block;margin-top:4px;font-size:9px;line-height:1.1;font-weight:900;text-transform:uppercase;letter-spacing:.3px}
+    .town-tree-status-row{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:8px}
+    .town-tree-status-row:before{content:"";position:absolute;left:25%;right:25%;top:0;border-top:2px solid #94a3b8}
+    .town-tree-status-card{position:relative;padding:8px 5px;border-radius:10px;background:#f8fafc;border:1px solid #dbe4f0;text-align:center}
+    .town-tree-status-card:before{content:"";position:absolute;left:50%;top:-9px;height:9px;border-left:2px solid #94a3b8}
+    .town-tree-status-card b{display:block;font-size:20px;line-height:1.05;font-weight:900;color:#334155}
+    .town-tree-status-card small{display:block;margin-top:3px;font-size:9px;font-weight:900;color:#64748b}
+    .town-tree-status-card.visited{background:#ecfdf5;border-color:#bbf7d0}
+    .town-tree-status-card.visited b,.town-tree-status-card.visited span{color:#15803d}
+    .town-tree-outcome-title{position:relative;margin-top:1px;text-align:center;color:#64748b;font-size:8px;font-weight:900;letter-spacing:.45px;text-transform:uppercase}
+    .town-tree-outcome-title:before{content:"";position:absolute;left:25%;top:-12px;height:12px;border-left:2px solid #94a3b8}
+    .town-tree-outcomes{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding-top:8px}
+    .town-tree-outcomes:before{content:"";position:absolute;left:16.67%;right:16.67%;top:0;border-top:2px solid #94a3b8}
+    .town-tree-outcome{position:relative;min-width:0;padding:7px 3px;border-radius:10px;text-align:center;background:#fff;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(15,23,42,.06)}
+    .town-tree-outcome:before{content:"";position:absolute;left:50%;top:-9px;height:9px;border-left:2px solid #94a3b8}
+    .town-tree-outcome b{display:block;font-size:18px;line-height:1.05;font-weight:900;white-space:nowrap}
+    .town-tree-outcome b small{font-size:10px;font-weight:900}
+    .town-tree-outcome.onboarded{border-top:4px solid #16a34a;color:#15803d}
+    .town-tree-outcome.open-not-converted{border-top:4px solid #ea580c;color:#c2410c}
+    .town-tree-outcome.no-open{border-top:4px solid #64748b;color:#475569}
     .data-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
     .kpi-card{min-width:0;background:#f8fafc;border:1px solid #e2e8f0;border-top:4px solid var(--blue);border-radius:12px;padding:12px 8px 10px;text-align:center}
     .kpi-value{font-size:28px;line-height:1;font-weight:900;color:var(--blue);white-space:nowrap}
@@ -201,6 +218,7 @@
     .anim-soft{opacity:0;transform:translateY(10px) scale(.965);filter:blur(2px)}
     .slide.is-active .anim{animation:scrollFadeUp .72s cubic-bezier(.22,.8,.24,1) forwards;animation-delay:var(--delay,0s)}
     .slide.is-active .anim-soft{animation:scrollFadeZoom .78s cubic-bezier(.22,.8,.24,1) forwards;animation-delay:var(--delay,0s)}
+    .title-slide.is-active .cover-title-animate{color:transparent;background-image:linear-gradient(110deg,#fff 0%,#fff 43%,#bfdbfe 48%,#fff 53%,#fff 100%);background-size:240% 100%;background-position:100% 0;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;animation:coverTitleReveal 1s cubic-bezier(.2,.75,.25,1) forwards,coverTitleLightSweep 5.6s ease-in-out 1.15s infinite alternate}
     .slide.is-active .kpi-card.anim{animation-name:kpiPop}
     .slide.is-active .panel.anim{animation-name:panelRise}
     .slide.is-active .map-shell.anim-soft{animation-name:mapReveal}
@@ -210,6 +228,8 @@
     .title-slide.is-active:after{background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.08),transparent 42%)}
     @keyframes scrollFadeUp{from{opacity:0;transform:translateY(24px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
     @keyframes scrollFadeZoom{from{opacity:0;transform:translateY(10px) scale(.965);filter:blur(2px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+    @keyframes coverTitleReveal{from{opacity:0;transform:translateY(22px) scale(.98);filter:blur(2px);text-shadow:0 0 0 rgba(255,255,255,0)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0);text-shadow:0 10px 34px rgba(15,23,42,.2)}}
+    @keyframes coverTitleLightSweep{from{background-position:100% 0}to{background-position:0 0}}
     @keyframes kpiPop{0%{opacity:0;transform:translateY(18px) scale(.88);filter:blur(2px)}70%{opacity:1;transform:translateY(-3px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
     @keyframes panelRise{from{opacity:0;transform:translateY(30px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
     @keyframes mapReveal{from{opacity:0;transform:scale(.94);clip-path:inset(10% 4% 10% 4% round 20px);filter:blur(4px)}to{opacity:1;transform:scale(1);clip-path:inset(0 round 14px);filter:blur(0)}}
@@ -219,7 +239,8 @@
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
       .scroll-progress-bar{transition:none}
-      .anim,.anim-soft,.slide.is-active .anim,.slide.is-active .anim-soft,.slide.is-active .title-decor{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+      .anim,.anim-soft,.slide.is-active .anim,.slide.is-active .anim-soft,.slide.is-active .cover-title-animate,.slide.is-active .title-decor{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+      .title-slide .cover-title-animate{color:#fff;-webkit-text-fill-color:#fff;background:none;-webkit-background-clip:border-box;background-clip:border-box}
       .slide.is-active:after{animation:none!important}
     }
     @media(max-width:1050px){
@@ -1022,7 +1043,7 @@
     }
 
 
-    /* All States Project Performance - maximize table to fill the slide */
+    /* All States Sales Team Performance - maximize table to fill the slide */
     @media screen{
       #allStatePerformanceSlide .slide-header{flex:0 0 auto}
       #allStatePerformanceSlide .summary-banner{flex:0 0 auto}
@@ -1040,7 +1061,7 @@
         font-size:15px;
       }
       #allStatePerformanceSlide .all-state-performance-table thead tr{height:15%}
-      #allStatePerformanceSlide .all-state-performance-table tbody tr{height:10.625%}
+      #allStatePerformanceSlide .all-state-performance-table tbody tr{height:9.444%}
       #allStatePerformanceSlide .all-state-performance-table th{
         font-size:12px;
         padding:10px 7px;
@@ -1058,6 +1079,8 @@
         font-size:10px;
       }
       #allStatePerformanceSlide .slide-footer{flex:0 0 auto}
+      #overallSlideContent .overall-status-table thead tr{height:12%}
+      #overallSlideContent .overall-status-table tbody tr{height:9.7%}
     }
 
     @media screen and (min-width:1051px) and (max-height:820px){
@@ -1065,8 +1088,66 @@
       #allStatePerformanceSlide .all-state-performance-table{font-size:12.5px}
       #allStatePerformanceSlide .all-state-performance-table th{font-size:9.5px;padding:6px 4px}
       #allStatePerformanceSlide .all-state-performance-table td{font-size:12.5px;padding:6px 4px}
+      #allStatePerformanceSlide .all-state-performance-table .worked-days-rate{font-size:8px;margin-top:2px}
       #allStatePerformanceSlide .all-state-performance-table td:first-child{font-size:12.5px;padding-left:8px}
       #allStatePerformanceSlide .performance-note{font-size:8px;margin-top:4px}
+      #overallSlideContent .overall-status-panel{padding:9px 11px!important}
+      #overallSlideContent .overall-status-table th{font-size:9px;padding:7px 4px}
+      #overallSlideContent .overall-status-table td{font-size:11.5px;padding:6px 4px}
+      #overallSlideContent .overall-status-table td:first-child{padding-left:8px}
+      #overallSlideContent .overall-status-table .cell-percent{font-size:10px;margin-top:2px}
+      #overallSlideContent .overall-status-note{font-size:8px;margin-top:4px}
+    }
+
+    /* Replacement content inside the existing State Data Status slide */
+    @media screen{
+      #dataStatusSlide .data-status-coverage-panel{flex:1 1 auto!important;min-height:0;display:flex;overflow:hidden;padding:12px 14px!important}
+      #dataStatusSlide .state-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;min-height:0;align-items:stretch}
+      #dataStatusSlide .state-summary-block{min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+      #dataStatusSlide .state-summary-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 9px;flex:0 0 auto}
+      #dataStatusSlide .state-summary-heading h3{margin:0;font-size:19px;color:#0f172a}
+      #dataStatusSlide .pc-summary-block .state-summary-heading h3{color:#1d4ed8}
+      #dataStatusSlide .bev-summary-block .state-summary-heading h3{color:#15803d}
+      #dataStatusSlide .state-summary-heading span{font-size:9px;color:#64748b;font-weight:800;text-align:right}
+      #dataStatusSlide .state-count-table{width:100%;height:100%;flex:1 1 auto;min-height:0;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:14px}
+      #dataStatusSlide .state-count-table thead tr{height:13%}
+      #dataStatusSlide .pc-count-table tbody tr{height:10.875%}
+      #dataStatusSlide .bev-count-table tbody tr{height:14.5%}
+      #dataStatusSlide .state-count-table th{padding:12px 6px;font-size:12px;line-height:1.15;text-align:center}
+      #dataStatusSlide .pc-count-table thead th{background:#1d4ed8}
+      #dataStatusSlide .bev-count-table thead th{background:#15803d}
+      #dataStatusSlide .state-count-table td{padding:12px 6px;font-size:14px;line-height:1.18;text-align:center}
+      #dataStatusSlide .state-count-table td.heat-cell{font-variant-numeric:tabular-nums;color:#0f172a;border-bottom-color:rgba(148,163,184,.35);transition:filter .18s ease,box-shadow .18s ease}
+      #dataStatusSlide .state-count-table td.heat-cell:hover{filter:saturate(1.18);box-shadow:inset 0 0 0 2px rgba(15,23,42,.10)}
+      #dataStatusSlide .state-count-table td.pc-heat{background-color:rgba(37,99,235,var(--heat-alpha,.08))}
+      #dataStatusSlide .state-count-table td.bev-heat{background-color:rgba(22,163,74,var(--heat-alpha,.08))}
+      #dataStatusSlide .state-summary-heading .heat-legend{display:inline-block;width:46px;height:8px;border-radius:999px;vertical-align:middle;margin:0 5px;background:linear-gradient(90deg,rgba(37,99,235,.08),rgba(37,99,235,.42))}
+      #dataStatusSlide .bev-summary-block .heat-legend{background:linear-gradient(90deg,rgba(22,163,74,.08),rgba(22,163,74,.42))}
+      #dataStatusSlide .state-count-table td:first-child{font-weight:900;text-align:center;padding-left:4px}
+      #dataStatusSlide .pc-count-table td:nth-child(2),#dataStatusSlide .bev-count-table td:nth-child(2){text-align:left;padding-left:8px}
+      #dataStatusSlide .pc-count-table th:nth-child(1){width:9%}
+      #dataStatusSlide .pc-count-table th:nth-child(2){width:35%}
+      #dataStatusSlide .pc-count-table th:nth-child(3){width:18%}
+      #dataStatusSlide .pc-count-table th:nth-child(4),#dataStatusSlide .pc-count-table th:nth-child(5),#dataStatusSlide .pc-count-table th:nth-child(6){width:12.66%}
+      #dataStatusSlide .bev-count-table th:nth-child(1){width:8%}
+      #dataStatusSlide .bev-count-table th:nth-child(2){width:26%}
+      #dataStatusSlide .bev-count-table th:nth-child(3){width:20%}
+      #dataStatusSlide .bev-count-table th:nth-child(4),#dataStatusSlide .bev-count-table th:nth-child(5),#dataStatusSlide .bev-count-table th:nth-child(6),#dataStatusSlide .bev-count-table th:nth-child(7){width:11.5%}
+      #dataStatusSlide .state-received{display:inline-block;padding:5px 7px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:9px;font-weight:900}
+      #dataStatusSlide .bev-count-table .state-received{background:#dcfce7;color:#166534}
+      #dataStatusSlide .state-status{display:inline-block;padding:5px 7px;border-radius:999px;font-size:9px;font-weight:900;white-space:nowrap}
+      #dataStatusSlide .state-status.requested{background:#dcfce7;color:#166534}
+      #dataStatusSlide .state-status.partial{background:#fef3c7;color:#92400e}
+      #dataStatusSlide .received-subcount{display:block;margin-top:4px;font-size:10px;line-height:1.1;color:#15803d;font-weight:900;white-space:nowrap}
+    }
+    @media screen and (min-width:1051px) and (max-height:820px){
+      #dataStatusSlide .state-summary-grid{gap:12px}
+      #dataStatusSlide .state-summary-heading{margin-bottom:7px}
+      #dataStatusSlide .state-summary-heading h3{font-size:17px}
+      #dataStatusSlide .state-summary-heading span{font-size:10px}
+      #dataStatusSlide .state-count-table th{padding:9px 4px;font-size:10px}
+      #dataStatusSlide .state-count-table td{padding:10px 4px;font-size:12px}
+      #dataStatusSlide .received-subcount{font-size:9px}
     }
 
     @page{size:13.333in 7.5in;margin:0}
@@ -1076,6 +1157,7 @@
       .slide{width:13.333in;height:7.5in;min-height:7.5in;aspect-ratio:auto;border-radius:0;box-shadow:none;page-break-after:always;break-after:page;overflow:hidden;padding:0.32in 0.40in 0.24in}
       .slide:last-child{page-break-after:auto;break-after:auto}
       .anim,.anim-soft{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+      .title-slide .cover-title-animate{color:#fff;-webkit-text-fill-color:#fff;background:none;-webkit-background-clip:border-box;background-clip:border-box}
     }
 
     /* Cover presentation button */
@@ -1113,24 +1195,11 @@
       <div class="title-decor decor-one"></div>
       <div class="title-decor decor-two"></div>
       <div class="title-content">
-        <h1 class="anim-soft" style="--delay:.15s">Party Onboarding Project Status Report</h1>
-        <p class="anim-soft" style="--delay:.25s">Overall and State-wise Performance Dashboard</p>
-
+        <h1 class="anim-soft cover-title-animate" style="--delay:.15s">Party Onboarding Project Status Report</h1>
         <button class="present-btn anim-soft" style="--delay:.46s" type="button" onclick="startPresentation()" aria-label="Open presentation in fullscreen">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           <span>Click to Present</span>
         </button>
-        <div class="state-chip-row anim-soft" style="--delay:.35s">
-          <span class="state-chip">Uttar Pradesh</span>
-          <span class="state-chip">Madhya Pradesh</span>
-          <span class="state-chip">MAH &amp; Goa</span>
-          <span class="state-chip">Rajasthan</span>
-          <span class="state-chip">Bihar</span>
-          <span class="state-chip">Assam</span>
-          <span class="state-chip">West Bengal Food &amp; Beverage Potential Town</span>
-          <span class="state-chip">West Bengal PC</span>
-          <span class="state-chip">Jharkhand</span>
-        </div>
       </div>
       <div class="slide-footer"><span>Party Onboarding Project</span><span>1 / 28</span></div>
     </section>
@@ -1960,7 +2029,10 @@ function calcType(rows,type,submittedPredicate=isSubmitted){
   const groups={};
 
   function ensureTown(r){
-    const key=getTownUniqueKey(r);
+    // Use the same state/district/tehsil/town/P-type key as Town Coverage.
+    // The sheet's Unique field can vary across parties in one town and inflated
+    // P1/P2 town counts (for example, P1 + P2 exceeding Total Towns).
+    const key=townKey(r);
     if(!key)return null;
     if(!groups[key]){
       groups[key]={
@@ -2256,9 +2328,9 @@ function renderReport(){
   // Overall report also excludes unclassified WB New Party rows where Distributor_Type is blank.
   const overallRows=rawData.filter(r=>r.sourceStateKey!=='WB' || isWBIncludedRow(r));
   const overall=calc(overallRows,null,r=>r.sourceStateKey==='WB' ? isWBSubmitted(r) : isSubmitted(r));
-  renderDataStatusSlide();
-  renderOverallSlide(overall);
-  renderAllStatePerformanceSlide(byState);
+  renderDataStatusSlide(byState);
+  renderOverallSlide(overall,byState);
+  renderAllStatePerformanceSlide(byState,overall);
   renderStateSlides(byState,detailByState);
   renderCharts(overall,byState);
   renderMaps(detailByState);
@@ -2294,26 +2366,32 @@ function summaryBanner(text,delay=.1){
 }
 
 function townCoveragePanel(s,delay=.2,analysisKey=''){
-  const townConversion=s.townStatus.visitedTowns
-    ? Math.round((s.townStatus.onboardedAtLeastOne/s.townStatus.visitedTowns)*100)+'%'
-    : '0%';
+  const pct=(value,base)=>base ? Math.round(value/base*100) : 0;
+  const visitedPct=pct(s.townStatus.visitedTowns,s.townStatus.totalTowns);
+  const notVisitedPct=pct(s.townStatus.notVisited,s.townStatus.totalTowns);
+  const onboardedPct=pct(s.townStatus.onboardedAtLeastOne,s.townStatus.visitedTowns);
+  const openNotConvertedPct=pct(s.townStatus.openButNotConverted,s.townStatus.visitedTowns);
+  const noOpenPct=pct(s.townStatus.notFoundAnything,s.townStatus.visitedTowns);
+  const analysisAttrs=analysisKey
+    ? `role="button" tabindex="0" aria-label="Open reason analysis for open, not converted" onclick="openRemarksAnalysis('${analysisKey}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRemarksAnalysis('${analysisKey}')}"`
+    : '';
   return `
     <div class="panel anim" style="--delay:${delay}s">
       <div class="panel-title-row">
         <h3>Town Coverage</h3>
         <span class="panel-caption">Execution status by town</span>
       </div>
-      <div class="town-coverage-overview">
-        <div><b>${fmt(s.townStatus.totalTowns)}</b><span>Total Towns</span></div>
-        <div><b>${fmt(s.townStatus.notVisited)}</b><span>Not Visited</span></div>
-        <div style="background:#ecfdf5;border-color:#bbf7d0"><b style="color:#15803d">${townConversion}</b><span style="color:#15803d">Town Conversion</span></div>
-      </div>
-      <div class="outcome-tree town-coverage-tree">
-        <div class="outcome-tree-parent"><b>${fmt(s.townStatus.visitedTowns)}</b><span>Towns Visited</span></div>
-        <div class="outcome-tree-children">
-          <div class="outcome-tree-child onboarded"><b>${fmt(s.townStatus.onboardedAtLeastOne)}</b><span>With Onboarding</span></div>
-          <div class="outcome-tree-child open-not-converted ${analysisKey?'clickable-analysis':''}" ${analysisKey?`role="button" tabindex="0" aria-label="Open reason analysis for open, not converted" onclick="openRemarksAnalysis('${analysisKey}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRemarksAnalysis('${analysisKey}')}"`:''}><b>${fmt(s.townStatus.openButNotConverted)}</b><span>Open, Not Converted</span></div>
-          <div class="outcome-tree-child no-open"><b>${fmt(s.townStatus.notFoundAnything)}</b><span>No Open Party</span></div>
+      <div class="town-family-tree">
+        <div class="town-tree-root"><b>${fmt(s.townStatus.totalTowns)}</b><span>Total Towns</span></div>
+        <div class="town-tree-status-row">
+          <div class="town-tree-status-card visited"><b>${fmt(s.townStatus.visitedTowns)}</b><small>${visitedPct}% of total towns</small><span>Towns Visited</span></div>
+          <div class="town-tree-status-card not-visited"><b>${fmt(s.townStatus.notVisited)}</b><small>${notVisitedPct}% of total towns</small><span>Not Visited</span></div>
+        </div>
+        <div class="town-tree-outcome-title">Breakdown of visited towns</div>
+        <div class="town-tree-outcomes">
+          <div class="town-tree-outcome onboarded"><b>${fmt(s.townStatus.onboardedAtLeastOne)} <small>(${onboardedPct}%)</small></b><span>With Onboarding</span></div>
+          <div class="town-tree-outcome open-not-converted ${analysisKey?'clickable-analysis':''}" ${analysisAttrs}><b>${fmt(s.townStatus.openButNotConverted)} <small>(${openNotConvertedPct}%)</small></b><span>Open, Not Converted</span></div>
+          <div class="town-tree-outcome no-open"><b>${fmt(s.townStatus.notFoundAnything)} <small>(${noOpenPct}%)</small></b><span>No Open Party</span></div>
         </div>
       </div>
     </div>`;
@@ -2391,66 +2469,134 @@ function executionClass(v){
   return String(v).toLowerCase().replace(/\s+/g,'-');
 }
 
-function renderDataStatusSlide(){
+function renderDataStatusSlide(byState){
+  const pcDisplayOrder=['ASSAM','BIHAR','JH','MP','MAH','RAJ','UP','WB'];
+  const pcLabels={ASSAM:'Assam',BIHAR:'Bihar',JH:'Jharkhand',MP:'Madhya Pradesh',MAH:'MAH &amp; GOA',RAJ:'Rajasthan',UP:'UP',WB:'West Bengal'};
+  const pcRows=pcDisplayOrder.map((k,index)=>{
+    const s=k==='WB' ? calc(byState.WB.pcRows||[],k,isWBPCSubmitted) : byState[k];
+    const p1=s.ptypes.P1.towns;
+    const p2=s.ptypes.P2.towns;
+    return {number:index+1,key:k,state:pcLabels[k],p1,p2,total:p1+p2};
+  });
+
+  // Count distinct P1/P2 towns across all WB_BEV records, with no Verified
+  // filter. Row counts include multiple outlets in the same town.
+  const wbBevRows=(byState.WB?.rows||[]).filter(r=>r.sourceStateKey==='WB' && r.sourceSheet==='WB_BEV');
+  function overallTownCount(type){
+    return calcType(wbBevRows,type,()=>false).towns;
+  }
+  const wbP1Received=overallTownCount('P1');
+  const wbP2Received=overallTownCount('P2');
+  const beverageRows=[
+    {state:'Andhra Pradesh',status:'Requested',p1:327,p2:358,mango:540,total:1225},
+    {state:'Telangana',status:'Requested',p1:215,p2:266,mango:585,total:1065},
+    {state:'Karnataka',status:'Requested',p1:347,p2:374,mango:582,total:1303},
+    {state:'MAHARASHTRA',stateKey:'MAH',status:'Requested',p1:582,p2:771,mango:null,total:1353},
+    {state:'Rajasthan',stateKey:'RAJ',status:'Requested',p1:496,p2:480,mango:null,total:976},
+    {state:'West Bengal',stateKey:'WB',status:'Partially received',p1:573,p2:883,mango:null,total:1456,p1Received:wbP1Received,p2Received:wbP2Received}
+  ];
+
+  const heatCell=(value,values,scheme,strong=false,receivedCount=null)=>{
+    if(value===null||value===undefined||!Number.isFinite(Number(value))) return `<td>${value===null?'—':fmt(value)}</td>`;
+    const max=Math.max(1,...values.filter(v=>v!==null&&v!==undefined&&Number.isFinite(Number(v))).map(Number));
+    const alpha=(.055+(.24*Number(value)/max)).toFixed(3);
+    const fetched=receivedCount===null||receivedCount===undefined?'':` <small class="received-subcount">Count: ${fmt(receivedCount)}</small>`;
+    return `<td class="heat-cell ${scheme}-heat" style="--heat-alpha:${alpha}">${strong?`<strong>${fmt(value)}</strong>`:fmt(value)}${fetched}</td>`;
+  };
+  const pcTableRows=pcRows.map(r=>`
+    <tr><td>${r.number}</td><td><a class="table-state-link" href="#state_${r.key}">${r.state}</a></td><td><span class="state-received">Received</span></td>${heatCell(r.p1,pcRows.map(x=>x.p1),'pc')}${heatCell(r.p2,pcRows.map(x=>x.p2),'pc')}${heatCell(r.total,pcRows.map(x=>x.total),'pc',true)}</tr>`).join('');
+  const bevTableRows=beverageRows.map((r,index)=>`
+    <tr>
+      <td>${index+1}</td>
+      <td>${r.stateKey?`<a class="table-state-link" href="#state_${r.stateKey}">${r.state}</a>`:r.state}</td>
+      <td><span class="state-status ${r.status==='Requested'?'requested':'partial'}">${r.status}</span></td>
+      ${heatCell(r.p1,beverageRows.map(x=>x.p1),'bev',false,r.p1Received)}
+      ${heatCell(r.p2,beverageRows.map(x=>x.p2),'bev',false,r.p2Received)}
+      ${heatCell(r.mango,beverageRows.map(x=>x.mango),'bev')}
+      ${heatCell(r.total,beverageRows.map(x=>x.total),'bev',true)}
+    </tr>`).join('');
+
   const html=`
     <div class="slide-header">
       <div class="anim-soft" style="--delay:.05s">
         <div class="eyebrow">Data Readiness</div>
         <h2>State Data Status</h2>
       </div>
-      <div class="header-badge anim-soft" style="--delay:.12s">9 Data Streams Tracked</div>
+      <div class="header-badge anim-soft" style="--delay:.12s">PC &amp; Beverage Coverage</div>
     </div>
 
-    <div class="data-kpi-grid">
-      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.received),'Districts Received','blue',.22)}
-      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.pending),'Districts Pending','amber',.28)}
-      ${kpiCard(fmt(DISTRICT_STATUS_SUMMARY.total),'Total Districts','purple',.34)}
-      ${kpiCard(DISTRICT_STATUS_SUMMARY.completion,'Receipt Completion','green',.40)}
-    </div>
-
-    <div class="panel anim" style="--delay:.24s;flex:1">
-      <div class="panel-title-row">
-        <h3>State-wise District Receipt Status</h3>
-        <span class="panel-caption">Data receipt tracker</span>
-      </div>
-      <div class="data-status-wrap">
-        <table class="data-status-table">
-          <thead>
-            <tr>
-              <th>S.No.</th>
-              <th>State</th>
-              <th>Status</th>
-              <th>District Received</th>
-              <th>Pending</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${DISTRICT_STATUS_ROWS.map((row,i)=>`
-              <tr class="anim-soft" style="--delay:${0.30 + i*0.03}s">
-                <td>${i+1}</td>
-                <td style="text-align:left;padding-left:12px">${row.state}</td>
-                <td><span class="status-pill receipt-${receiptClass(row.receipt)}">${row.receipt}</span></td>
-                <td>${fmt(row.received)}</td>
-                <td>${fmt(row.pending)}</td>
-              </tr>`).join('')}
-            <tr>
-              <td></td>
-              <td style="text-align:left;padding-left:12px"><strong>TOTAL</strong></td>
-              <td></td>
-              <td><strong>${fmt(DISTRICT_STATUS_SUMMARY.received)}</strong></td>
-              <td><strong>${fmt(DISTRICT_STATUS_SUMMARY.pending)}</strong></td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="panel anim state-summary-panel data-status-coverage-panel" style="--delay:.18s">
+      <div class="state-summary-grid">
+        <section class="state-summary-block pc-summary-block">
+          <div class="state-summary-heading"><h3>Personal Care</h3><span><i class="heat-legend"></i>Lower → Higher</span></div>
+          <table class="all-state-performance-table state-count-table pc-count-table">
+            <thead><tr><th>S.No.</th><th>State</th><th>PC</th><th>PC P1</th><th>PC P2</th><th>Total</th></tr></thead>
+            <tbody>${pcTableRows}</tbody>
+          </table>
+        </section>
+        <section class="state-summary-block bev-summary-block">
+          <div class="state-summary-heading"><h3>Beverages</h3><span><i class="heat-legend"></i>Lower → Higher</span></div>
+          <table class="all-state-performance-table state-count-table bev-count-table">
+            <thead><tr><th>S.No.</th><th>State</th><th>States</th><th>BEV P1</th><th>BEV P2</th><th>Mango+</th><th>Total</th></tr></thead>
+            <tbody>${bevTableRows}</tbody>
+          </table>
+        </section>
       </div>
     </div>
     ${slideFooter(2,TOTAL_SLIDES)}
   `;
-
   document.getElementById('dataStatusSlide').innerHTML=html;
 }
 
-function renderOverallSlide(s){
+function renderOverallSlide(s,byState){
+  const statusCounts=x=>({
+    total:x.townStatus.totalTowns,
+    visited:x.townStatus.visitedTowns,
+    onboarded:x.townStatus.onboardedAtLeastOne,
+    openNotConverted:x.townStatus.openButNotConverted,
+    noOpenParty:x.townStatus.notFoundAnything,
+    pending:x.townStatus.notVisited,
+    salesTeams:x.salesTeams
+  });
+  const stateData=STATE_KEYS.map(k=>({k,label:STATES[k].name,data:statusCounts(byState[k])}));
+  const statusRows=[{label:'Overall',data:statusCounts(s),overall:true},...stateData].map(row=>{
+    const {label,data,overall}=row;
+    row.visitedPct=data.total ? Math.round(data.visited/data.total*100) : 0;
+    row.onboardedPct=data.visited ? Math.round(data.onboarded/data.visited*100) : 0;
+    row.openPct=data.visited ? Math.round(data.openNotConverted/data.visited*100) : 0;
+    row.noOpenPct=data.visited ? Math.round(data.noOpenParty/data.visited*100) : 0;
+    row.pendingPct=data.total ? Math.round(data.pending/data.total*100) : 0;
+    return row;
+  });
+  const heatKeys=['visitedPct','onboardedPct','openPct','noOpenPct','pendingPct'];
+  const heatRanges={};
+  heatKeys.forEach(key=>{
+    const values=statusRows.slice(1).map(row=>row[key]);
+    heatRanges[key]={min:Math.min(...values),max:Math.max(...values)};
+  });
+  function percentageHeat(key,value,reverse=false){
+    const {min,max}=heatRanges[key];
+    let t=max===min ? .5 : (value-min)/(max-min);
+    if(reverse)t=1-t;
+    let color;
+    if(t<.34)color=`rgba(239,68,68,${.34+(.34-t)*.42})`;
+    else if(t<.67)color=`rgba(245,158,11,${.31+Math.abs(.5-t)*.40})`;
+    else color=`rgba(34,197,94,${.34+(t-.67)*.42})`;
+    return `background:linear-gradient(135deg,${color} 0%,rgba(255,255,255,.10) 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);border-radius:8px;`;
+  }
+  const tableRows=statusRows.map(({k,label,data,overall,visitedPct,onboardedPct,openPct,noOpenPct,pendingPct})=>{
+    const heat=(key,value,reverse=false)=>overall?'':`style="${percentageHeat(key,value,reverse)}"`;
+    return `<tr class="${overall?'overall-status-row':''}">
+      <td>${overall?label:`<a class="table-state-link" href="#state_${k}">${label}</a>`}</td>
+      <td>${fmt(data.total)}</td>
+      <td>${fmt(data.salesTeams)}</td>
+      <td ${heat('visitedPct',visitedPct)}>${fmt(data.visited)}<small class="cell-percent">${visitedPct}% of total</small></td>
+      <td ${heat('onboardedPct',onboardedPct)}>${fmt(data.onboarded)}<small class="cell-percent">${onboardedPct}% of visited</small></td>
+      <td ${heat('openPct',openPct,true)}>${fmt(data.openNotConverted)}<small class="cell-percent">${openPct}% of visited</small></td>
+      <td ${heat('noOpenPct',noOpenPct,true)}>${fmt(data.noOpenParty)}<small class="cell-percent">${noOpenPct}% of visited</small></td>
+      <td ${heat('pendingPct',pendingPct,true)}>${fmt(data.pending)}<small class="cell-percent">${pendingPct}% of total</small></td>
+    </tr>`;
+  }).join('');
   document.getElementById('overallSlideContent').innerHTML=`
     <div class="slide-header">
       <div class="anim-soft" style="--delay:.05s">
@@ -2459,27 +2605,19 @@ function renderOverallSlide(s){
       </div>
       <div class="header-badge anim-soft" style="--delay:.12s">8 Active States</div>
     </div>
-
-    <div class="overall-kpi-grid">
-      ${kpiCard(fmt(s.salesTeams),'Sales Members','gray',.22)}
-      ${kpiCard(fmt(s.visited),'Parties Visited','blue',.28)}
-      ${kpiCard(fmt(s.open),'Open Parties','orange',.34)}
-      ${kpiCard(fmt(s.onboarded),'Onboarded','green',.40)}
-      ${kpiCard(s.conversion,'Party Conversion','purple',.46)}
-    </div>
-
-    <div class="overall-body">
-      <div class="overall-left">
-        ${townCoveragePanel(s,.20)}
-        ${ptypeTable(s,.28)}
-      </div>
-      ${chartPanel('chart_OVERALL','Overall Date-wise Progress',.24)}
+    <div class="panel overall-status-panel anim-soft" style="--delay:.18s">
+      <table class="overall-status-table">
+        <colgroup><col style="width:15%"><col style="width:11%"><col style="width:10%"><col style="width:12%"><col style="width:13%"><col style="width:14%"><col style="width:14%"><col style="width:11%"></colgroup>
+        <thead><tr><th>State</th><th>Overall Town Count</th><th>Sales Team</th><th>Visited</th><th>Onboarded Towns</th><th>Open But Not Converted</th><th>No Open Party Found</th><th>Pending Parties</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+      <div class="overall-status-note">Heat colors compare state percentages; Overall stays neutral. Visited and pending percentages use total towns; outcome percentages use visited towns.</div>
     </div>
     ${slideFooter(3,TOTAL_SLIDES)}
   `;
 }
 
-function renderAllStatePerformanceSlide(byState){
+function renderAllStatePerformanceSlide(byState,overall){
   const stateRows=STATE_KEYS.map(k=>{
     const s=byState[k];
     const activity=activityStats(s.submitted);
@@ -2492,11 +2630,22 @@ function renderAllStatePerformanceSlide(byState){
       visitsPerMember:s.salesTeams ? Number((s.visited/s.salesTeams).toFixed(1)) : 0,
       workingDaysElapsed:Number(activity.workingDaysElapsed||0),
       activeVisitDays:Number(activity.activeVisitDays||0),
+      activeVisitDayRate:activity.workingDaysElapsed ? Number((activity.activeVisitDays/activity.workingDaysElapsed*100).toFixed(1)) : 0,
       daysSinceLastWorked:activity.daysSinceLastWorked===null ? null : Number(activity.daysSinceLastWorked)
     };
   });
 
-  const metricKeys=['salesTeams','visited','onboarded','conversion','visitsPerMember','workingDaysElapsed','activeVisitDays','daysSinceLastWorked'];
+  const overallActivity=activityStats(overall.submitted||[]);
+  const overallRow={
+    k:null,s:overall,activity:overallActivity,isOverall:true,
+    salesTeams:Number(overall.salesTeams||0),visited:Number(overall.visited||0),onboarded:Number(overall.onboarded||0),
+    conversion:Number(String(overall.conversion||'0').replace('%',''))||0,
+    visitsPerMember:overall.salesTeams ? Number((overall.visited/overall.salesTeams).toFixed(1)) : 0,
+    workingDaysElapsed:Number(overallActivity.workingDaysElapsed||0),activeVisitDays:Number(overallActivity.activeVisitDays||0),
+    activeVisitDayRate:overallActivity.workingDaysElapsed ? Number((overallActivity.activeVisitDays/overallActivity.workingDaysElapsed*100).toFixed(1)) : 0,
+    daysSinceLastWorked:overallActivity.daysSinceLastWorked===null ? null : Number(overallActivity.daysSinceLastWorked)
+  };
+  const metricKeys=['salesTeams','visited','onboarded','conversion','visitsPerMember','workingDaysElapsed','activeVisitDayRate','daysSinceLastWorked'];
   const ranges={};
   metricKeys.forEach(key=>{
     const vals=stateRows.map(r=>r[key]).filter(v=>v!==null && Number.isFinite(v));
@@ -2510,36 +2659,37 @@ function renderAllStatePerformanceSlide(byState){
     if(reverse)t=1-t;
     // Red -> amber -> green. Kept pastel so text remains presentation-readable.
     let bg;
-    if(t<.34) bg=`rgba(239,68,68,${0.12 + (0.34-t)*0.28})`;
-    else if(t<.67) bg=`rgba(245,158,11,${0.12 + Math.abs(.5-t)*0.16})`;
-    else bg=`rgba(34,197,94,${0.14 + (t-.67)*0.32})`;
-    return `background:${bg};color:#0f172a;font-weight:900;`;
+    if(t<.34) bg=`rgba(239,68,68,${0.34 + (0.34-t)*0.42})`;
+    else if(t<.67) bg=`rgba(245,158,11,${0.31 + Math.abs(.5-t)*0.40})`;
+    else bg=`rgba(34,197,94,${0.34 + (t-.67)*0.42})`;
+    return `background:linear-gradient(135deg,${bg} 0%,rgba(255,255,255,.10) 100%);color:#0f172a;font-weight:900;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);border-radius:8px;`;
   }
 
-  const rows=stateRows.map(r=>{
+  function renderPerformanceRow(r){
     const {k,s,activity}=r;
     const daysValue=r.daysSinceLastWorked===null ? '-' : fmt(r.daysSinceLastWorked);
     const daysClass=r.daysSinceLastWorked!==null && r.daysSinceLastWorked>3 ? 'stale-days' : 'recent-days';
     return `
-      <tr class="anim-soft">
-        <td>${STATES[k].name}</td>
-        <td style="${heatStyle('salesTeams',r.salesTeams)}">${fmt(r.salesTeams)}</td>
-        <td style="${heatStyle('visited',r.visited)}">${fmt(r.visited)}</td>
-        <td style="${heatStyle('onboarded',r.onboarded)}">${fmt(r.onboarded)}</td>
-        <td style="${heatStyle('conversion',r.conversion)}">${s.conversion}</td>
-        <td style="${heatStyle('visitsPerMember',r.visitsPerMember)}">${r.visitsPerMember.toFixed(1)}</td>
-        <td style="${heatStyle('workingDaysElapsed',r.workingDaysElapsed)}">${fmt(r.workingDaysElapsed)}</td>
-        <td style="${heatStyle('activeVisitDays',r.activeVisitDays)}">${fmt(r.activeVisitDays)}</td>
+      <tr class="anim-soft ${r.isOverall?'overall-performance-row':''}">
+        <td>${r.isOverall?'Overall':`<a class="table-state-link" href="#state_${k}">${STATES[k].name}</a>`}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('salesTeams',r.salesTeams)}"`}>${fmt(r.salesTeams)}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('visited',r.visited)}"`}>${fmt(r.visited)}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('onboarded',r.onboarded)}"`}>${fmt(r.onboarded)}</td>
+        <td class="state-performance-percent" ${r.isOverall?'':`style="${heatStyle('conversion',r.conversion)}"`}>${r.isOverall?s.conversion:`<strong>${s.conversion}</strong>`}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('visitsPerMember',r.visitsPerMember)}"`}>${r.visitsPerMember.toFixed(1)}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('workingDaysElapsed',r.workingDaysElapsed)}"`}>${fmt(r.workingDaysElapsed)}</td>
+        <td ${r.isOverall?'':`style="${heatStyle('activeVisitDayRate',r.activeVisitDayRate)}"`}>${fmt(r.activeVisitDays)}<small class="worked-days-rate">${r.activeVisitDayRate.toFixed(1).replace(/\.0$/,'')}% of working days</small></td>
         <td>${formatDate(activity.lastWorkingDate)}</td>
-        <td class="${daysClass}" style="${heatStyle('daysSinceLastWorked',r.daysSinceLastWorked,true)}">${daysValue}</td>
+        <td class="${daysClass}" ${r.isOverall?'':`style="${heatStyle('daysSinceLastWorked',r.daysSinceLastWorked,true)}"`}>${daysValue}</td>
       </tr>`;
-  }).join('');
+  }
+  const allRows=[overallRow,...stateRows].map(r=>renderPerformanceRow(r)).join('');
 
   document.getElementById('allStatePerformanceSlide').innerHTML=`
     <div class="slide-header">
       <div class="anim-soft" style="--delay:.05s">
         <div class="eyebrow">State-wise Management Summary</div>
-        <h2>All States Project Performance</h2>
+        <h2>All States Sales Team Performance</h2>
       </div>
       <div class="header-badge anim-soft" style="--delay:.12s">${STATE_KEYS.length} Active States</div>
     </div>
@@ -2562,9 +2712,9 @@ function renderAllStatePerformanceSlide(byState){
             <th>Days Since Last Worked</th>
           </tr>
         </thead>
-        <tbody>${rows}</tbody>
+        <tbody>${allRows}</tbody>
       </table>
-      <div class="performance-note"><b>Heat map:</b> green = stronger relative value, amber = mid-range, red = lower relative value. For Days Since Last Worked, fewer days is better. Last Working Date is not heat-mapped.</div>
+      <div class="performance-note"><b>Heat map:</b> green = stronger relative value, amber = mid-range, red = lower relative value. Working Days With Visits shows its share of Working Days Since Start. For Days Since Last Worked, fewer days is better.</div>
     </div>
     ${slideFooter(4,TOTAL_SLIDES,'All States')}
   `;
@@ -2902,7 +3052,6 @@ function buildLowCoverageClusters(towns){
           <div class="eyebrow">Geographic Execution View</div>
           <h2>${STATES[stateKey].name} · Town Coverage &amp; Onboarding Map</h2>
         </div>
-        <div class="header-badge anim-soft" style="--delay:.12s">Animated Onboarding · Top 5 Low Clusters</div>
       </div>
 
       ${summaryBanner(summary,.16)}
@@ -3109,13 +3258,19 @@ function classifyNonConversionReason(remark){
   const rules=[
     ['Credit / payment terms',/credit|payment|cash|outstanding|due|udhaar|udhar|advance/],
     ['Margin / profitability',/margin|profit|roi|scheme|discount|earning|commission/],
+    ['Price / commercial viability',/price|pricing|rate|cost|expensive|afford|commercial terms/],
     ['Investment / working capital',/investment|capital|fund|finance|budget|money|working capital/],
-    ['Existing distributor / brand conflict',/existing distributor|already distributor|other distributor|competitor|other brand|already dealing|dealership|distributorship/],
+    ['Existing distributor / channel tie-up',/existing distributor|already distributor|other distributor|already appointed|appointed distributor|dealership|distributorship|already dealing|already tied up|existing channel/],
+    ['Competitor / brand preference',/competitor|other brand|brand preference|loyal to|brand loyalty|prefer.*brand|currently sell|selling.*brand/],
     ['Low market potential / volume',/low sale|low sales|low volume|low demand|market potential|potential low|outlet universe|small market|less business/],
+    ['Stock / supply constraints',/\bstock\b|inventory|out of stock|shortage|not available.*product|supply.*(short|issue|problem|not)|stock.*(not|short|issue|problem)/],
     ['Documentation / compliance',/document|documentation|gst|pan|license|licence|paper|kyc|fssai/],
     ['Infrastructure / storage / vehicle',/godown|warehouse|storage|space|vehicle|van|infrastructure/],
     ['Coverage / manpower / service concern',/salesman|manpower|delivery|route|service|beat|distance|coverage|supply/],
-    ['Decision pending / follow-up',/pending|discuss|discussion|thinking|decide|decision|later|follow.?up|next visit|time required|need time|will confirm|owner not available|not available/],
+    ['Distributor profile / experience',/not a distributor|not distributor|retailer only|wholesaler|no experience|inexperienced|not suitable profile|business profile|not eligible/],
+    ['Decision maker unavailable / no response',/owner not available|decision maker|not reachable|phone.*not reachable|no response|not responding|unresponsive|unable to contact|could not contact/],
+    ['Partner / family approval',/family approval|partner approval|family decision|partner decision|discuss with.*(family|partner|brother|wife|husband)|permission from/],
+    ['Decision pending / follow-up',/pending|discuss|discussion|thinking|decide|decision|later|follow.?up|next visit|time required|need time|will confirm/],
     ['Not interested / unwilling',/not interested|no interest|unwilling|refus|not ready|dont want|doesn't want|doesnt want|not willing/]
   ];
   for(const [label,re] of rules){ if(re.test(t))return label; }
@@ -3124,7 +3279,9 @@ function classifyNonConversionReason(remark){
 
 function buildRemarksAnalysis(submittedRows){
   const openNotConverted=(submittedRows||[]).filter(r=>isOpen(r)&&!isReady(r));
-  const withRemarks=openNotConverted.filter(r=>normalizeRemark(r.remarks));
+  const duplicateRemark=r=>/\bduplicate\b/i.test(normalizeRemark(r.remarks));
+  const duplicateRemarks=openNotConverted.filter(duplicateRemark).length;
+  const withRemarks=openNotConverted.filter(r=>normalizeRemark(r.remarks)&&!duplicateRemark(r));
   const themeCounts={};
   withRemarks.forEach(r=>{
     const theme=classifyNonConversionReason(r.remarks);
@@ -3144,7 +3301,7 @@ function buildRemarksAnalysis(submittedRows){
       .forEach(w=>wordCounts[w]=(wordCounts[w]||0)+1);
   });
   const words=Object.entries(wordCounts).map(([word,count])=>({word,count})).sort((a,b)=>b.count-a.count||a.word.localeCompare(b.word)).slice(0,28);
-  return {openNotConverted,withRemarks,reasons,words};
+  return {openNotConverted,withRemarks,reasons,words,duplicateRemarks};
 }
 
 function renderWordCloud(words){
@@ -3182,7 +3339,7 @@ function buildRemarksAnalysisHtml(title,rows){
         <div class="panel" style="flex:1;min-height:0">
           <div class="panel-title-row"><h3>Reason Analysis</h3><span class="panel-caption">Open parties not onboarded</span></div>
           ${topReasons.length?`<table class="reason-table"><thead><tr><th>Reason</th><th>Count</th><th>Share</th></tr></thead><tbody>${topReasons.map(x=>`<tr><td>${escapeHtml(x.reason)}<div class="reason-bar-track"><div class="reason-bar-fill" style="width:${Math.max(3,x.pct).toFixed(1)}%"></div></div></td><td>${fmt(x.count)}</td><td>${x.pct.toFixed(1).replace(/\.0$/,'')}%</td></tr>`).join('')}</tbody></table>`:'<div class="not-applicable">No remarks available for open, not-converted parties.</div>'}
-          <div class="reason-note">Reason coding is rule-based from the free-text Remarks column. One primary theme is assigned to each comment; use the source remarks for final interpretation.</div>
+          <div class="reason-note">Reason coding is rule-based from free-text remarks. One primary theme is assigned per comment. Remarks containing “duplicate” are excluded from reason counts, the word cloud, and examples (${fmt(a.duplicateRemarks)} excluded); the open-party total remains status-based.</div>
         </div>
       </div>
       <div class="reason-right">
