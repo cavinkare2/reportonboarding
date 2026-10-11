@@ -1224,6 +1224,13 @@ const STATES={
   JH:{name:"Jharkhand",sheetId:"1zYHliQrSaBppIvO_el5DNK5UrnNZgNPmI7JDED6FlyQ",gid:"0",newGid:"1788601208",requestedDistricts:10,receivedDistricts:9,pendingDistricts:1}
 };
 
+const SUBD_MAP_SHEETS={
+  BIHAR:{sheetId:DEFAULT_SHEET_ID,sheetName:'Bihar_DB'},
+  ASSAM:{sheetId:DEFAULT_SHEET_ID,fallbackSheetIds:[STATES.ASSAM.sheetId],sheetName:'Assam_DB'},
+  WB:{sheetId:DEFAULT_SHEET_ID,sheetName:'WB_DB'},
+  JH:{sheetId:DEFAULT_SHEET_ID,fallbackSheetIds:[STATES.JH.sheetId],sheetName:'Jhar_DB'}
+};
+
 const STATE_KEYS=["UP","MP","MAH","RAJ","BIHAR","ASSAM","WB","JH"];
 const LOW_DIST_STATE_KEYS=["UP","MP","MAH","RAJ"];
 const TOTAL_SLIDES=STATE_KEYS.length*2+4;
@@ -1241,7 +1248,7 @@ const DISTRICT_STATUS_ROWS=[
   {state:'West Bengal PC',receipt:'Received',received:13,pending:0}
 ];
 
-let rawData=[],jobs=[],jobIndex=0,activeJob=null,currentScript=null,chartInstances={},mapInstances={},mapObservers={};
+let rawData=[],jobs=[],jobIndex=0,activeJob=null,currentScript=null,chartInstances={},mapInstances={},mapObservers={},subDMapPoints={};
 let scrollAnimationObserver=null;
 let scrollProgressBound=false;
 
@@ -1307,6 +1314,7 @@ function initScrollAnimations(){
 
 function loadAll(){
   rawData=[];
+  subDMapPoints={};
   jobs=[];
   STATE_KEYS.forEach(k=>{
     jobs.push({stateKey:k,sheetId:STATES[k].sheetId,gid:STATES[k].gid,partySource:'Existing',distributorType:'PC',sourceSheet:k==='WB'?'WB':k});
@@ -1317,6 +1325,10 @@ function loadAll(){
     if(k==='WB'){
       jobs.push({stateKey:'WB',sheetId:STATES.WB.sheetId,sheetName:'WB_BEV',partySource:'Existing',distributorType:'F&B',sourceSheet:'WB_BEV'});
     }
+  });
+  Object.entries(SUBD_MAP_SHEETS).forEach(([stateKey,source])=>{
+    const candidateIds=[source.sheetId,...(source.fallbackSheetIds||[])];
+    candidateIds.forEach(sheetId=>jobs.push({stateKey,...source,sheetId,mapPoints:true,partySource:'SubD map points'}));
   });
   jobIndex=0;
   updateLoadingStatus('Starting data load...',0);
@@ -1367,7 +1379,21 @@ function loadNext(){
 
 function handleSheetData(response){
   try{
-    rawData=rawData.concat(parseSheetResponse(response,activeJob.stateKey,activeJob.partySource,activeJob.distributorType||'PC',activeJob.sourceSheet||''));
+    if(activeJob.mapPoints){
+      const points=parseSubDMapPoints(response);
+      if(points.length){
+        const combined=[...(subDMapPoints[activeJob.stateKey]||[]),...points];
+        const seen=new Set();
+        subDMapPoints[activeJob.stateKey]=combined.filter(point=>{
+          const key=point.code||`${point.name}|${point.latitude}|${point.longitude}`;
+          if(seen.has(key))return false;
+          seen.add(key);
+          return true;
+        });
+      }
+    }else{
+      rawData=rawData.concat(parseSheetResponse(response,activeJob.stateKey,activeJob.partySource,activeJob.distributorType||'PC',activeJob.sourceSheet||''));
+    }
     jobIndex++;
     loadNext();
   }catch(e){
@@ -1498,6 +1524,35 @@ function getLatLngFromCells(cells,map){
     'Geolocation','Location','Map Location','Map_Location','Google Maps Link','Google_Maps_Link'
   ],[]);
   return parseCoordinatePair(combined) || {lat:null,lng:null};
+}
+
+function parseSubDMapPoints(response){
+  const table=response?.table||{};
+  let rows=table.rows||[];
+  let map=buildHeaderMap(table.cols||[]);
+  const firstCells=rows[0]?.c||[];
+  const firstRowMap={};
+  firstCells.forEach((cell,index)=>{
+    const key=normHeader(cell?.f||cell?.v||'');
+    if(key)firstRowMap[key]=index;
+  });
+  if(firstRowMap.subdname!==undefined&&firstRowMap.latitude!==undefined&&firstRowMap.longitude!==undefined){
+    map=Object.assign({},firstRowMap,map);
+    rows=rows.slice(1);
+  }
+  return rows.map(row=>{
+    const cells=row.c||[];
+    const coords=getLatLngFromCells(cells,map);
+    const name=getByHeader(cells,map,['SubD_Name','SubD Name','Sub Distributor Name','SubDName'],[]);
+    const code=getByHeader(cells,map,['SubD Code','SubD_Code','Sub Distributor Code','SubDCode'],[]);
+    const city=getByHeader(cells,map,['City','District','Town'],[]);
+    if(coords.lat===null||coords.lng===null||(!String(name||'').trim()&&!String(code||'').trim()))return null;
+    return {name:String(name||'').trim(),code:String(code||'').trim(),city:String(city||'').trim(),latitude:coords.lat,longitude:coords.lng};
+  }).filter(Boolean);
+}
+
+function escapeMapHtml(value){
+  return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
 
 function parseSheetResponse(response,stateKey,partySource,distributorType='PC',sourceSheet=''){
@@ -3094,10 +3149,11 @@ function renderMaps(byState){
 function renderTownCoverageMap(canvasId,rows,stateKey){
   const empty=document.getElementById('map_empty_'+stateKey);
   const coverage=buildUniqueTownMap(rows,stateKey);
+  const subDPoints=subDMapPoints[stateKey]||[];
   const holder=document.getElementById(canvasId);
   if(!holder)return;
 
-  if(typeof L==='undefined' || !coverage.towns.length){
+  if(typeof L==='undefined' || (!coverage.towns.length&&!subDPoints.length)){
     if(empty)empty.style.display='flex';
     return;
   }
@@ -3113,6 +3169,8 @@ function renderTownCoverageMap(canvasId,rows,stateKey){
   map.getPane('coveragePane').style.zIndex=390;
   map.createPane('baseMarkersPane');
   map.getPane('baseMarkersPane').style.zIndex=430;
+  map.createPane('subDPane');
+  map.getPane('subDPane').style.zIndex=450;
   map.createPane('onboardedPane');
   map.getPane('onboardedPane').style.zIndex=470;
 
@@ -3207,13 +3265,28 @@ function renderTownCoverageMap(canvasId,rows,stateKey){
   nonOnboarded.forEach(t=>addTownMarker(t,false));
   onboarded.forEach(t=>addTownMarker(t,true));
 
-  const latLngs=coverage.towns.map(t=>[t.latitude,t.longitude]);
+  subDPoints.forEach(point=>{
+    const name=escapeMapHtml(point.name||'SubD');
+    const code=escapeMapHtml(point.code);
+    const city=escapeMapHtml(point.city);
+    const marker=L.circleMarker([point.latitude,point.longitude],{
+      pane:'subDPane',radius:8,color:'#fff',weight:2.5,fillColor:'#7c3aed',fillOpacity:1
+    }).bindPopup(`<b>${name}</b>${code?`<br>SubD Code: ${code}`:''}${city?`<br>${city}`:''}`)
+      .bindTooltip(name,{sticky:true});
+    marker.addTo(map);
+  });
+
+  const latLngs=[
+    ...coverage.towns.map(t=>[t.latitude,t.longitude]),
+    ...subDPoints.map(point=>[point.latitude,point.longitude])
+  ];
   const bounds=L.latLngBounds(latLngs);
 
   function applyTownZoom(){
     map.invalidateSize({pan:false});
     if(!bounds.isValid()){
-      map.setView([coverage.towns[0].latitude,coverage.towns[0].longitude],10);
+      const firstPoint=coverage.towns[0]||subDPoints[0];
+      map.setView([firstPoint.latitude,firstPoint.longitude],10);
       return;
     }
     if(latLngs.length===1){
